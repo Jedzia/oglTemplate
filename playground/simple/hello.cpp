@@ -1,6 +1,6 @@
 /*---------------------------------------------------------*/
 /*!
- * This file is part of PlaygroundC, R&D.
+ * This file is part of OpenGLTemplate, R&D.
  * License details can be found in the file COPYING.
  * Copyright (c) 2020, EvePanix. All rights reserved.
  *

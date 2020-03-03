@@ -1,4 +1,4 @@
-project(SpeedIOBench VERSION "${PlaygroundC_VERSION}")
+project(SpeedIOBench VERSION "${OpenGLTemplate_VERSION}")
 ### list of source files of the SpeedIO executable
 configure_file(src/win/SpeedIOBench.rc.in ${CMAKE_CURRENT_BINARY_DIR}/src/win/SpeedIOBench.rc @ONLY)
 set(SPEEDIO_SRC_FILES "src/main.cpp")
