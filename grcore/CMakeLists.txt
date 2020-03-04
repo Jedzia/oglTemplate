@@ -7,6 +7,10 @@ set(GrCore_INC_FILES
         )
 set(GrCore_SRC_FILES
         src/test.cpp)
+if(WIN32)
+    set(GrCore_SRC_FILES ${GrCore_SRC_FILES}
+            src/win/wgl_common.cpp)
+endif(WIN32)
 set(INCLUDE_DIRECTORIES
 #         include
         ${CMAKE_CURRENT_SOURCE_DIR}/include
