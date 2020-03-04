@@ -11,8 +11,8 @@ include(versioning)
 include(setup)
 
 # Build options
-option(SpeedIO_BuildTests "Build SpeedIO unit tests" ON) #-DSpeedIO_BuildTests:BOOL=ON
-option(SpeedIO_BuildBenchmarks "Build SpeedIO benchmarking" ON) #-DSpeedIO_BuildBenchmarks:BOOL=ON
+option(GrCore_BuildTests "Build GrCore unit tests" ON) #-DGrCore_BuildTests:BOOL=ON
+option(GrCore_BuildBenchmarks "Build GrCore benchmarking" ON) #-DGrCore_BuildBenchmarks:BOOL=ON
 option(ENABLE_PCH "Enable Precompiled Headers" ON) #-DENABLE_PCH:BOOL=ON
 
 # require C++2A
@@ -31,25 +31,25 @@ endif ()
 # Include other projects
 add_subdirectory(doc)
 add_subdirectory(external)
-add_subdirectory(speedio)
-use_common_runtime_directory(SpeedIO)
+add_subdirectory(grcore)
+use_common_runtime_directory(GrCore)
 
 # Tests
 include(CTest)
-#if(SpeedIO_BuildTests AND BUILD_TESTING)
+#if(GrCore_BuildTests AND BUILD_TESTING)
 enable_testing()
 add_subdirectory(tests)
 #endif()
 
 # Benchmarks
-if(SpeedIO_BuildBenchmarks)
+if(GrCore_BuildBenchmarks)
     set(GTEST_LIBRARY ${CMAKE_CURRENT_BINARY_DIR}/lib/libgtestd.dll.a)
     set(GTEST_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tests/googletest/googletest/include ${CMAKE_CURRENT_SOURCE_DIR}/tests/googletest/googlemock/include)
     set(GTEST_MAIN_LIBRARY ${CMAKE_CURRENT_BINARY_DIR}/lib/libgtest_maind.dll.a)
     add_subdirectory(benchmark)
-endif(SpeedIO_BuildBenchmarks)
+endif(GrCore_BuildBenchmarks)
 
-message("SpeedIO_VERSION: '${SpeedIO_VERSION}'")
+message("GrCore_VERSION: '${GrCore_VERSION}'")
 
 # Set global property (all targets are impacted)
 #set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE "\"${CMAKE_COMMAND}\" -E time")

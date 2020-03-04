@@ -1,11 +1,11 @@
-### list of source files of the SpeedIO library
-configure_file(src/win/SpeedIO.rc.in ${CMAKE_CURRENT_BINARY_DIR}/src/win/SpeedIO.rc @ONLY)
-set(SpeedIO_INC_FILES
+### list of source files of the GrCore library
+configure_file(src/win/GrCore.rc.in ${CMAKE_CURRENT_BINARY_DIR}/src/win/GrCore.rc @ONLY)
+set(GrCore_INC_FILES
 #        include/MemoryDB.h
 #        include/DBCreate.h
 #        include/FileUtil.h
         )
-set(SpeedIO_SRC_FILES
+set(GrCore_SRC_FILES
         src/test.cpp)
 set(INCLUDE_DIRECTORIES
 #         include
@@ -13,15 +13,15 @@ set(INCLUDE_DIRECTORIES
 #        external/sqlite_orm/include
         )
 # ToDo: make that the paths are automatic escaped with ${CMAKE_CURRENT_SOURCE_DIR} for the export
-set(SpeedIO_INCLUDE_DIRECTORIES "${INCLUDE_DIRECTORIES}" PARENT_SCOPE)
+set(GrCore_INCLUDE_DIRECTORIES "${INCLUDE_DIRECTORIES}" PARENT_SCOPE)
 
-source_group(src FILES ${SpeedIO_SRC_FILES} main.cpp)
+source_group(src FILES ${GrCore_SRC_FILES} main.cpp)
 
-add_library_with_resource(SpeedIO SHARED
-        "${SpeedIO_SRC_FILES}"
-        "${CMAKE_CURRENT_BINARY_DIR}/src/win/SpeedIO.rc")
-target_include_directories(SpeedIO PRIVATE ${INCLUDE_DIRECTORIES})
-target_compile_definitions(SpeedIO PRIVATE SpeedIO_WIN_EXPORT)
+add_library_with_resource(GrCore SHARED
+        "${GrCore_SRC_FILES}"
+        "${CMAKE_CURRENT_BINARY_DIR}/src/win/GrCore.rc")
+target_include_directories(GrCore PRIVATE ${INCLUDE_DIRECTORIES})
+target_compile_definitions(GrCore PRIVATE GrCore_WIN_EXPORT)
 
 # #get_property(fancy_lib_location TARGET ${PROJECT_NAME} PROPERTY LIBRARY_LOCATION)
 # # Push the current (NEW) CMake policy onto the stack, and apply the OLD policy.
@@ -38,9 +38,9 @@ target_compile_definitions(SpeedIO PRIVATE SpeedIO_WIN_EXPORT)
 #message(WARNING "MSVC '${MSVC}'")
 if (MSVC)
 else (MSVC)
-    set(SpeedIO_PlatformLinkLibs stdc++fs)
+    set(GrCore_PlatformLinkLibs stdc++fs)
 endif (MSVC)
-target_link_libraries(SpeedIO ${SpeedIO_PlatformLinkLibs})
-target_compile_features(SpeedIO INTERFACE cxx_std_17) # require C++17
-set_target_version_properties(SpeedIO ${PROJECT_VERSION})
-enable_precompiled_headers(SpeedIO ENABLE_PCH)
+target_link_libraries(GrCore ${GrCore_PlatformLinkLibs})
+target_compile_features(GrCore INTERFACE cxx_std_17) # require C++17
+set_target_version_properties(GrCore ${PROJECT_VERSION})
+enable_precompiled_headers(GrCore ENABLE_PCH)

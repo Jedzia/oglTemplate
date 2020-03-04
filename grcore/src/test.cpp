@@ -1,6 +1,6 @@
 /*---------------------------------------------------------*/
 /*!
- * This file is part of SpeedIO, the efficient I/O library.
+ * This file is part of GrCore, the efficient I/O library.
  * License details can be found in the file COPYING.
  * Copyright (c) 2020, EvePanix. All rights reserved.
  *
@@ -13,7 +13,7 @@
  * modified    2020-01-23, Jedzia
  */
 /*---------------------------------------------------------*/
-#include <speedio/speedio.h>
+#include <grcore/grcore.h>
 //
 #include <iostream>
 

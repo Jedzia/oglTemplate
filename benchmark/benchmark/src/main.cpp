@@ -1,6 +1,6 @@
 /*---------------------------------------------------------*/
 /*!
- * This file is part of SpeedIO, the efficient I/O library.
+ * This file is part of GrCore, the efficient I/O library.
  * License details can be found in the file COPYING.
  * Copyright (c) 2020, EvePanix. All rights reserved.
  *
@@ -19,7 +19,7 @@
 #include <fstream>
 #include <iostream>
 #include <locale>
-#include <speedio/speedio.h>
+#include <grcore/grcore.h>
 
 struct separate_thousands : std::numpunct<char>{
     /** Brief description of $(fclass), do_thousands_sep
