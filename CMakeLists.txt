@@ -16,6 +16,11 @@ option(GrCore_BuildBenchmarks "Build GrCore benchmarking" ON) #-DGrCore_BuildBen
 option(BUILD_SHARED_LIBS "Build Shared Libraries" OFF) #-DBUILD_SHARED_LIBS_PCH:BOOL=OFF
 option(ENABLE_PCH "Enable Precompiled Headers" ON) #-DENABLE_PCH:BOOL=ON
 
+# Keep compiled binaries central
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
 # require C++2A
 set(CMAKE_CXX_STANDARD 20)
 if (MSVC)
