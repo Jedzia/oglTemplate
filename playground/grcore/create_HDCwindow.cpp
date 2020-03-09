@@ -14,14 +14,20 @@
  */
 /*---------------------------------------------------------*/
 
-#include <iostream> // include API
+#include <iostream>
 #include <grcore/wgl_common.h>
+#include <fmt/printf.h>
+//
+#include <winuser.h>
 
 using namespace std;
 
 static int
 test_function(HDC hdc)
 {
+    fmt::printf("HDC: '%p'\r\n", hdc); // printf format string syntax
+    //MessageBoxA(0,(char*)glGetString(GL_VERSION), "OPENGL VERSION",0);
+    MessageBoxA(0,"Dreck !", "OPENGL VERSION",0);
     return true;
 }
 
@@ -32,7 +38,6 @@ test_function(HDC hdc)
 int main(){ // the main code portion of a C++ program
     cout << "Hello cheesy World" << endl;  //print Hello World on the screen
     make_window_and_test(test_function);
-
     /* UNREACHED */
     return 0;
 }
