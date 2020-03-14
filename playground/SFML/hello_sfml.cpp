@@ -18,14 +18,13 @@ int main() {
     auto title = fmt::format("SFML Window ({0}, {1} -> {2:.1f}:{3})", WINDOW_WIDTH, WINDOW_HEIGHT,
             std::get<0>(WINDOW_RATIO), std::get<1>(WINDOW_RATIO));
     sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), title);
-    window.setFramerateLimit(60*4);
+    window.setFramerateLimit(60 * 4);
     sf::CircleShape shape(100.f);
     shape.setFillColor(sf::Color::Green);
 
     sf::Font mainGameFont;
     mainGameFont.loadFromFile("Futura Bk BT Book.ttf");
-
-    //sf::Text fpsDisplay()
+    sf::Text fpsDisplay("Test, Depp", mainGameFont);
 
     const float Speed = 250.f;
     float x = 0, y = 0;
@@ -33,7 +32,8 @@ int main() {
     sf::Clock clock; // starts the clock
     while(window.isOpen()) {
         sf::Time elapsed = clock.restart();
-        //std::cout << elapsed.asSeconds() << std::endl;
+        float elapsedSeconds = elapsed.asSeconds();
+        //std::cout << elapsedSeconds << std::endl;
         //clock.restart();
 
         sf::Event event{};
@@ -58,9 +58,13 @@ int main() {
             }
         }
 
+
+        if(elapsedSeconds > 0.001)
+            fpsDisplay.setString(fmt::format("FPS: {:.1f}", 1.0 / elapsedSeconds));
+
         shape.setPosition(x, y);
-        x += Speed * elapsed.asSeconds();
-        y += Speed * 0.5f * elapsed.asSeconds();
+        x += Speed * elapsedSeconds;
+        y += Speed * 0.5f * elapsedSeconds;
         if(x > 500)
             x = 0;
         if(y > 500)
@@ -68,6 +72,7 @@ int main() {
 
         window.clear();
         window.draw(shape);
+        window.draw(fpsDisplay);
         window.display();
 
 
