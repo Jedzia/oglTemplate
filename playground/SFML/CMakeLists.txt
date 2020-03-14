@@ -2,6 +2,7 @@
 # s. E:\Projects\C++\Playground\projects\Playground\CMakeLists.txt for globbing
 #add_executable(simple_main hello.cpp)
 
+include(helpers)
 
 # playground single source files
 SET(PLAYGROUND_CPP_FILES *.cpp)
@@ -26,7 +27,7 @@ FOREACH (f ${playground_sources})
         target_include_and_link_boost_libraries(${_target_name}
                 #        "GrCore;fmt::fmt-header-only"
                 #"GrCore;fmt::fmt"
-                "sfml-graphics;fmt::fmt"
+                "sfml-window;sfml-graphics;fmt::fmt"
                 "Boost::program_options;Boost::filesystem"
                 )
         #target_link_libraries(${_target_name} sfml-main)
@@ -42,3 +43,5 @@ FOREACH (f ${playground_sources})
         MESSAGE(STATUS "[GLOB EXAMPLE] Adding Example Project: ${_target_name}")
     ENDIF (${_target_name} STREQUAL "stdafx")
 ENDFOREACH ()
+
+Copy_File(Playground_SFML_hello_sfml "${CMAKE_CURRENT_SOURCE_DIR}/Futura Bk BT Book.ttf" ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})

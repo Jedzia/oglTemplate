@@ -4,6 +4,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Clock.hpp>
+#include <SFML/System/Thread.hpp>
 #include <fmt/format.h>
 #include <iostream>
 
@@ -17,27 +18,45 @@ int main() {
     auto title = fmt::format("SFML Window ({0}, {1} -> {2:.1f}:{3})", WINDOW_WIDTH, WINDOW_HEIGHT,
             std::get<0>(WINDOW_RATIO), std::get<1>(WINDOW_RATIO));
     sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), title);
+    window.setFramerateLimit(60*4);
     sf::CircleShape shape(100.f);
     shape.setFillColor(sf::Color::Green);
 
-    sf::Clock clock; // starts the clock
-    const float Speed = 500.f;
+    sf::Font mainGameFont;
+    mainGameFont.loadFromFile("Futura Bk BT Book.ttf");
+
+    //sf::Text fpsDisplay()
+
+    const float Speed = 250.f;
     float x = 0, y = 0;
 
+    sf::Clock clock; // starts the clock
     while(window.isOpen()) {
-        sf::Time elapsed = clock.getElapsedTime();
+        sf::Time elapsed = clock.restart();
         //std::cout << elapsed.asSeconds() << std::endl;
-        clock.restart();
+        //clock.restart();
 
-        sf::Event event;
+        sf::Event event{};
         while(window.pollEvent(event)) {
+            /*switch(event.type)
+                case sf::Event::Closed:
+                    window.close();*/
+
             if(event.type == sf::Event::Closed)
                 window.close();
+            if(event.type == sf::Event::KeyPressed) {
+                if(event.key.code == sf::Keyboard::Escape) {
+                    std::cout << "the escape key was pressed" << std::endl;
+                    std::cout << "control:" << event.key.control << std::endl;
+                    std::cout << "alt:" << event.key.alt << std::endl;
+                    std::cout << "shift:" << event.key.shift << std::endl;
+                    std::cout << "system:" << event.key.system << std::endl;
+                    window.close();
+                }
+            }
+            if(event.type == sf::Event::KeyPressed) {
+            }
         }
-
-        window.clear();
-        window.draw(shape);
-        window.display();
 
         shape.setPosition(x, y);
         x += Speed * elapsed.asSeconds();
@@ -46,6 +65,13 @@ int main() {
             x = 0;
         if(y > 500)
             y = 0;
+
+        window.clear();
+        window.draw(shape);
+        window.display();
+
+
+        //sf::Thread::wait(1);
     }
 
     return 0;
