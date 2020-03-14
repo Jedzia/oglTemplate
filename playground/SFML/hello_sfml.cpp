@@ -18,7 +18,8 @@ int main() {
     auto title = fmt::format("SFML Window ({0}, {1} -> {2:.1f}:{3})", WINDOW_WIDTH, WINDOW_HEIGHT,
             std::get<0>(WINDOW_RATIO), std::get<1>(WINDOW_RATIO));
     sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), title);
-    window.setFramerateLimit(60 * 4);
+    //window.setFramerateLimit(60 * 4 );
+    window.setVerticalSyncEnabled(true);
     sf::CircleShape shape(100.f);
     shape.setFillColor(sf::Color::Green);
 
@@ -28,11 +29,14 @@ int main() {
 
     const float Speed = 250.f;
     float x = 0, y = 0;
+    int frame_counter = 0;
+    double fps_time = 0;
 
     sf::Clock clock; // starts the clock
     while(window.isOpen()) {
         sf::Time elapsed = clock.restart();
         float elapsedSeconds = elapsed.asSeconds();
+        fps_time = fps_time + elapsedSeconds;
         //std::cout << elapsedSeconds << std::endl;
         //clock.restart();
 
@@ -59,8 +63,20 @@ int main() {
         }
 
 
-        if(elapsedSeconds > 0.001)
-            fpsDisplay.setString(fmt::format("FPS: {:.1f}", 1.0 / elapsedSeconds));
+        /*if(elapsedSeconds < 0.01)
+        {
+            const char *formatStr = "FPS: {:.1f}, Frame Counter: {}";
+            fpsDisplay.setString(fmt::format(formatStr, 1.0 / elapsedSeconds, frame_counter));
+        }*/
+
+
+        if(frame_counter % 60 == 0)
+        {
+            const char *formatStr = "FPS: {:.1f}, Frame Counter: {}";
+            fpsDisplay.setString(fmt::format(formatStr, 60 / fps_time, frame_counter));
+
+            fps_time = 0;
+        }
 
         shape.setPosition(x, y);
         x += Speed * elapsedSeconds;
@@ -77,6 +93,7 @@ int main() {
 
 
         //sf::Thread::wait(1);
+        frame_counter++;
     }
 
     return 0;
