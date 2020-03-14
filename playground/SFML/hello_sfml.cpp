@@ -8,6 +8,8 @@
 #include <fmt/format.h>
 #include <iostream>
 
+const bool USE_VSYNC = false;
+
 int main() {
     const int WINDOW_WIDTH = 1280;
     const auto WINDOW_RATIO = std::make_tuple(16.1, 9.0);
@@ -18,8 +20,11 @@ int main() {
     auto title = fmt::format("SFML Window ({0}, {1} -> {2:.1f}:{3})", WINDOW_WIDTH, WINDOW_HEIGHT,
             std::get<0>(WINDOW_RATIO), std::get<1>(WINDOW_RATIO));
     sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), title);
-    //window.setFramerateLimit(60 * 4 );
-    window.setVerticalSyncEnabled(true);
+    if(USE_VSYNC)
+        window.setVerticalSyncEnabled(true);
+    else
+        window.setFramerateLimit(60 * 4);
+
     sf::CircleShape shape(100.f);
     shape.setFillColor(sf::Color::Green);
 
@@ -70,8 +75,7 @@ int main() {
         }*/
 
 
-        if(frame_counter % 60 == 0)
-        {
+        if(frame_counter % 60 == 0) {
             const char *formatStr = "FPS: {:.1f}, Frame Counter: {}";
             fpsDisplay.setString(fmt::format(formatStr, 60 / fps_time, frame_counter));
 
@@ -91,6 +95,10 @@ int main() {
         window.draw(fpsDisplay);
         window.display();
 
+        if(USE_VSYNC)
+            sf::sleep(sf::milliseconds(12));
+        else
+            sf::sleep(sf::milliseconds(1));
 
         //sf::Thread::wait(1);
         frame_counter++;
