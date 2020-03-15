@@ -28,7 +28,8 @@
    #include <iostream>
  */
 
-const bool USE_VSYNC = false;
+//#define USE_VSYNC false
+constexpr bool USE_VSYNC = false;
 
 /** Brief description of $(fclass), main
  *  Detailed description.
