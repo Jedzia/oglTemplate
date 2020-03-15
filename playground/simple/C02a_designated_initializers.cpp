@@ -43,6 +43,7 @@ void do_nothing() {
  *  @return TODO
  */
 int main(){ // the main code portion of a C++ program
+#if __clang__
     A a { .y = 2, .x = 1 }; // error; designator order does not match declaration order
     A b { .x = 1, .z = 2 }; // ok, b.y initialized to 0
 
@@ -53,5 +54,6 @@ int main(){ // the main code portion of a C++ program
     t.join();
 
     cout << endl;
+#endif
     return 0; // conventional
 }
