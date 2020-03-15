@@ -55,4 +55,5 @@ target_compile_features(GrGraphics INTERFACE cxx_std_17) # require C++17
 set_target_version_properties(GrGraphics ${PROJECT_VERSION})
 enable_precompiled_headers(GrGraphics ENABLE_PCH)
 
+# Create namespaced alias
 add_library(oglTemplate::GrGraphics ALIAS GrGraphics)

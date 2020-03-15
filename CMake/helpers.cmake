@@ -1,110 +1,110 @@
 
 #SET(_HELPER_COPY_ENABLED (${WIN32} AND NOT ${MINGW}))
-SET(_HELPER_COPY_ENABLED FALSE)
-IF (WIN32)
-    SET(_HELPER_COPY_ENABLED TRUE)
-ENDIF ()
+set(_HELPER_COPY_ENABLED FALSE)
+if (WIN32)
+    set(_HELPER_COPY_ENABLED TRUE)
+endif ()
 
-IF (NOT HELPERS_COPY_CMAKE_DEBUG)
-    SET(HELPERS_COPY_CMAKE_DEBUG OFF)
-ENDIF ()
+if (NOT HELPERS_COPY_CMAKE_DEBUG)
+    set(HELPERS_COPY_CMAKE_DEBUG OFF)
+endif ()
 
-IF (HELPERS_COPY_CMAKE_DEBUG)
-    SET(_HELPERS_COPY_CMAKE_DEBUG_STR "--debug-output")
-ENDIF ()
+if (HELPERS_COPY_CMAKE_DEBUG)
+    set(_HELPERS_COPY_CMAKE_DEBUG_STR "--debug-output")
+endif ()
 
-MACRO(Copy_File target file dest)
-    IF (_HELPER_COPY_ENABLED)
-        ADD_CUSTOM_COMMAND(
+macro(copy_file target file dest)
+    if (_HELPER_COPY_ENABLED)
+        add_custom_command(
                 TARGET ${target}
                 POST_BUILD
                 COMMAND ${CMAKE_COMMAND} ${_HELPERS_COPY_CMAKE_DEBUG_STR} -E copy "${file}" "${dest}"
                 #DEPENDS Templater
                 COMMENT "Copy ${file} to ${dest}."
         )
-    ENDIF (_HELPER_COPY_ENABLED)
-ENDMACRO()
+    endif (_HELPER_COPY_ENABLED)
+endmacro()
 
-MACRO(Copy_DLL_To_Target target libname)
-    IF (_HELPER_COPY_ENABLED)
-        ADD_CUSTOM_COMMAND(
+macro(copy_dll_to_target target libname)
+    if (_HELPER_COPY_ENABLED)
+        add_custom_command(
                 TARGET ${target}
                 POST_BUILD
                 COMMAND ${CMAKE_COMMAND} ${_HELPERS_COPY_CMAKE_DEBUG_STR} -Dconfig=${CMAKE_CFG_INTDIR} -Dtgt="${PROJECT_BINARY_DIR}/" -Dreleasesrc="${${libname}_DLL_RELEASE}" -Ddebugsrc="${${libname}_DLL_DEBUG}" -P "${P_MODULE_PATH}/copy.cmake"
                 DEPENDS Templater
                 COMMENT "Copy ${libname} DLL."
         )
-    ENDIF (_HELPER_COPY_ENABLED)
-ENDMACRO()
+    endif (_HELPER_COPY_ENABLED)
+endmacro()
 
-MACRO(Copy_DLL_To_TargetDep target libname dependency)
-    IF (_HELPER_COPY_ENABLED)
-        ADD_CUSTOM_COMMAND(
+macro(copy_dll_to_targetdep target libname dependency)
+    if (_HELPER_COPY_ENABLED)
+        add_custom_command(
                 TARGET ${target}
                 POST_BUILD
                 COMMAND ${CMAKE_COMMAND} ${_HELPERS_COPY_CMAKE_DEBUG_STR} -Dconfig=${CMAKE_CFG_INTDIR} -Dtgt="${PROJECT_BINARY_DIR}/" -Dreleasesrc="${${libname}_DLL_RELEASE}" -Ddebugsrc="${${libname}_DLL_DEBUG}" -P "${P_MODULE_PATH}/copy.cmake"
                 DEPENDS ${dependency}
                 COMMENT "Copy ${libname} DLL."
         )
-    ENDIF (_HELPER_COPY_ENABLED)
-ENDMACRO()
+    endif (_HELPER_COPY_ENABLED)
+endmacro()
 
-MACRO(Copy_ReleaseDLL_To_Target target libname)
-    IF (_HELPER_COPY_ENABLED)
-        ADD_CUSTOM_COMMAND(
+macro(copy_releasedll_to_target target libname)
+    if (_HELPER_COPY_ENABLED)
+        add_custom_command(
                 TARGET ${target}
                 POST_BUILD
                 COMMAND ${CMAKE_COMMAND} ${_HELPERS_COPY_CMAKE_DEBUG_STR} -Dconfig=${CMAKE_CFG_INTDIR} -Dtgt="${PROJECT_BINARY_DIR}/" -Dreleasesrc="${${libname}_DLL_RELEASE}" -Ddebugsrc="${${libname}_DLL_RELEASE}" -P "${P_MODULE_PATH}/copy.cmake"
                 DEPENDS Templater
                 COMMENT "Copy ${libname} DLL."
         )
-    ENDIF (_HELPER_COPY_ENABLED)
-ENDMACRO()
+    endif (_HELPER_COPY_ENABLED)
+endmacro()
 
-MACRO(Copy_DebugDLL_To_Target target libname)
-    IF (_HELPER_COPY_ENABLED)
-        ADD_CUSTOM_COMMAND(
+macro(copy_debugdll_to_target target libname)
+    if (_HELPER_COPY_ENABLED)
+        add_custom_command(
                 TARGET ${target}
                 POST_BUILD
                 COMMAND ${CMAKE_COMMAND} ${_HELPERS_COPY_CMAKE_DEBUG_STR} -Dconfig=${CMAKE_CFG_INTDIR} -Dtgt="${PROJECT_BINARY_DIR}/" -Dreleasesrc="${${libname}_DLL_DEBUG}" -Ddebugsrc="${${libname}_DLL_DEBUG}" -P "${P_MODULE_PATH}/copy.cmake"
                 DEPENDS Templater
                 COMMENT "Copy ${libname} DLL."
         )
-    ENDIF (_HELPER_COPY_ENABLED)
-ENDMACRO()
+    endif (_HELPER_COPY_ENABLED)
+endmacro()
 
-MACRO(Copy_Files_To_Target target files)
-    IF (_HELPER_COPY_ENABLED)
-        FOREACH (f ${files})
-            Copy_File_To_Target(${target} ${f})
-        ENDFOREACH ()
-    ENDIF (_HELPER_COPY_ENABLED)
-ENDMACRO()
+macro(copy_files_to_target target files)
+    if (_HELPER_COPY_ENABLED)
+        foreach (f ${files})
+            copy_file_to_target(${target} ${f})
+        endforeach ()
+    endif (_HELPER_COPY_ENABLED)
+endmacro()
 
-MACRO(Copy_File_To_Target target file)
-    IF (_HELPER_COPY_ENABLED)
-        ADD_CUSTOM_COMMAND(
+macro(copy_file_to_target target file)
+    if (_HELPER_COPY_ENABLED)
+        add_custom_command(
                 TARGET ${target}
                 POST_BUILD
                 COMMAND ${CMAKE_COMMAND} ${_HELPERS_COPY_CMAKE_DEBUG_STR} -Dconfig=${CMAKE_CFG_INTDIR} -Dtgt="${PROJECT_BINARY_DIR}/" -Dreleasesrc="${file}" -Ddebugsrc="${file}" -P "${P_MODULE_PATH}/copy.cmake"
                 DEPENDS Templater
                 COMMENT "Copy ${libname} DLL."
         )
-    ENDIF (_HELPER_COPY_ENABLED)
-ENDMACRO()
+    endif (_HELPER_COPY_ENABLED)
+endmacro()
 
-MACRO(Copy_Boost_DLL_To_Target target libname)
-    IF (_HELPER_COPY_ENABLED)
+macro(copy_boost_dll_to_target target libname)
+    if (_HELPER_COPY_ENABLED)
         set(_boost_my_lib ${libname})
-        STRING(TOUPPER ${_boost_my_lib} UPPERCOMPONENT)
-        SET(BoostDebugLibPath ${Boost_${UPPERCOMPONENT}_LIBRARY_DEBUG})
-        SET(BoostReleaseLibPath ${Boost_${UPPERCOMPONENT}_LIBRARY_RELEASE})
-        GET_FILENAME_COMPONENT(_boost_my_lib_path ${BoostDebugLibPath} PATH)
-        GET_FILENAME_COMPONENT(_boost_my_lib_name ${BoostDebugLibPath} NAME_WE)
-        SET(_boost_my_debugdll "${_boost_my_lib_path}/${_boost_my_lib_name}.dll")
-        GET_FILENAME_COMPONENT(_boost_my_lib_path ${BoostReleaseLibPath} PATH)
-        GET_FILENAME_COMPONENT(_boost_my_lib_name ${BoostReleaseLibPath} NAME_WE)
-        SET(_boost_my_releasedll "${_boost_my_lib_path}/${_boost_my_lib_name}.dll")
+        string(TOUPPER ${_boost_my_lib} UPPERCOMPONENT)
+        set(BoostDebugLibPath ${Boost_${UPPERCOMPONENT}_LIBRARY_DEBUG})
+        set(BoostReleaseLibPath ${Boost_${UPPERCOMPONENT}_LIBRARY_RELEASE})
+        get_filename_component(_boost_my_lib_path ${BoostDebugLibPath} PATH)
+        get_filename_component(_boost_my_lib_name ${BoostDebugLibPath} NAME_WE)
+        set(_boost_my_debugdll "${_boost_my_lib_path}/${_boost_my_lib_name}.dll")
+        get_filename_component(_boost_my_lib_path ${BoostReleaseLibPath} PATH)
+        get_filename_component(_boost_my_lib_name ${BoostReleaseLibPath} NAME_WE)
+        set(_boost_my_releasedll "${_boost_my_lib_path}/${_boost_my_lib_name}.dll")
 
         # Boost_*_DLL checking.
         #SET(Boost_${UPPERCOMPONENT}_DLL_DEBUG ${_boost_my_debugdll} CACHE PATH "boost ${_boost_my_lib} debug dll.")
@@ -112,23 +112,23 @@ MACRO(Copy_Boost_DLL_To_Target target libname)
         #MARK_AS_ADVANCED(Boost_${UPPERCOMPONENT}_DLL_DEBUG)
         #MARK_AS_ADVANCED(Boost_${UPPERCOMPONENT}_DLL_RELEASE)
 
-        SET(tgt "${PROJECT_BINARY_DIR}/")
-        ADD_CUSTOM_COMMAND(
+        set(tgt "${PROJECT_BINARY_DIR}/")
+        add_custom_command(
                 TARGET ${target}
                 POST_BUILD
                 COMMAND ${CMAKE_COMMAND} ${_HELPERS_COPY_CMAKE_DEBUG_STR} -Dconfig=${CMAKE_CFG_INTDIR} -Dtgt=${tgt} -Dreleasesrc=${_boost_my_releasedll} -Ddebugsrc=${_boost_my_debugdll} -P "${CMAKE_SOURCE_DIR}/build/cmake/Modules/copy.cmake"
                 COMMENT "source copy dlls and essential files"
         )
-    ENDIF (_HELPER_COPY_ENABLED)
-ENDMACRO()
+    endif (_HELPER_COPY_ENABLED)
+endmacro()
 
-MACRO(Add_Run_Target target working_directory)
+macro(add_run_target target working_directory)
     add_custom_target(${target}_run
             COMMAND ${target}
             DEPENDS ${target}
             WORKING_DIRECTORY ${working_directory}
             )
-    SET_TARGET_PROPERTIES(${target}_run
+    set_target_properties(${target}_run
             PROPERTIES
             FOLDER ${target}
             )

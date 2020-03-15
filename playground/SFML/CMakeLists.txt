@@ -44,4 +44,4 @@ FOREACH (f ${playground_sources})
     ENDIF (${_target_name} STREQUAL "stdafx")
 ENDFOREACH ()
 
-Copy_File(Playground_SFML_hello_sfml "${CMAKE_CURRENT_SOURCE_DIR}/Futura Bk BT Book.ttf" ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+copy_file(Playground_SFML_hello_sfml "${CMAKE_CURRENT_SOURCE_DIR}/Futura Bk BT Book.ttf" ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})

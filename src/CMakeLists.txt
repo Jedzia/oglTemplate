@@ -20,8 +20,8 @@ enable_precompiled_headers(Application ENABLE_PCH)
 #        "$<$<COMPILE_LANGUAGE:CXX>:<cstddef$<ANGLE-R>>"
 #        )
 
-Copy_File(Application "${CMAKE_CURRENT_SOURCE_DIR}/Futura Bk BT Book.ttf" ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-Add_Run_Target(Application ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+copy_file(Application "${CMAKE_CURRENT_SOURCE_DIR}/Futura Bk BT Book.ttf" ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+add_run_target(Application ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 
 #include(ucm)
 #cotire(Application)
