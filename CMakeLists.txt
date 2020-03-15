@@ -36,9 +36,13 @@ endif ()
 
 # Include other projects
 add_subdirectory(doc)
+# external libraries
 add_subdirectory(external)
+# own libraries
 add_subdirectory(grcore)
 use_common_runtime_directory(GrCore)
+add_subdirectory(grgraphics)
+use_common_runtime_directory(GrGraphics)
 
 # Tests
 include(CTest)
@@ -62,5 +66,8 @@ message("GrCore_VERSION: '${GrCore_VERSION}'")
 # Set property for my_target only
 #set_property(TARGET my_target PROPERTY RULE_LAUNCH_COMPILE "${CMAKE_COMMAND} -E time")
 
+# Include the Playground
 add_subdirectory(playground)
 
+# Include the main application
+add_subdirectory(src)
