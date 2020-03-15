@@ -30,7 +30,7 @@ add_library_with_resource(GrGraphics SHARED
 add_library(GrGraphics SHARED
         "${GrGraphics_SRC_FILES}"
         )
-target_include_directories(GrGraphics PRIVATE ${INCLUDE_DIRECTORIES})
+target_include_directories(GrGraphics PUBLIC ${INCLUDE_DIRECTORIES})
 target_compile_definitions(GrGraphics PRIVATE GrGraphics_WIN_EXPORT)
 
 # #get_property(fancy_lib_location TARGET ${PROJECT_NAME} PROPERTY LIBRARY_LOCATION)
@@ -54,3 +54,5 @@ target_link_libraries(GrGraphics ${GrGraphics_PlatformLinkLibs})
 target_compile_features(GrGraphics INTERFACE cxx_std_17) # require C++17
 set_target_version_properties(GrGraphics ${PROJECT_VERSION})
 enable_precompiled_headers(GrGraphics ENABLE_PCH)
+
+add_library(oglTemplate::GrGraphics ALIAS GrGraphics)

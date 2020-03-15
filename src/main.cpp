@@ -3,6 +3,9 @@
 //
 
 #include "precompiled.h"
+#include <grcore/grcore.h>
+#include <grgraphics/grgraphics.h>
+
 /*
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Clock.hpp>
@@ -19,6 +22,7 @@ int main() {
     constexpr int WINDOW_HEIGHT = static_cast<int>( WINDOW_WIDTH * std::get<1>(WINDOW_RATIO) /
                                                     std::get<0>(WINDOW_RATIO));
 
+    core::bla();
     auto title = fmt::format("SFML Window ({0}, {1} -> {2:.1f}:{3})", WINDOW_WIDTH, WINDOW_HEIGHT,
             std::get<0>(WINDOW_RATIO), std::get<1>(WINDOW_RATIO));
     sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), title);

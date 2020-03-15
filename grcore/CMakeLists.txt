@@ -24,7 +24,7 @@ source_group(src FILES ${GrCore_SRC_FILES} main.cpp)
 add_library_with_resource(GrCore SHARED
         "${GrCore_SRC_FILES}"
         "${CMAKE_CURRENT_BINARY_DIR}/src/win/GrCore.rc")
-target_include_directories(GrCore PRIVATE ${INCLUDE_DIRECTORIES})
+target_include_directories(GrCore PUBLIC ${INCLUDE_DIRECTORIES})
 target_compile_definitions(GrCore PRIVATE GrCore_WIN_EXPORT)
 
 # #get_property(fancy_lib_location TARGET ${PROJECT_NAME} PROPERTY LIBRARY_LOCATION)
@@ -48,3 +48,5 @@ target_link_libraries(GrCore ${GrCore_PlatformLinkLibs})
 target_compile_features(GrCore INTERFACE cxx_std_17) # require C++17
 set_target_version_properties(GrCore ${PROJECT_VERSION})
 enable_precompiled_headers(GrCore ENABLE_PCH)
+
+add_library(oglTemplate::GrCore ALIAS GrCore)
