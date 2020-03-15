@@ -12,6 +12,8 @@
 #   Is defined when set(USE_HEADERONLY_BOOST TRUE). This overrides the library option and
 #   enables only the "include" capabilities of the macro target_include_and_link_boost_libraries().
 
+# ToDo: use the target_ version for includes, dependencies and libraries
+
 if (MSVC)
     # ToDo: Remove this, the user must be able to point to her boost installation.
     set(BOOST_ROOT "E:/Devel/CPP/Libs/boost/boost-git_master")
@@ -20,8 +22,8 @@ endif ()
 
 
 if (USE_HEADERONLY_BOOST)
-    FIND_PACKAGE(Boost 1.68.0 REQUIRED COMPONENTS ${BOOST_USED_COMPONENTS})
-    MESSAGE(STATUS "using boost header-only.")
+    find_package(Boost 1.68.0 REQUIRED COMPONENTS ${BOOST_USED_COMPONENTS})
+    message(STATUS "using boost header-only.")
 
     # add boost include directory and link with boost components
     # _libraries: non boost libraries like "glib;zlib;pango;mylibrary"
@@ -54,10 +56,10 @@ else (USE_HEADERONLY_BOOST)
         #    set(Boost_USE_DEBUG_LIBS         OFF) # ignore debug libs and
         #    set(Boost_USE_RELEASE_LIBS       ON)  # only find release libs
 
-        FIND_PACKAGE(Boost 1.68.0 REQUIRED COMPONENTS ${BOOST_USED_COMPONENTS})
+        find_package(Boost 1.68.0 REQUIRED COMPONENTS ${BOOST_USED_COMPONENTS})
 
         if (NOT Boost_USE_STATIC_LIBS)
-            MESSAGE(STATUS "boost is using dynamic link libraries.")
+            message(STATUS "boost is using dynamic link libraries.")
             # Linker Flag to use the dynamic linked boost libs.
             add_definitions("-DBOOST_ALL_DYN_LINK")
         endif ()
@@ -107,13 +109,12 @@ else (USE_HEADERONLY_BOOST)
         endif (USE_LIB_BOOST)
     endmacro(target_include_and_link_boost_libraries _target _libraries _boost_libraries)
 
-
     IF (USE_LIB_BOOST_DEPRECATED)
-        SET(USE_LIB_BOOST_COMPONENTS "system;filesystem;signals;regex;program_options;unit_test_framework;serialization")
-        SET(boost_local_root $ENV{BOOST_ROOTDIR})
-        IF (NOT boost_local_root)
+        set(USE_LIB_BOOST_COMPONENTS "system;filesystem;signals;regex;program_options;unit_test_framework;serialization")
+        set(boost_local_root $ENV{BOOST_ROOTDIR})
+        if (NOT boost_local_root)
             #        SET(boost_local_root "E:/Devel/CPP/Libs/boost/boost-1.55.0")
-        ENDIF ()
+        endif ()
         #SET(boost_local_root E:/Devel/CPP/Libs/boost/boost-svn)
         #    IF (EXISTS "${boost_local_root}" AND NOT BOOST_ROOT)
         #        SET(BOOST_ROOT "${boost_local_root}" CACHE PATH "Boost root directory" FORCE)
@@ -123,18 +124,18 @@ else (USE_HEADERONLY_BOOST)
         #### SET(BOOST_ROOT "E:/Devel/CPP/Libs/boost/boost-svn" CACHE PATH "Boost root directory")
         #MESSAGE( FATAL_ERROR " BLAAAA " )
 
-        IF (BOOST_ROOT)
+        if (BOOST_ROOT)
             # If the user specified a non system path for the boost libraries,
             # then prevent from using the systems boost libraries.
-            SET(Boost_NO_SYSTEM_PATHS TRUE)
-        ENDIF (BOOST_ROOT)
+            set(Boost_NO_SYSTEM_PATHS TRUE)
+        endif (BOOST_ROOT)
         #SET(Boost_INCLUDE_DIR "" CACHE PATH "Boost root directory")
         #SET(Boost_COMPILER "")
         #SET(Boost_ADDITIONAL_VERSIONS "1.45" "1.45.1" "1.46" "1.46.0")
 
         #Check for additional boost libs
-        SET(Boost_FIND_COMPONENTS ${USE_LIB_BOOST_COMPONENTS})
-        SET(boost_tmp_component_list)
+        set(Boost_FIND_COMPONENTS ${USE_LIB_BOOST_COMPONENTS})
+        set(boost_tmp_component_list)
 
         foreach (mCOMPONENT ${Boost_FIND_COMPONENTS})
             string(TOUPPER ${mCOMPONENT} COMPONENT)
@@ -147,9 +148,9 @@ else (USE_HEADERONLY_BOOST)
         endforeach (mCOMPONENT)
 
 
-        SET(BOOST_ALWAYS_RERUN ON)
-        SET(Boost_USE_STATIC_LIBS OFF)
-        SET(Boost_USE_MULTITHREADED ON)
+        set(BOOST_ALWAYS_RERUN ON)
+        set(Boost_USE_STATIC_LIBS OFF)
+        set(Boost_USE_MULTITHREADED ON)
         #SET(Boost_USE_STATIC_RUNTIME    ON)
         #SET(Boost_COMPAT_STATIC_RUNTIME ON)
         #SET(Boost_INCLUDE_DIR "")
@@ -158,20 +159,20 @@ else (USE_HEADERONLY_BOOST)
 
         # You can call #ADD_DEFINITIONS(${Boost_LIB_DIAGNOSTIC_DEFINITIONS}) to have diagnostic
         # information about Boost's #automatic linking outputted during compilation time.
-        ADD_DEFINITIONS(${Boost_LIB_DIAGNOSTIC_DEFINITIONS})
-        ADD_DEFINITIONS("-DUSE_LIB_BOOST")
+        add_definitions(${Boost_LIB_DIAGNOSTIC_DEFINITIONS})
+        add_definitions("-DUSE_LIB_BOOST")
 
-        IF (NOT Boost_USE_STATIC_LIBS)
-            MESSAGE(STATUS " Using dynamically linked boost libs ")
+        if (NOT Boost_USE_STATIC_LIBS)
+            message(STATUS " Using dynamically linked boost libs ")
             # Linker Flag to use the dynamically linked boost libs.
-            ADD_DEFINITIONS("-DBOOST_ALL_DYN_LINK")
+            add_definitions("-DBOOST_ALL_DYN_LINK")
             # mal schauen wie ich das einbaue
             #ADD_DEFINITIONS("-DBOOST_DYN_LINK")
             #ADD_DEFINITIONS("-DBOOST_ALL_DYN_LINK")
-        ENDIF ()
+        endif ()
 
         #    FIND_PACKAGE(Boost 1.46.0 REQUIRED COMPONENTS ${boost_tmp_component_list})
-        FIND_PACKAGE(Boost REQUIRED COMPONENTS ${boost_tmp_component_list})
+        find_package(Boost REQUIRED COMPONENTS ${boost_tmp_component_list})
         if ("${Boost_VERSION}0" LESS "1046000")
             set(_shared_msg
                     "NOTE: boost:: targets and tests cannot "
@@ -181,21 +182,21 @@ else (USE_HEADERONLY_BOOST)
                     ${_shared_msg}
                     "You may install the boost libraries on your system and set the"
                     "BOOST_ROOT config var.")
-        ENDIF ()
+        endif ()
 
         # Additional check for ICU Library
-        FIND_PACKAGE(ICU)
-        MARK_AS_ADVANCED(ICU_DLL_DEBUG)
-        MARK_AS_ADVANCED(ICU_DLL_RELEASE)
+        find_package(ICU)
+        mark_as_advanced(ICU_DLL_DEBUG)
+        mark_as_advanced(ICU_DLL_RELEASE)
 
-    ENDIF (USE_LIB_BOOST_DEPRECATED)
+    endif (USE_LIB_BOOST_DEPRECATED)
 
 endif (USE_HEADERONLY_BOOST)
 
 macro(enable_precompiled_headers _target _enable)
     if (${_enable})
         include(cotire)
-        MESSAGE("precompiled headers enabled for '${_target}'")
+        message("precompiled headers enabled for '${_target}'")
         cotire(${_target})
     else ()
         #MESSAGE("NOOOO precompiled headers enabled for '${_target}'")
@@ -211,7 +212,7 @@ macro(add_library_with_resource _target _shared_or_static _src_files _resource_f
     endif (WIN32)
 endmacro(add_library_with_resource _target _shared_or_static _src_files _resource_files)
 
-macro(add_executable_with_resource _target  _src_files _resource_files)
+macro(add_executable_with_resource _target _src_files _resource_files)
     if (WIN32)
         # On Windows give .exe embedded version information
         add_executable(${_target} ${_src_files} ${_resource_files})
@@ -221,10 +222,10 @@ macro(add_executable_with_resource _target  _src_files _resource_files)
 endmacro(add_executable_with_resource _target _shared_or_static _src_files _resource_files)
 
 macro(use_common_runtime_directory _target)
-set_target_properties(${_target}
-        PROPERTIES
-        ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
-        LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
-        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
-        )
+    set_target_properties(${_target}
+            PROPERTIES
+            ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+            LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+            )
 endmacro(use_common_runtime_directory _target)

@@ -5,6 +5,7 @@
 #include "precompiled.h"
 #include <grcore/grcore.h>
 #include <grgraphics/grgraphics.h>
+#include <boost/locale/info.hpp>
 
 /*
 #include <SFML/Graphics.hpp>
