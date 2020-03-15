@@ -16,7 +16,7 @@
 #ifndef GRCORE_GRCORE_H
 #define GRCORE_GRCORE_H
 
-namespace spio {
+namespace core {
 void bla();
 }
 #endif //GRCORE_GRCORE_H

@@ -17,7 +17,7 @@
 //
 #include <iostream>
 
-namespace spio {
+namespace core {
 /** Brief description of $(fclass), bla
  *  Detailed description.
  *
