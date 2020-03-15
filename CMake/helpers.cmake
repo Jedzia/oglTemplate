@@ -121,3 +121,15 @@ MACRO(Copy_Boost_DLL_To_Target target libname)
         )
     ENDIF (_HELPER_COPY_ENABLED)
 ENDMACRO()
+
+MACRO(Add_Run_Target target working_directory)
+    add_custom_target(${target}_run
+            COMMAND ${target}
+            DEPENDS ${target}
+            WORKING_DIRECTORY ${working_directory}
+            )
+    SET_TARGET_PROPERTIES(${target}_run
+            PROPERTIES
+            FOLDER ${target}
+            )
+ENDMACRO()

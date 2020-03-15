@@ -21,16 +21,7 @@ enable_precompiled_headers(Application ENABLE_PCH)
 #        )
 
 Copy_File(Application "${CMAKE_CURRENT_SOURCE_DIR}/Futura Bk BT Book.ttf" ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-
-add_custom_target(run
-        COMMAND Application
-        DEPENDS Application
-        WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-        )
-SET_TARGET_PROPERTIES(run
-        PROPERTIES
-        FOLDER Application
-        )
+Add_Run_Target(Application ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 
 #include(ucm)
 #cotire(Application)
