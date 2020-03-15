@@ -11,11 +11,10 @@
 const bool USE_VSYNC = false;
 
 int main() {
-    const int WINDOW_WIDTH = 1280;
-    const auto WINDOW_RATIO = std::make_tuple(16.1, 9.0);
-    //const int WINDOW_HEIGHT = WINDOW_WIDTH * 9 / 16;
-    const int WINDOW_HEIGHT = WINDOW_WIDTH * std::get<1>(WINDOW_RATIO) / std::get<0>(WINDOW_RATIO);
-    //const int WINDOW_HEIGHT = WINDOW_WIDTH / WINDOW_RATIO;
+    constexpr int WINDOW_WIDTH = 1280;
+    constexpr auto WINDOW_RATIO = std::make_tuple(16.0, 9.0);
+    constexpr int WINDOW_HEIGHT = static_cast<int>( WINDOW_WIDTH * std::get<1>(WINDOW_RATIO) /
+                                                    std::get<0>(WINDOW_RATIO));
 
     auto title = fmt::format("SFML Window ({0}, {1} -> {2:.1f}:{3})", WINDOW_WIDTH, WINDOW_HEIGHT,
             std::get<0>(WINDOW_RATIO), std::get<1>(WINDOW_RATIO));
