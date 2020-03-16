@@ -61,7 +61,7 @@ int main() {
     const float Speed = 250.f;
     float x = 0, y = 0;
     int frame_counter = 0;
-    double fps_time = 0;
+    float fps_time = 0;
 
     sf::Clock clock; // starts the clock
 

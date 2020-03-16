@@ -37,7 +37,7 @@ if (USE_HEADERONLY_BOOST)
             #message(WARNING "lib(${mCOMPONENT}) include: ${${mCOMPONENT}_INCLUDE_DIRECTORIES}")
             target_include_directories(${_target} PRIVATE ${${mCOMPONENT}_INCLUDE_DIRECTORIES})
         endforeach (mCOMPONENT)
-        target_link_libraries(${_target} ${_libraries})
+        target_link_libraries(${_target} PRIVATE ${_libraries})
     endmacro(target_include_and_link_boost_libraries _target _libraries _boost_libraries)
 
     add_definitions("-DUSE_HEADERONLY_BOOST")
@@ -98,12 +98,12 @@ else (USE_HEADERONLY_BOOST)
 
         if (USE_LIB_BOOST)
             target_include_directories(${_target} PRIVATE ${Boost_INCLUDE_DIR})
-            target_link_libraries(${_target}
+            target_link_libraries(${_target} PRIVATE
                     ${_libraries}
                     ${_boost_libraries}
                     )
         else (USE_LIB_BOOST)
-            target_link_libraries(${_target}
+            target_link_libraries(${_target} PRIVATE
                     ${_libraries}
                     )
         endif (USE_LIB_BOOST)

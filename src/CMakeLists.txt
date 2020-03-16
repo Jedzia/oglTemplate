@@ -1,6 +1,7 @@
 #set(COTIRE_DEBUG ON)
 #include(cotire)
 
+# Main Demo Application
 add_executable(Application main.cpp)
 target_include_and_link_boost_libraries(Application
         #        "GrCore;fmt::fmt-header-only"
@@ -8,6 +9,7 @@ target_include_and_link_boost_libraries(Application
         "oglTemplate::GrCore;oglTemplate::GrGraphics;sfml-window;sfml-graphics;fmt::fmt"
         "Boost::program_options;Boost::filesystem"
         )
+target_link_libraries(Application PRIVATE project_options project_warnings)
 #target_link_libraries(Application -static-libgcc -static-libstdc++)
 # problems with mingw clang
 if (NOT "${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")

@@ -113,7 +113,7 @@ void make_window_and_test(int (* callback)(HDC hdc))       {
     window_class.hInstance = currentInstance;
     window_class.hIcon = LoadIcon(nullptr, IDI_APPLICATION);
     window_class.hCursor = LoadCursor(nullptr, IDC_ARROW);
-    window_class.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+    window_class.hbrBackground = reinterpret_cast<HBRUSH>((COLOR_WINDOW + 1));
     window_class.lpszMenuName = nullptr;
     window_class.lpszClassName = class_name;
     if(!RegisterClass(&window_class)) {

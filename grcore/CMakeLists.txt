@@ -1,20 +1,20 @@
 ### list of source files of the GrCore library
 configure_file(src/win/GrCore.rc.in ${CMAKE_CURRENT_BINARY_DIR}/src/win/GrCore.rc @ONLY)
 set(GrCore_INC_FILES
-#        include/MemoryDB.h
-#        include/DBCreate.h
-#        include/FileUtil.h
+        #        include/MemoryDB.h
+        #        include/DBCreate.h
+        #        include/FileUtil.h
         )
 set(GrCore_SRC_FILES
         src/test.cpp)
-if(WIN32)
+if (WIN32)
     set(GrCore_SRC_FILES ${GrCore_SRC_FILES}
             src/win/wgl_common.cpp)
-endif(WIN32)
+endif (WIN32)
 set(INCLUDE_DIRECTORIES
-#         include
+        #         include
         ${CMAKE_CURRENT_SOURCE_DIR}/include
-#        external/sqlite_orm/include
+        #        external/sqlite_orm/include
         )
 # ToDo: make that the paths are automatic escaped with ${CMAKE_CURRENT_SOURCE_DIR} for the export
 set(GrCore_INCLUDE_DIRECTORIES "${INCLUDE_DIRECTORIES}" PARENT_SCOPE)
@@ -44,7 +44,12 @@ if (MSVC)
 else (MSVC)
     set(GrCore_PlatformLinkLibs stdc++fs)
 endif (MSVC)
-target_link_libraries(GrCore ${GrCore_PlatformLinkLibs})
+target_link_libraries(GrCore
+        PUBLIC ${GrCore_PlatformLinkLibs}
+        PRIVATE project_options project_warnings
+        #        CONAN_PKG::docopt.cpp
+        #        CONAN_PKG::fmt CONAN_PKG::spdlog
+        )
 target_compile_features(GrCore INTERFACE cxx_std_17) # require C++17
 set_target_version_properties(GrCore ${PROJECT_VERSION})
 enable_precompiled_headers(GrCore ENABLE_PCH)

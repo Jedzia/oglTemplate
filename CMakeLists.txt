@@ -1,10 +1,14 @@
 cmake_minimum_required(VERSION 3.15)
+
+# Set the project name
 project(OpenGLTemplate VERSION "0.0.1.1")
 
 # included CMake scripts
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake")
 include(versioning)
+include(StandardProjectSettings)
 
+# Setup Boost, etc.
 #set(USE_HEADERONLY_BOOST TRUE)
 #set(USE_LIB_BOOST TRUE)
 #set(BOOST_USED_COMPONENTS "program_options;filesystem")
@@ -30,6 +34,29 @@ else ()
     #set(CMAKE_CXX_COMPILER "clang++") #-DCMAKE_CXX_COMPILER=clang++
     #set(CMAKE_TOOLCHAIN_PREFIX "llvm-")
 endif ()
+
+# as of https://github.com/lefticus/cpp_starter_project
+# Link this 'library' to set the c++ standard / compile-time options requested
+add_library(project_options INTERFACE)
+target_compile_features(project_options INTERFACE cxx_std_20)
+
+# Link this 'library' to use the warnings specified in CompilerWarnings.cmake
+add_library(project_warnings INTERFACE)
+# standard compiler warnings
+include(config/CompilerWarnings.cmake)
+set_project_warnings(project_warnings)
+
+# sanitizer options if supported by compiler
+include(cmake/Sanitizers.cmake)
+enable_sanitizers(project_options)
+
+# allow for static analysis options
+include(cmake/StaticAnalyzers.cmake)
+
+# enable doxygen
+include(cmake/Doxygen.cmake)
+enable_doxygen()
+
 
 # CMake/Makefile Debugging
 #set(CMAKE_VERBOSE_MAKEFILE ON) #-DCMAKE_VERBOSE_MAKEFILE:BOOL=ON
