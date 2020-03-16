@@ -3,6 +3,7 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/benchmark/gbenchmark" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/external/SFML" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/external/fmt" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/external/glbinding" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/external/glfw" vcs="Git" />
