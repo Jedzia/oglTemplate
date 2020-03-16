@@ -49,7 +49,7 @@ endif (MSVC)
 target_link_libraries(GrCore
         PUBLIC ${GrCore_PlatformLinkLibs}
         PRIVATE project_options project_warnings
-        PRIVATE spdlog::spdlog
+        PUBLIC spdlog::spdlog
         PUBLIC fmt::fmt
         #        CONAN_PKG::docopt.cpp
         #        CONAN_PKG::fmt CONAN_PKG::spdlog
