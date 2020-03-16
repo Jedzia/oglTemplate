@@ -20,6 +20,7 @@ target_include_and_link_boost_libraries(Application
         )
 target_link_libraries(Application PRIVATE project_options project_warnings)
 #target_link_libraries(Application -static-libgcc -static-libstdc++)
+
 # problems with mingw clang
 if (NOT "${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
     set_target_properties(Application PROPERTIES COTIRE_CXX_PREFIX_HEADER_INIT "precompiled.h")
@@ -31,9 +32,13 @@ enable_precompiled_headers(Application ENABLE_PCH)
 #        "$<$<COMPILE_LANGUAGE:CXX>:<cstddef$<ANGLE-R>>"
 #        )
 
+# Copy fonts to the binary folder
 copy_file(Application "${CMAKE_CURRENT_SOURCE_DIR}/Futura Bk BT Book.ttf" ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+# Add a runner target for the application
 add_run_target(Application ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 
+
+# ucm stuff, just as example, not used
 #include(ucm)
 #cotire(Application)
 #ucm_add_target(NAME example TYPE EXECUTABLE SOURCES "${sources}" PCH_FILE precompiled.h)
