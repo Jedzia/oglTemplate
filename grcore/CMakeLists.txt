@@ -6,7 +6,9 @@ set(GrCore_INC_FILES
         #        include/FileUtil.h
         )
 set(GrCore_SRC_FILES
-        src/test.cpp)
+        src/test.cpp
+        src/logging.cpp
+        )
 if (WIN32)
     set(GrCore_SRC_FILES ${GrCore_SRC_FILES}
             src/win/wgl_common.cpp)
@@ -21,7 +23,7 @@ set(GrCore_INCLUDE_DIRECTORIES "${INCLUDE_DIRECTORIES}" PARENT_SCOPE)
 
 source_group(src FILES ${GrCore_SRC_FILES} main.cpp)
 
-add_library_with_resource(GrCore SHARED
+add_library_with_resource(GrCore STATIC
         "${GrCore_SRC_FILES}"
         "${CMAKE_CURRENT_BINARY_DIR}/src/win/GrCore.rc")
 target_include_directories(GrCore PUBLIC ${INCLUDE_DIRECTORIES})
@@ -47,6 +49,8 @@ endif (MSVC)
 target_link_libraries(GrCore
         PUBLIC ${GrCore_PlatformLinkLibs}
         PRIVATE project_options project_warnings
+        PRIVATE spdlog::spdlog
+        PUBLIC fmt::fmt
         #        CONAN_PKG::docopt.cpp
         #        CONAN_PKG::fmt CONAN_PKG::spdlog
         )

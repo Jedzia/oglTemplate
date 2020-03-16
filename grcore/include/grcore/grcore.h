@@ -16,6 +16,8 @@
 #ifndef GRCORE_GRCORE_H
 #define GRCORE_GRCORE_H
 
+#include "logging.h"
+
 namespace core {
 void bla();
 }

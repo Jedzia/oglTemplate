@@ -19,21 +19,16 @@ option(GrCore_BuildTests "Build GrCore unit tests" ON) #-DGrCore_BuildTests:BOOL
 option(GrCore_BuildBenchmarks "Build GrCore benchmarking" ON) #-DGrCore_BuildBenchmarks:BOOL=ON
 option(BUILD_SHARED_LIBS "Build Shared Libraries" OFF) #-DBUILD_SHARED_LIBS_PCH:BOOL=OFF
 option(ENABLE_PCH "Enable Precompiled Headers" ON) #-DENABLE_PCH:BOOL=ON
+#add_definitions(-DUSE_SPDLOG)
 
 # Keep compiled binaries central
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-# Not needed, is done on a project level #require C++2A
-# set(CMAKE_CXX_STANDARD 20)
-if (MSVC)
-    add_definitions(/wd4800 /wd4251)
-else ()
-    # ToDo: Cleanup, belongs to users toolchain.cmake file
-    #set(CMAKE_CXX_COMPILER "clang++") #-DCMAKE_CXX_COMPILER=clang++
-    #set(CMAKE_TOOLCHAIN_PREFIX "llvm-")
-endif ()
+# require C++2A, ToDo: should be done on a project level with
+# target_compile_features(project_options INTERFACE cxx_std_20)
+set(CMAKE_CXX_STANDARD 20)
 
 # # ************************************************************************* # #
 # as of https://github.com/lefticus/cpp_starter_project

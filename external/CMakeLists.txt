@@ -5,6 +5,8 @@ option(OPTION_BUILD_EXAMPLES "Build examples." OFF)
 
 add_subdirectory(docopt.cpp)
 
+option(SPDLOG_FMT_EXTERNAL "Use external fmt library instead of bundled" ON)
+#option(SPDLOG_FMT_EXTERNAL_HO "Use external fmt header-only library instead of bundled" ON)
 add_subdirectory(spdlog)
 
 add_subdirectory(glbinding)

@@ -13,7 +13,7 @@
  * modified    2020-03-14, Jedzia
  */
 /*---------------------------------------------------------*/
-
+//#define USE_SPDLOG 1
 #include "precompiled.h"
 //
 #include <boost/locale/info.hpp>
@@ -70,16 +70,20 @@ int handle_main_arguments(int argc, const char* * argv){
     }
     return 0;
 }
-#endif
 
-void logSomething()
-{
+#endif // if USE_DOC_OPTS
 
+/** Brief description of $(fclass), logSomething
+ *  Detailed description.
+ *
+ */
+void logSomething() {
+//#if USE_SPDLOG
     //Use the default logger (stdout, multi-threaded, colored)
-#if USE_SPDLOG
     spdlog::info("Hello, {}!", "World");
-#endif
-
+//#endif
+    core::info();
+    core::log("Erstes", "Zweites", "Drittes");
     fmt::print("Hello, from {}\n", "{fmt}");
 }
 

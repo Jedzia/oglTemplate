@@ -8,7 +8,7 @@ list(APPEND Libraries_Used
         sfml-window sfml-graphics
         fmt::fmt
         #docopt_s
-        #spdlog::spdlog
+        spdlog::spdlog
         )
 #list(APPEND _Libraries "fmt::fmt")
 #list(APPEND _Libraries "docopt_s;spdlog::spdlog")

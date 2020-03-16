@@ -42,8 +42,8 @@
 #  include "docopt.h"
 #endif
 
-#if USE_SPDLOG
+//#if USE_SPDLOG
 #  include <spdlog/spdlog.h>
-#endif
+//#endif
 
 #endif //OPENGL_TEMPLATE_PRECOMPILED_H
