@@ -16,9 +16,11 @@
 
 #include "precompiled.h"
 //
+#include "docopt.h"
 #include <boost/locale/info.hpp>
 #include <grcore/grcore.h>
 #include <grgraphics/grgraphics.h>
+#include <iostream>
 
 /*
    #include <SFML/Graphics.hpp>
@@ -30,6 +32,44 @@
 
 //#define USE_VSYNC false
 constexpr bool USE_VSYNC = false;
+
+static const char USAGE[] =
+    R"(Naval Fate.
+
+    Usage:
+      naval_fate ship new <name>...
+      naval_fate ship <name> move <x> <y> [--speed=<kn>]
+      naval_fate ship shoot <x> <y>
+      naval_fate mine (set|remove) <x> <y> [--moored | --drifting]
+      naval_fate (-h | --help)
+      naval_fate --version
+
+    Options:
+      -h --help     Show this screen.
+      --version     Show version.
+      --speed=<kn>  Speed in knots [default: 10].
+      --moored      Moored (anchored) mine.
+      --drifting    Drifting mine.
+)";
+
+/** Brief description of $(fclass), handle_main_arguments
+ *  Detailed description.
+ *  @param argc TODO
+ *  @param argv TODO
+ *  @return TODO
+ */
+int handle_main_arguments(int argc, const char* * argv){
+    std::map<std::string, docopt::value> args =
+        docopt::docopt(USAGE,
+                { argv + 1, argv + argc },
+                true,                   // show help if requested
+                "Naval Fate 2.0");      // version string
+
+    for(auto const& arg : args) {
+        std::cout << arg.first << arg.second << std::endl;
+    }
+    return 0;
+}
 
 /** Brief description of $(fclass), main
  *  Detailed description.
@@ -47,7 +87,8 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), title);
     if(USE_VSYNC) {
         window.setVerticalSyncEnabled(true);
-    } else {
+    }
+    else {
         window.setFramerateLimit(60 * 4);
     }
 
@@ -72,7 +113,7 @@ int main() {
         //std::cout << elapsedSeconds << std::endl;
         //clock.restart();
 
-        sf::Event event{};
+        sf::Event event {};
 
         while(window.pollEvent(event)) {
             /*switch(event.type)
@@ -103,7 +144,7 @@ int main() {
            }*/
 
         if(frame_counter % 60 == 0) {
-            const char *formatStr = "FPS: {:.1f}, Frame Counter: {}";
+            const char* formatStr = "FPS: {:.1f}, Frame Counter: {}";
             fpsDisplay.setString(fmt::format(formatStr, 60 / fps_time, frame_counter));
 
             fps_time = 0;
@@ -127,7 +168,8 @@ int main() {
 
         if(USE_VSYNC) {
             sf::sleep(sf::milliseconds(12));
-        } else {
+        }
+        else {
             sf::sleep(sf::milliseconds(1));
         }
 

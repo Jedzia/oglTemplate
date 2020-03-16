@@ -6,7 +6,10 @@ add_executable(Application main.cpp)
 target_include_and_link_boost_libraries(Application
         #        "GrCore;fmt::fmt-header-only"
         #"GrCore;fmt::fmt"
-        "oglTemplate::GrCore;oglTemplate::GrGraphics;sfml-window;sfml-graphics;fmt::fmt"
+        "\
+oglTemplate::GrCore;oglTemplate::GrGraphics;\
+sfml-window;sfml-graphics;\
+fmt::fmt;docopt_s"
         "Boost::program_options;Boost::filesystem"
         )
 target_link_libraries(Application PRIVATE project_options project_warnings)
