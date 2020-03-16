@@ -22,3 +22,6 @@
 [submodule "external/docopt.cpp"]
 	path = external/docopt.cpp
 	url = https://github.com/docopt/docopt.cpp.git
+[submodule "external/spdlog"]
+	path = external/spdlog
+	url = https://github.com/gabime/spdlog.git

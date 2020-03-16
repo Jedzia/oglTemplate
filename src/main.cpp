@@ -16,7 +16,6 @@
 
 #include "precompiled.h"
 //
-#include "docopt.h"
 #include <boost/locale/info.hpp>
 #include <grcore/grcore.h>
 #include <grgraphics/grgraphics.h>
@@ -33,6 +32,7 @@
 //#define USE_VSYNC false
 constexpr bool USE_VSYNC = false;
 
+#if 1 //USE_DOC_OPTS
 static const char USAGE[] =
     R"(Naval Fate.
 
@@ -70,6 +70,16 @@ int handle_main_arguments(int argc, const char* * argv){
     }
     return 0;
 }
+#endif
+
+void logSomething()
+{
+
+    //Use the default logger (stdout, multi-threaded, colored)
+    spdlog::info("Hello, {}!", "World");
+
+    fmt::print("Hello, from {}\n", "{fmt}");
+}
 
 /** Brief description of $(fclass), main
  *  Detailed description.
@@ -81,6 +91,7 @@ int main() {
     constexpr int WINDOW_HEIGHT = static_cast<int>(WINDOW_WIDTH * std::get<1>(WINDOW_RATIO) /
                                                    std::get<0>(WINDOW_RATIO));
 
+    logSomething();
     core::bla();
     auto title = fmt::format("SFML Window ({0}, {1} -> {2:.1f}:{3})", WINDOW_WIDTH, WINDOW_HEIGHT,
             std::get<0>(WINDOW_RATIO), std::get<1>(WINDOW_RATIO));

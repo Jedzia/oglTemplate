@@ -9,7 +9,7 @@ target_include_and_link_boost_libraries(Application
         "\
 oglTemplate::GrCore;oglTemplate::GrGraphics;\
 sfml-window;sfml-graphics;\
-fmt::fmt;docopt_s"
+fmt::fmt;docopt_s;spdlog::spdlog"
         "Boost::program_options;Boost::filesystem"
         )
 target_link_libraries(Application PRIVATE project_options project_warnings)

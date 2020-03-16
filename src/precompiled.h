@@ -38,4 +38,7 @@
 #include <SFML/System/Thread.hpp>
 #include <iostream>
 
+#include "docopt.h"
+#include <spdlog/spdlog.h>
+
 #endif //OPENGL_TEMPLATE_PRECOMPILED_H

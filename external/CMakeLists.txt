@@ -5,6 +5,8 @@ option(OPTION_BUILD_EXAMPLES "Build examples." OFF)
 
 add_subdirectory(docopt.cpp)
 
+add_subdirectory(spdlog)
+
 add_subdirectory(glbinding)
 
 add_subdirectory(glfw)
