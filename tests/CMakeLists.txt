@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.2)
+cmake_minimum_required(VERSION 3.2)
 
 # list of test files of the library
 set(DBTHINGS_TESTS
@@ -6,11 +6,12 @@ set(DBTHINGS_TESTS
         )
 source_group(tests FILES ${DBTHINGS_TESTS})
 
+# ToDo: FIX THE GLOBALS !!!
 
 # then Compiler/IDE differences:
 if (MSVC)
-    set(CPPLINT_ARG_OUTPUT      "--output=vs7")
-    set(CPPCHECK_ARG_TEMPLATE   "--template=vs")
+    set(CPPLINT_ARG_OUTPUT "--output=vs7")
+    set(CPPCHECK_ARG_TEMPLATE "--template=vs")
     # disable Visual Studio warnings for fopen() used in the example
     add_definitions(-D_CRT_SECURE_NO_WARNINGS)
     # Flags for linking with multithread static C++ runtime, required by googletest
@@ -22,27 +23,26 @@ if (MSVC)
         #set(CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
     endif (DBTHINGS_BUILD_TESTS)
 else (MSVC)
-    set(CPPLINT_ARG_OUTPUT      "--output=eclipse")
-    set(CPPCHECK_ARG_TEMPLATE   "--template=gcc")
+    set(CPPLINT_ARG_OUTPUT "--output=eclipse")
+    set(CPPCHECK_ARG_TEMPLATE "--template=gcc")
     # Useful compile flags and extra warnings
     #    add_compile_options(-fstack-protector -Wall -Wextra -Wpedantic -Wno-long-long -Wswitch-enum -Wshadow -Winline)
-    add_compile_options(-Wall -Wextra -Wpedantic -Wno-long-long -Wswitch-enum -Wshadow -Winline)
+    #add_compile_options(-Wall -Wextra -Wpedantic -Wno-long-long -Wswitch-enum -Wshadow -Winline)
+    add_compile_options(-Wall -Wextra -Wpedantic -Wno-long-long -Wswitch-enum -Wshadow)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-c++0x-compat") # C++ only
     if (CMAKE_COMPILER_IS_GNUCXX)
         # GCC flags
         if (DBTHINGS_USE_GCOV AND CMAKE_COMPILER_IS_GNUCXX)
             if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-                message (STATUS "Using GCov instrumentation")
+                message(STATUS "Using GCov instrumentation")
             else ()
-                message (WARNING "GCov instrumentation works best in Debug mode")
+                message(WARNING "GCov instrumentation works best in Debug mode")
             endif ()
-            add_compile_options (-coverage) # NOTE would be usefull but not working with current google test and gcc 4.8 -fkeep-inline-functions
+            add_compile_options(-coverage) # NOTE would be usefull but not working with current google test and gcc 4.8 -fkeep-inline-functions
             set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -coverage")
         endif ()
     endif (CMAKE_COMPILER_IS_GNUCXX)
 endif (MSVC)
-
-
 
 
 option(DBTHINGS_BUILD_TESTS "Build and run tests." ON)
@@ -68,7 +68,7 @@ if (DBTHINGS_BUILD_TESTS)
 
     # add the unit test executable
     add_executable(DbThings_tests ${DBTHINGS_TESTS})
-#    target_link_libraries(DbThings_tests gtest_main DbThings sqlite3)
+    #    target_link_libraries(DbThings_tests gtest_main DbThings sqlite3)
     target_link_libraries(DbThings_tests gtest_main sqlite3)
     # Link target with dl for linux
     if (UNIX AND NOT APPLE)
