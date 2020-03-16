@@ -8,6 +8,7 @@
       <w>grcore</w>
       <w>jedzia</w>
       <w>sfml</w>
+      <w>spdlog</w>
       <w>spio</w>
       <w>vsync</w>
     </words>

@@ -38,7 +38,12 @@
 #include <SFML/System/Thread.hpp>
 #include <iostream>
 
-#include "docopt.h"
-#include <spdlog/spdlog.h>
+#if USE_DOC_OPTS
+#  include "docopt.h"
+#endif
+
+#if USE_SPDLOG
+#  include <spdlog/spdlog.h>
+#endif
 
 #endif //OPENGL_TEMPLATE_PRECOMPILED_H

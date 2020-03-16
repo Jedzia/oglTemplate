@@ -3,13 +3,19 @@
 
 # Main Demo Application
 add_executable(Application main.cpp)
+list(APPEND Libraries_Used
+        oglTemplate::GrCore oglTemplate::GrGraphics
+        sfml-window sfml-graphics
+        fmt::fmt
+        #docopt_s
+        #spdlog::spdlog
+        )
+#list(APPEND _Libraries "fmt::fmt")
+#list(APPEND _Libraries "docopt_s;spdlog::spdlog")
 target_include_and_link_boost_libraries(Application
         #        "GrCore;fmt::fmt-header-only"
         #"GrCore;fmt::fmt"
-        "\
-oglTemplate::GrCore;oglTemplate::GrGraphics;\
-sfml-window;sfml-graphics;\
-fmt::fmt;docopt_s;spdlog::spdlog"
+        "${Libraries_Used}"
         "Boost::program_options;Boost::filesystem"
         )
 target_link_libraries(Application PRIVATE project_options project_warnings)

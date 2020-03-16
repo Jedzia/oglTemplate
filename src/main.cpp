@@ -32,7 +32,7 @@
 //#define USE_VSYNC false
 constexpr bool USE_VSYNC = false;
 
-#if 1 //USE_DOC_OPTS
+#if USE_DOC_OPTS
 static const char USAGE[] =
     R"(Naval Fate.
 
@@ -76,7 +76,9 @@ void logSomething()
 {
 
     //Use the default logger (stdout, multi-threaded, colored)
+#if USE_SPDLOG
     spdlog::info("Hello, {}!", "World");
+#endif
 
     fmt::print("Hello, from {}\n", "{fmt}");
 }
