@@ -6,10 +6,12 @@
       <w>freetype</w>
       <w>glbinding</w>
       <w>grcore</w>
+      <w>headeronly</w>
       <w>jedzia</w>
       <w>sfml</w>
       <w>spdlog</w>
       <w>spio</w>
+      <w>versioning</w>
       <w>vsync</w>
     </words>
   </dictionary>

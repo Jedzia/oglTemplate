@@ -25,8 +25,8 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-# require C++2A
-set(CMAKE_CXX_STANDARD 20)
+# Not needed, is done on a project level #require C++2A
+# set(CMAKE_CXX_STANDARD 20)
 if (MSVC)
     add_definitions(/wd4800 /wd4251)
 else ()
@@ -35,6 +35,7 @@ else ()
     #set(CMAKE_TOOLCHAIN_PREFIX "llvm-")
 endif ()
 
+# # ************************************************************************* # #
 # as of https://github.com/lefticus/cpp_starter_project
 # Link this 'library' to set the c++ standard / compile-time options requested
 add_library(project_options INTERFACE)
@@ -58,9 +59,12 @@ include(cmake/Doxygen.cmake)
 enable_doxygen()
 
 
+# ------------------------------------------------------------------------- #
 # CMake/Makefile Debugging
 #set(CMAKE_VERBOSE_MAKEFILE ON) #-DCMAKE_VERBOSE_MAKEFILE:BOOL=ON
 
+
+# ************************************************************************* #
 # Include other projects
 add_subdirectory(doc)
 # external libraries
@@ -71,6 +75,7 @@ use_common_runtime_directory(GrCore)
 add_subdirectory(grgraphics)
 use_common_runtime_directory(GrGraphics)
 
+# ------------------------------------------------------------------------- #
 # Tests
 include(CTest)
 #if(GrCore_BuildTests AND BUILD_TESTING)
@@ -78,13 +83,14 @@ enable_testing()
 add_subdirectory(tests)
 #endif()
 
+# ------------------------------------------------------------------------- #
 # Benchmarks
-if(GrCore_BuildBenchmarks)
+if (GrCore_BuildBenchmarks)
     set(GTEST_LIBRARY ${CMAKE_CURRENT_BINARY_DIR}/lib/libgtestd.dll.a)
     set(GTEST_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tests/googletest/googletest/include ${CMAKE_CURRENT_SOURCE_DIR}/tests/googletest/googlemock/include)
     set(GTEST_MAIN_LIBRARY ${CMAKE_CURRENT_BINARY_DIR}/lib/libgtest_maind.dll.a)
     add_subdirectory(benchmark)
-endif(GrCore_BuildBenchmarks)
+endif (GrCore_BuildBenchmarks)
 
 message("GrCore_VERSION: '${GrCore_VERSION}'")
 
