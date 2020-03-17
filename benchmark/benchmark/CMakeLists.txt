@@ -8,9 +8,17 @@ add_executable_with_resource(${BENCHMARK_RUNNER_NAME}
         "${CMAKE_CURRENT_BINARY_DIR}/src/win/GrCoreBench.rc")
 
 target_include_directories(${BENCHMARK_RUNNER_NAME} PRIVATE include)
+target_link_libraries(${BENCHMARK_RUNNER_NAME}
+        PRIVATE project_options project_warnings
+        #INTERFACE spdlog::spdlog
+        PRIVATE fmt::fmt
+        #        CONAN_PKG::docopt.cpp
+        #        CONAN_PKG::fmt CONAN_PKG::spdlog
+        )
 target_include_and_link_boost_libraries(${BENCHMARK_RUNNER_NAME}
 #        "GrCore;fmt::fmt-header-only"
-        "GrCore;fmt::fmt"
+#        "GrCore;fmt::fmt"
+        "GrCore"
         "Boost::program_options;Boost::filesystem")
 set_target_version_properties(${BENCHMARK_RUNNER_NAME} ${PROJECT_VERSION})
 enable_precompiled_headers(${BENCHMARK_RUNNER_NAME} ENABLE_PCH)

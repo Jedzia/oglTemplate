@@ -14,7 +14,36 @@
  */
 /*---------------------------------------------------------*/
 #include <chrono>
+// ToDo: This is a temporary fix as fmt::format does not like my inhumane pursuit of warnings.
+
+// Warn for implicit conversions that may change the sign of an integer value, like assigning a
+// signed integer expression to an unsigned integer variable. An explicit cast silences the warning.
+// In C, this option is enabled also by -Wconversion.
+
+// Disable for GCC
+#if defined(__GNUC__) && defined(WARNINGS_SKIP_TEMPORARY)
+#  pragma GCC diagnostic ignored "-Wsign-conversion"
+#endif
+
 #include <fmt/format.h>
+
+// Re-Enable warning
+#if defined(__GNUC__) && defined(WARNINGS_SKIP_TEMPORARY)
+#  pragma GCC diagnostic warning "-Wsign-conversion"
+#endif
+//
+// Disable for CLang
+#if defined(__clang__) && defined(WARNINGS_SKIP_TEMPORARY)
+#  pragma clang diagnostic ignored "-Wsign-conversion"
+#endif
+
+#include <fmt/format.h>
+
+// Re-Enable warning
+#if defined(__clang__) && defined(WARNINGS_SKIP_TEMPORARY)
+#  pragma clang diagnostic warning "-Wsign-conversion"
+#endif
+//
 #include <fmt/printf.h>
 #include <fstream>
 #include <iostream>
@@ -40,6 +69,8 @@ struct separate_thousands : std::numpunct<char>{
  *  @return an exit code available for other programs.
  */
 int main(int argc, char* * argv) {
+    static_cast<void>(argc);
+    static_cast<void>(argv);
     using namespace std;
 
     //fmt::print("Hello, {}!", "world");  // Python-like format string syntax
@@ -48,7 +79,7 @@ int main(int argc, char* * argv) {
 
     cout << chrono::high_resolution_clock::period::den << endl;
     auto start_time = chrono::high_resolution_clock::now();
-    long temp = 0;
+    //long temp = 0;
     //for (unsigned long i = 0; i< 1420000000lu; i++)
     //    temp+=temp;
 
