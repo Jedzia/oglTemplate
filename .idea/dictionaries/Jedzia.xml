@@ -6,6 +6,7 @@
       <w>freetype</w>
       <w>glbinding</w>
       <w>grcore</w>
+      <w>grgraphics</w>
       <w>headeronly</w>
       <w>jedzia</w>
       <w>opengltemplate</w>

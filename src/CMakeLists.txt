@@ -4,7 +4,8 @@
 # Main Demo Application
 add_executable(Application main.cpp)
 list(APPEND Libraries_Used
-        oglTemplate::GrCore oglTemplate::GrGraphics
+        #oglTemplate::GrCore
+        #oglTemplate::GrGraphics
         sfml-window sfml-graphics
         #fmt::fmt
         #docopt_s
@@ -19,7 +20,9 @@ target_include_and_link_boost_libraries(Application
         "Boost::program_options;Boost::filesystem"
         )
 target_link_libraries(Application PRIVATE project_options project_warnings)
-#target_link_libraries(Application PUBLIC spdlog::spdlog)
+target_link_libraries(Application PRIVATE spdlog::spdlog)
+target_link_libraries(Application PRIVATE oglTemplate::GrCore)
+target_link_libraries(Application PRIVATE oglTemplate::GrGraphics)
 #target_link_libraries(Application -static-libgcc -static-libstdc++)
 
 # problems with mingw clang

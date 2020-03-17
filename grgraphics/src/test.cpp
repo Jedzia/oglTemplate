@@ -16,15 +16,27 @@
 #include <grgraphics/grgraphics.h>
 //
 #include <iostream>
+//
+#if defined(__clang__) && defined(WARNINGS_SKIP_TEMPORARY)
+#  pragma clang diagnostic ignored "-Wsign-conversion"
+#  pragma clang diagnostic ignored "-Wdouble-promotion"
+#endif
+#if defined(__GNUC__) && defined(WARNINGS_SKIP_TEMPORARY)
+#  pragma GCC diagnostic ignored "-Wsign-conversion"
+#  pragma GCC diagnostic ignored "-Wdouble-promotion"
+#endif
 
-namespace grg {
+#include <spdlog/spdlog.h>
+
 /** Brief description of $(fclass), bla
  *  Detailed description.
  *
  */
-void bla() {
+void grg::bla() {
     int a = 0;
     a++;
-    std::cout << "Hello from the Speed IO Department, test ... test ;)" << a << std::endl;
-}
+    std::cout << "grg::bla() Hello from the Speed IO Department, test ... test ;)" << a << std::endl;
+
+    spdlog::info("grg::bla(), spdlog -> Hello, {}!", "World");
+
 }

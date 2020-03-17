@@ -27,7 +27,8 @@ add_library_with_resource(GrGraphics SHARED
         "${CMAKE_CURRENT_BINARY_DIR}/src/win/GrGraphics.rc"
         )
 ]]
-add_library(GrGraphics SHARED
+#add_library(GrGraphics SHARED
+add_library(GrGraphics STATIC
         "${GrGraphics_SRC_FILES}"
         )
 target_include_directories(GrGraphics PUBLIC ${INCLUDE_DIRECTORIES})
@@ -52,6 +53,9 @@ else (MSVC)
 endif (MSVC)
 target_link_libraries(GrGraphics
         PUBLIC ${GrGraphics_PlatformLinkLibs}
+        PRIVATE oglTemplate::GrCore
+        PRIVATE spdlog::spdlog
+        #PUBLIC fmt::fmt
         PRIVATE project_options project_warnings
         #        CONAN_PKG::docopt.cpp
         #        CONAN_PKG::fmt CONAN_PKG::spdlog

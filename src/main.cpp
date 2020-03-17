@@ -85,6 +85,7 @@ void logSomething() {
     core::info();
     core::log("Erstes", "Zweites", "Drittes");
     fmt::print("Hello, from {}\n", "{fmt}");
+    grg::bla();
 }
 
 /** Brief description of $(fclass), main

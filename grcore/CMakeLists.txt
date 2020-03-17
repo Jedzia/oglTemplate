@@ -23,7 +23,8 @@ set(GrCore_INCLUDE_DIRECTORIES "${INCLUDE_DIRECTORIES}" PARENT_SCOPE)
 
 source_group(src FILES ${GrCore_SRC_FILES} main.cpp)
 
-add_library_with_resource(GrCore STATIC
+#add_library_with_resource(GrCore STATIC
+add_library_with_resource(GrCore SHARED
         "${GrCore_SRC_FILES}"
         "${CMAKE_CURRENT_BINARY_DIR}/src/win/GrCore.rc")
 target_include_directories(GrCore PUBLIC ${INCLUDE_DIRECTORIES})
@@ -49,8 +50,8 @@ endif (MSVC)
 target_link_libraries(GrCore
         PUBLIC ${GrCore_PlatformLinkLibs}
         PRIVATE project_options project_warnings
-        PUBLIC spdlog::spdlog
-        PUBLIC fmt::fmt
+        PRIVATE spdlog::spdlog
+        #PRIVATE fmt::fmt
         #        CONAN_PKG::docopt.cpp
         #        CONAN_PKG::fmt CONAN_PKG::spdlog
         )

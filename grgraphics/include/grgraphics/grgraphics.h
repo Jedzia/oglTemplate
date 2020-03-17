@@ -13,10 +13,10 @@
  * modified    2020-01-23, Jedzia
  */
 /*---------------------------------------------------------*/
-#ifndef GRCORE_GRCORE_H
-#define GRCORE_GRCORE_H
+#ifndef GRGRAPHICS_GRGRAPHICS_H
+#define GRGRAPHICS_GRGRAPHICS_H
 
 namespace grg {
 void bla();
 }
-#endif //GRCORE_GRCORE_H
+#endif // GRGRAPHICS_GRGRAPHICS_H

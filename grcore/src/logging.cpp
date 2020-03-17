@@ -37,6 +37,6 @@
 void core::info() {
     //Use the default logger (stdout, multi-threaded, colored)
 //#if USE_SPDLOG
-    spdlog::info("Hello, {}!", "World from core::info()");
+    spdlog::info("core::info() -> Hello, {}!", "World from core::info()");
 //#endif
 }

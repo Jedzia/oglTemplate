@@ -25,6 +25,6 @@ namespace core {
 void bla() {
     int a = 0;
     a++;
-    std::cout << "Hello from the Speed IO Department, test ... test ;)" << a << std::endl;
+    std::cout << "core::bla() Hello from the Speed IO Department, test ... test ;)" << a << std::endl;
 }
 }
