@@ -72,7 +72,7 @@ target_link_libraries(GrGraphics
         #        CONAN_PKG::docopt.cpp
         #        CONAN_PKG::fmt CONAN_PKG::spdlog
         )
-target_compile_features(GrGraphics INTERFACE cxx_std_17) # require C++17
+#target_compile_features(GrGraphics INTERFACE cxx_std_20) # require C++20
 set_target_version_properties(GrGraphics ${PROJECT_VERSION})
 enable_precompiled_headers(GrGraphics ENABLE_PCH)
 

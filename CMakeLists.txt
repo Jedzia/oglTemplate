@@ -27,7 +27,6 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # require C++2A, ToDo: should be done on a project level with
-# target_compile_features(project_options INTERFACE cxx_std_20)
 set(CMAKE_CXX_STANDARD 20)
 
 # # ************************************************************************* # #

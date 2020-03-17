@@ -23,9 +23,16 @@ FOREACH (f ${playground_sources})
         ADD_EXECUTABLE(${_target_name} ${f})
         #target_link_libraries(${_target_name} GrCore)
         #target_include_directories(${BENCHMARK_RUNNER_NAME} PRIVATE include)
+        target_link_libraries(${_target_name}
+                PRIVATE project_options project_warnings
+                #INTERFACE spdlog::spdlog
+                PRIVATE fmt::fmt
+                #        CONAN_PKG::docopt.cpp
+                #        CONAN_PKG::fmt CONAN_PKG::spdlog
+                )
         target_include_and_link_boost_libraries(${_target_name}
                 #        "GrCore;fmt::fmt-header-only"
-                "GrCore;fmt::fmt"
+                "GrCore"
                 "Boost::program_options;Boost::filesystem"
                 )
         #        TargetLinkBoost(${_target_name} "filesystem;system;regex;thread;date_time;chrono")

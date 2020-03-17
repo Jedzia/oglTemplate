@@ -59,7 +59,7 @@ target_link_libraries(GrCore
         #        CONAN_PKG::docopt.cpp
         #        CONAN_PKG::fmt CONAN_PKG::spdlog
         )
-target_compile_features(GrCore INTERFACE cxx_std_17) # require C++17
+#target_compile_features(GrCore INTERFACE cxx_std_20) # require C++20
 set_target_version_properties(GrCore ${PROJECT_VERSION})
 enable_precompiled_headers(GrCore ENABLE_PCH)
 

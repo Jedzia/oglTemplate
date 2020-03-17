@@ -13,6 +13,7 @@
       <w>sfml</w>
       <w>spdlog</w>
       <w>spio</w>
+      <w>uncrustified</w>
       <w>versioning</w>
       <w>vsync</w>
     </words>
