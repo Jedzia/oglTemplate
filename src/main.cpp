@@ -16,10 +16,13 @@
 //#define USE_SPDLOG 1
 #include "precompiled.h"
 //
-#include <boost/locale/info.hpp>
+//#include <boost/locale/info.hpp>
+//#include <boost/locale.hpp>
+#include <locale>
 #include <grcore/grcore.h>
 #include <grgraphics/grgraphics.h>
 #include <iostream>
+#include <ctime>
 
 /*
    #include <SFML/Graphics.hpp>
@@ -88,6 +91,33 @@ void logSomething() {
     grg::bla();
 }
 
+void locale() {
+    //using namespace boost::locale;
+    using namespace std;
+    //generator gen;
+    //auto loc = gen("");
+    // Create system default locale
+
+    //locale::global(loc);
+    // Make it system global
+
+//    cout.imbue(loc);
+    // Set as default locale for output
+
+    /*cout << boost::locale::format("Today {1,date} at {1,time} we had run our first localization example") % time(0)
+         << endl;
+
+    cout << "This is how we show numbers in this locale " << boost::locale::as::number << 103.34 << endl;
+    cout << "This is how we show currency in this locale " << boost::locale::as::currency << 103.34 << endl;
+    cout << "This is typical date in the locale " << boost::locale::as::date << std::time(0) << endl;
+    cout << "This is typical time in the locale " << boost::locale::as::time << std::time(0) << endl;
+    cout << "This is upper case " << boost::locale::to_upper("Hello World!") << endl;
+    cout << "This is lower case " << boost::locale::to_lower("Hello World!") << endl;
+    cout << "This is title case " << boost::locale::to_title("Hello World!") << endl;
+    cout << "This is fold case " << boost::locale::fold_case("Hello World!") << endl;*/
+
+}
+
 /** Brief description of $(fclass), main
  *  Detailed description.
  *  @return TODO
@@ -100,13 +130,13 @@ int main() {
 
     logSomething();
     core::bla();
+    locale();
     auto title = fmt::format("SFML Window ({0}, {1} -> {2:.1f}:{3})", WINDOW_WIDTH, WINDOW_HEIGHT,
             std::get<0>(WINDOW_RATIO), std::get<1>(WINDOW_RATIO));
     sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), title);
     if(USE_VSYNC) {
         window.setVerticalSyncEnabled(true);
-    }
-    else {
+    } else {
         window.setFramerateLimit(60 * 4);
     }
 
@@ -131,7 +161,7 @@ int main() {
         //std::cout << elapsedSeconds << std::endl;
         //clock.restart();
 
-        sf::Event event {};
+        sf::Event event{};
 
         while(window.pollEvent(event)) {
             /*switch(event.type)
@@ -162,7 +192,7 @@ int main() {
            }*/
 
         if(frame_counter % 60 == 0) {
-            const char* formatStr = "FPS: {:.1f}, Frame Counter: {}";
+            const char *formatStr = "FPS: {:.1f}, Frame Counter: {}";
             fpsDisplay.setString(fmt::format(formatStr, 60 / fps_time, frame_counter));
 
             fps_time = 0;
@@ -186,8 +216,7 @@ int main() {
 
         if(USE_VSYNC) {
             sf::sleep(sf::milliseconds(12));
-        }
-        else {
+        } else {
             sf::sleep(sf::milliseconds(1));
         }
 
