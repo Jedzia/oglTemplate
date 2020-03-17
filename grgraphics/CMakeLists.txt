@@ -6,7 +6,9 @@ set(GrGraphics_INC_FILES
         #        include/FileUtil.h
         )
 set(GrGraphics_SRC_FILES
-        src/test.cpp)
+        src/test.cpp
+        src/sfml-test.cpp
+        )
 if (WIN32)
     #    set(GrGraphics_SRC_FILES ${GrGraphics_SRC_FILES}
     #            src/win/wgl_common.cpp)
@@ -54,8 +56,9 @@ else (MSVC)
 endif (MSVC)
 target_link_libraries(GrGraphics
         PUBLIC ${GrGraphics_PlatformLinkLibs}
-        PUBLIC oglTemplate::GrCore
         PRIVATE spdlog::spdlog
+        PRIVATE sfml-graphics
+        PUBLIC oglTemplate::GrCore
         #PRIVATE fmt::fmt
         PRIVATE project_options project_warnings
         #        CONAN_PKG::docopt.cpp

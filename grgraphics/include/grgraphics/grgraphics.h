@@ -16,7 +16,12 @@
 #ifndef GRGRAPHICS_GRGRAPHICS_H
 #define GRGRAPHICS_GRGRAPHICS_H
 
+#include <SFML/System/Clock.hpp>
+
 namespace grg {
 void bla();
+    void update(sf::Time elapsed);
+
 }
+
 #endif // GRGRAPHICS_GRGRAPHICS_H

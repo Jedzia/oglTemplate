@@ -190,6 +190,7 @@ int main() {
             const char *formatStr = "FPS: {:.1f}, Frame Counter: {}";
             fpsDisplay.setString(fmt::format(formatStr, 1.0 / elapsedSeconds, frame_counter));
            }*/
+        grg::update(elapsed);
 
         if(frame_counter % 60 == 0) {
             const char *formatStr = "FPS: {:.1f}, Frame Counter: {}";
