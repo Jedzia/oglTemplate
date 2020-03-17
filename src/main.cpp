@@ -181,9 +181,10 @@ int main() {
         window.setFramerateLimit(60 * 4);
     }
 
-    MyApplication myApp;
     grg::Application app(window);
-    app.Run(myApp);
+    //MyApplication myApp;
+    //app.Run(myApp);
+    app.Run<MyApplication>();
 
 //    sf::CircleShape shape(100.f);
 //    shape.setFillColor(sf::Color::Green);

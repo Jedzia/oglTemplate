@@ -1,31 +1,59 @@
-//
-// Created by Jedzia on 17.03.2020.
-//
+/*---------------------------------------------------------*/
+/*!
+ * This file is part of OpenGLTemplate, R&D.
+ * License details can be found in the file COPYING.
+ * Copyright (c) 2020, EvePanix. All rights reserved.
+ *
+ * \brief      This file contains the definition of
+ *             the Application.h class.
+ * \file       Application.h
+ * \date       2020-03-17
+ * \author     Jedzia.
+ *
+ * modified    2020-03-17, Jedzia
+ */
+/*---------------------------------------------------------*/
 
-#ifndef OPENGLTEMPLATE_APPLICATION_H
-#define OPENGLTEMPLATE_APPLICATION_H
+#ifndef GRGRAPHICS_APPLICATION_H
+#define GRGRAPHICS_APPLICATION_H
 
+#include "SimpleApplication.h"
 #include "warning/SFML_Graphics.h"
 #include <SFML/System/Clock.hpp>
 #include <SFML/System/Thread.hpp>
-#include "SimpleApplication.h"
+#include <type_traits>
 
 namespace grg {
-    class Application {
+/** @class Application:
+ *  Detailed description.
+ *
+ */
+class Application {
+public:
 
-    public:
-        Application(sf::RenderWindow &window);
+    Application(sf::RenderWindow &window);
 
-        void DoDing();
+    void DoDing();
 
-        void Run(SimpleApplication &app);
+    void Run(SimpleApplication &app);
 
-    private:
-        sf::RenderWindow &_window;
-        sf::Text fpsDisplay;
-        sf::Font mainGameFont;
-    };
+    /** Brief description of Application, Run
+     *  Detailed description.
+     *
+     */
+    template<typename T>
+    void Run() {
+        static_assert(std::is_base_of<SimpleApplication, T>::value, "T must inherit from grg::SimpleApplication");
+        T app;
+        Run(app);
+    }
+
+private:
+
+    sf::RenderWindow &_window;
+    sf::Text fpsDisplay;
+    sf::Font mainGameFont;
+};
 }
 
-
-#endif //OPENGLTEMPLATE_APPLICATION_H
+#endif //GRGRAPHICS_APPLICATION_H

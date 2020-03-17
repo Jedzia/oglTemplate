@@ -1,6 +1,18 @@
-//
-// Created by Jedzia on 17.03.2020.
-//
+/*---------------------------------------------------------*/
+/*!
+ * This file is part of OpenGLTemplate, R&D.
+ * License details can be found in the file COPYING.
+ * Copyright (c) 2020, EvePanix. All rights reserved.
+ *
+ * \brief      This file contains the definition of
+ *             the Application.cpp class.
+ * \file       Application.cpp
+ * \date       2020-03-17
+ * \author     Jedzia.
+ *
+ * modified    2020-03-17, Jedzia
+ */
+/*---------------------------------------------------------*/
 
 #include "grgraphics/Application.h"
 #include "grgraphics/warning/FMT_format.h"
@@ -8,6 +20,10 @@
 
 constexpr bool USE_VSYNC = false;
 
+/** Brief description of Application, DoDing
+ *  Detailed description.
+ *  @return TODO
+ */
 void grg::Application::DoDing() {
     //_window.close();
 }
@@ -17,6 +33,11 @@ grg::Application::Application(sf::RenderWindow &window) : _window(window) {
     fpsDisplay = sf::Text("Test, Depp", mainGameFont);
 }
 
+/** Brief description of Application, Run
+ *  Detailed description.
+ *  @param app TODO
+ *  @return TODO
+ */
 void grg::Application::Run(grg::SimpleApplication &app) {
     int frame_counter = 0;
     float fps_time = 0;
@@ -30,7 +51,7 @@ void grg::Application::Run(grg::SimpleApplication &app) {
         //std::cout << elapsedSeconds << std::endl;
         //clock.restart();
 
-        sf::Event event{};
+        sf::Event event {};
 
         while(_window.pollEvent(event)) {
             /*switch(event.type)
@@ -55,8 +76,6 @@ void grg::Application::Run(grg::SimpleApplication &app) {
 
             if(event.type == sf::Event::KeyPressed) {}
         }
-
-
         /*if(elapsedSeconds < 0.01)
             {
              const char *formatStr = "FPS: {:.1f}, Frame Counter: {}";
@@ -65,12 +84,11 @@ void grg::Application::Run(grg::SimpleApplication &app) {
 //        grg::update(elapsed);
 
         if(frame_counter % 60 == 0) {
-            const char *formatStr = "FPS: {:.1f}, Frame Counter: {}";
+            const char* formatStr = "FPS: {:.1f}, Frame Counter: {}";
             fpsDisplay.setString(fmt::format(formatStr, 60 / fps_time, frame_counter));
 
             fps_time = 0;
         }
-
 
         _window.clear();
         app.OnDraw(_window, elapsed);
@@ -79,13 +97,12 @@ void grg::Application::Run(grg::SimpleApplication &app) {
 
         if(USE_VSYNC) {
             sf::sleep(sf::milliseconds(12));
-        } else {
+        }
+        else {
             sf::sleep(sf::milliseconds(1));
         }
 
         //sf::Thread::wait(1);
         frame_counter++;
     }
-
-
-}
+} // grg::Application::Run
