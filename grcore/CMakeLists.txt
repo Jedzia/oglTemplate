@@ -1,5 +1,8 @@
-### list of source files of the GrCore library
+project(GrCore VERSION "${OpenGLTemplate_VERSION}")
+
 configure_file(src/win/GrCore.rc.in ${CMAKE_CURRENT_BINARY_DIR}/src/win/GrCore.rc @ONLY)
+
+### list of source files of the GrCore library
 set(GrCore_INC_FILES
         #        include/MemoryDB.h
         #        include/DBCreate.h

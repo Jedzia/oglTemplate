@@ -1,5 +1,8 @@
-### list of source files of the GrGraphics library
+project(GrGraphics VERSION "${OpenGLTemplate_VERSION}")
+
 #configure_file(src/win/GrGraphics.rc.in ${CMAKE_CURRENT_BINARY_DIR}/src/win/GrGraphics.rc @ONLY)
+
+### list of source files of the GrGraphics library
 set(GrGraphics_INC_FILES
         #        include/MemoryDB.h
         #        include/DBCreate.h
@@ -8,7 +11,7 @@ set(GrGraphics_INC_FILES
 set(GrGraphics_SRC_FILES
         src/test.cpp
         src/sfml-test.cpp
-        )
+        src/Application.cpp include/grgraphics/Application.h include/grgraphics/warning/SFML_Graphics.h)
 if (WIN32)
     #    set(GrGraphics_SRC_FILES ${GrGraphics_SRC_FILES}
     #            src/win/wgl_common.cpp)
