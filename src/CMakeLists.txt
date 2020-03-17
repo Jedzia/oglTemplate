@@ -13,16 +13,21 @@ list(APPEND Libraries_Used
         )
 #list(APPEND _Libraries "fmt::fmt")
 #list(APPEND _Libraries "docopt_s;spdlog::spdlog")
-target_include_and_link_boost_libraries(Application
+target_link_libraries(Application PRIVATE
+#target_include_and_link_boost_libraries(Application
         #        "GrCore;fmt::fmt-header-only"
         #"GrCore;fmt::fmt"
         "${Libraries_Used}"
-        "Boost::program_options;Boost::filesystem"
+#        "Boost::program_options;Boost::filesystem"
         )
 target_link_libraries(Application PRIVATE project_options project_warnings)
 target_link_libraries(Application PRIVATE spdlog::spdlog)
-target_link_libraries(Application PRIVATE oglTemplate::GrCore)
+#target_compile_definitions(Application PRIVATE SPDLOG_FMT_EXTERNAL)
+#target_include_directories(Application PRIVATE "E:/Projects/C++/oglTemplate/external/spdlog/include")
+#target_include_directories(Application PRIVATE "E:/Projects/C++/oglTemplate/external/fmt/include")
+#target_link_libraries(Application PRIVATE oglTemplate::GrCore)
 target_link_libraries(Application PRIVATE oglTemplate::GrGraphics)
+#target_link_libraries(Application PRIVATE fmt::fmt)
 #target_link_libraries(Application -static-libgcc -static-libstdc++)
 
 # problems with mingw clang

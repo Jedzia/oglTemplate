@@ -32,6 +32,7 @@ add_library(GrGraphics STATIC
         "${GrGraphics_SRC_FILES}"
         )
 target_include_directories(GrGraphics PUBLIC ${INCLUDE_DIRECTORIES})
+#target_include_directories(GrGraphics PRIVATE "E:/Projects/C++/oglTemplate/external/spdlog/include")
 target_compile_definitions(GrGraphics PRIVATE GrGraphics_WIN_EXPORT)
 
 # #get_property(fancy_lib_location TARGET ${PROJECT_NAME} PROPERTY LIBRARY_LOCATION)
@@ -53,9 +54,9 @@ else (MSVC)
 endif (MSVC)
 target_link_libraries(GrGraphics
         PUBLIC ${GrGraphics_PlatformLinkLibs}
-        PRIVATE oglTemplate::GrCore
+        PUBLIC oglTemplate::GrCore
         PRIVATE spdlog::spdlog
-        #PUBLIC fmt::fmt
+        #PRIVATE fmt::fmt
         PRIVATE project_options project_warnings
         #        CONAN_PKG::docopt.cpp
         #        CONAN_PKG::fmt CONAN_PKG::spdlog

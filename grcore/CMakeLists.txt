@@ -51,7 +51,8 @@ target_link_libraries(GrCore
         PUBLIC ${GrCore_PlatformLinkLibs}
         PRIVATE project_options project_warnings
         PRIVATE spdlog::spdlog
-        #PRIVATE fmt::fmt
+        #INTERFACE spdlog::spdlog
+        #INTERFACE fmt::fmt
         #        CONAN_PKG::docopt.cpp
         #        CONAN_PKG::fmt CONAN_PKG::spdlog
         )

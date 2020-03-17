@@ -17,10 +17,38 @@
 #ifndef OPENGL_TEMPLATE_PRECOMPILED_H
 #define OPENGL_TEMPLATE_PRECOMPILED_H
 
+/*#ifdef __has_feature
+#  define FMT_HAS_FEATURE(x) __has_feature(x)
+#else
+#  define FMT_HAS_FEATURE(x) 0
+#endif
+
+#ifndef FMT_BEGIN_NAMESPACE
+#  if FMT_HAS_FEATURE(cxx_inline_namespaces) || FMT_GCC_VERSION >= 404 || \
+      FMT_MSC_VER >= 1900
+#    define FMT_INLINE_NAMESPACE inline namespace
+#    define FMT_END_NAMESPACE \
+      }                       \
+      }
+#  else
+#    define FMT_INLINE_NAMESPACE namespace
+#    define FMT_END_NAMESPACE \
+      }                       \
+      using namespace v6;     \
+      }
+#  endif
+#  define FMT_BEGIN_NAMESPACE \
+    namespace fmtx {           \
+    FMT_INLINE_NAMESPACE v6 {
+#endif*/
+
+
 #if defined(__GNUC__) && defined(WARNINGS_SKIP_TEMPORARY)
 #  pragma GCC diagnostic ignored "-Wsign-conversion"
 #endif
+
 #include <fmt/format.h>
+
 #if defined(__GNUC__) && defined(WARNINGS_SKIP_TEMPORARY)
 #  pragma GCC diagnostic warning "-Wsign-conversion"
 #endif
@@ -29,7 +57,9 @@
 #if defined(__clang__) && defined(WARNINGS_SKIP_TEMPORARY)
 #  pragma clang diagnostic ignored "-Wsign-conversion"
 #endif
+
 #include <SFML/Graphics.hpp>
+
 #if defined(__clang__) && defined(WARNINGS_SKIP_TEMPORARY)
 #  pragma clang diagnostic warning "-Wsign-conversion"
 #endif
