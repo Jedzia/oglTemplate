@@ -42,7 +42,18 @@ enable_precompiled_headers(Application ENABLE_PCH)
 #        )
 
 # Copy fonts to the binary folder
-copy_file(Application "${CMAKE_CURRENT_SOURCE_DIR}/Futura Bk BT Book.ttf" ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+copy_file(Application "${CMAKE_CURRENT_SOURCE_DIR}/Futura Bk BT Book.ttf" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Futura Bk BT Book.ttf")
+#copy_file(Application "${CMAKE_CURRENT_SOURCE_DIR}/Futura Bk BT Book.ttf" ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+#[[
+add_custom_command(
+        TARGET Application
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_SOURCE_DIR}/Futura Bk BT Book.ttf" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}"
+        DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/Futura Bk BT Book.ttf"
+        COMMENT "Copy ${CMAKE_CURRENT_SOURCE_DIR}/Futura Bk BT Book.ttf to ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}."
+)
+]]
+
 # Add a runner target for the application
 add_run_target(Application ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 

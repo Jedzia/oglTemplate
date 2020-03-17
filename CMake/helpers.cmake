@@ -4,6 +4,9 @@ set(_HELPER_COPY_ENABLED FALSE)
 if (WIN32)
     set(_HELPER_COPY_ENABLED TRUE)
 endif ()
+# Cache it, for when it is actually needed, at build time
+set(_HELPER_COPY_ENABLED TRUE CACHE INTERNAL "")
+#mark_as_advanced(_HELPER_COPY_ENABLED)
 
 if (NOT HELPERS_COPY_CMAKE_DEBUG)
     set(HELPERS_COPY_CMAKE_DEBUG OFF)
@@ -18,10 +21,12 @@ macro(copy_file target file dest)
         add_custom_command(
                 TARGET ${target}
                 POST_BUILD
-                COMMAND ${CMAKE_COMMAND} ${_HELPERS_COPY_CMAKE_DEBUG_STR} -E copy "${file}" "${dest}"
-                #DEPENDS Templater
+                COMMAND ${CMAKE_COMMAND} ${_HELPERS_COPY_CMAKE_DEBUG_STR} -E copy_if_different "${file}" "${dest}"
+                DEPENDS ${file}
                 COMMENT "Copy ${file} to ${dest}."
         )
+        #message(FATAL_ERROR "FUUUUUUUUCK")
+        #target_link_libraries(${target} Copy-${target})
     endif (_HELPER_COPY_ENABLED)
 endmacro()
 
@@ -31,7 +36,7 @@ macro(copy_dll_to_target target libname)
                 TARGET ${target}
                 POST_BUILD
                 COMMAND ${CMAKE_COMMAND} ${_HELPERS_COPY_CMAKE_DEBUG_STR} -Dconfig=${CMAKE_CFG_INTDIR} -Dtgt="${PROJECT_BINARY_DIR}/" -Dreleasesrc="${${libname}_DLL_RELEASE}" -Ddebugsrc="${${libname}_DLL_DEBUG}" -P "${P_MODULE_PATH}/copy.cmake"
-                DEPENDS Templater
+                #DEPENDS ${target}
                 COMMENT "Copy ${libname} DLL."
         )
     endif (_HELPER_COPY_ENABLED)
