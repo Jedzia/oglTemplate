@@ -1,17 +1,22 @@
 project(GrGraphics VERSION "${OpenGLTemplate_VERSION}")
-
+#project(GrGraphics)
+#message(FATAL_ERROR "{PROJECT_NAME}_{FILE_NAME}_{EXT} ${CMAKE_PROJECT_NAME} - ${FILE_NAME} - ${EXT}")
+#message(FATAL_ERROR "{PROJECT_NAME}_{FILE_NAME}_{EXT} ${PROJECT_NAME} - ${FILE_NAME} - ${EXT}")
 #configure_file(src/win/GrGraphics.rc.in ${CMAKE_CURRENT_BINARY_DIR}/src/win/GrGraphics.rc @ONLY)
 
 ### list of source files of the GrGraphics library
 set(GrGraphics_INC_FILES
-        #        include/MemoryDB.h
-        #        include/DBCreate.h
-        #        include/FileUtil.h
+        include/grgraphics/Application.h
+        include/grgraphics/SimpleApplication.h
+        include/grgraphics/warning/SFML_Graphics.h
+        include/grgraphics/warning/FMT_format.h
         )
 set(GrGraphics_SRC_FILES
         src/test.cpp
         src/sfml-test.cpp
-        src/Application.cpp include/grgraphics/Application.h include/grgraphics/warning/SFML_Graphics.h)
+        src/Application.cpp
+        src/SimpleApplication.cpp
+        )
 if (WIN32)
     #    set(GrGraphics_SRC_FILES ${GrGraphics_SRC_FILES}
     #            src/win/wgl_common.cpp)

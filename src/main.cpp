@@ -118,6 +118,47 @@ void locale() {
 
 }
 
+class MyCircleShape : public sf::CircleShape {
+public:
+    explicit MyCircleShape(float radius = 0, std::size_t pointCount = 30) :
+            CircleShape(radius, pointCount) {
+        spdlog::warn("Constructor [{}]", __PRETTY_FUNCTION__);
+    }
+
+    ~MyCircleShape() override {
+        spdlog::warn("~DESTRUCTOR [{}]", __PRETTY_FUNCTION__);
+    }
+};
+
+class MyApplication : public grg::SimpleApplication {
+public:
+    MyApplication() : grg::SimpleApplication(), shape(MyCircleShape(100.f)) {
+        shape.setFillColor(sf::Color::Green);
+
+    }
+
+    void OnDraw(sf::RenderWindow &window, sf::Time elapsed) final {
+        float elapsedSeconds = elapsed.asSeconds();
+        shape.setPosition(x, y);
+        x += Speed * elapsedSeconds;
+        y += Speed * 0.5f * elapsedSeconds;
+        if(x > 500) {
+            x = 0;
+        }
+
+        if(y > 500) {
+            y = 0;
+        }
+
+        window.draw(shape);
+    }
+
+private:
+    const float Speed = 250.f;
+    float x = 0, y = 0;
+    MyCircleShape shape;
+};
+
 /** Brief description of $(fclass), main
  *  Detailed description.
  *  @return TODO
@@ -140,89 +181,94 @@ int main() {
         window.setFramerateLimit(60 * 4);
     }
 
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
+    MyApplication myApp;
+    grg::Application app(window);
+    app.Run(myApp);
 
-    sf::Font mainGameFont;
-    mainGameFont.loadFromFile("Futura Bk BT Book.ttf");
-    sf::Text fpsDisplay("Test, Depp", mainGameFont);
-
-    const float Speed = 250.f;
-    float x = 0, y = 0;
-    int frame_counter = 0;
-    float fps_time = 0;
-
-    sf::Clock clock; // starts the clock
-
-    while(window.isOpen()) {
-        sf::Time elapsed = clock.restart();
-        float elapsedSeconds = elapsed.asSeconds();
-        fps_time = fps_time + elapsedSeconds;
-        //std::cout << elapsedSeconds << std::endl;
-        //clock.restart();
-
-        sf::Event event{};
-
-        while(window.pollEvent(event)) {
-            /*switch(event.type)
-                case sf::Event::Closed:
-                    window.close();*/
-
-            if(event.type == sf::Event::Closed) {
-                window.close();
-            }
-
-            if(event.type == sf::Event::KeyPressed) {
-                if(event.key.code == sf::Keyboard::Escape) {
-                    std::cout << "the escape key was pressed" << std::endl;
-                    std::cout << "control:" << event.key.control << std::endl;
-                    std::cout << "alt:" << event.key.alt << std::endl;
-                    std::cout << "shift:" << event.key.shift << std::endl;
-                    std::cout << "system:" << event.key.system << std::endl;
-                    window.close();
-                }
-            }
-
-            if(event.type == sf::Event::KeyPressed) {}
-        }
-        /*if(elapsedSeconds < 0.01)
-           {
-            const char *formatStr = "FPS: {:.1f}, Frame Counter: {}";
-            fpsDisplay.setString(fmt::format(formatStr, 1.0 / elapsedSeconds, frame_counter));
-           }*/
-        grg::update(elapsed);
-
-        if(frame_counter % 60 == 0) {
-            const char *formatStr = "FPS: {:.1f}, Frame Counter: {}";
-            fpsDisplay.setString(fmt::format(formatStr, 60 / fps_time, frame_counter));
-
-            fps_time = 0;
-        }
-
-        shape.setPosition(x, y);
-        x += Speed * elapsedSeconds;
-        y += Speed * 0.5f * elapsedSeconds;
-        if(x > 500) {
-            x = 0;
-        }
-
-        if(y > 500) {
-            y = 0;
-        }
-
-        window.clear();
-        window.draw(shape);
-        window.draw(fpsDisplay);
-        window.display();
-
-        if(USE_VSYNC) {
-            sf::sleep(sf::milliseconds(12));
-        } else {
-            sf::sleep(sf::milliseconds(1));
-        }
-
-        //sf::Thread::wait(1);
-        frame_counter++;
-    }
+//    sf::CircleShape shape(100.f);
+//    shape.setFillColor(sf::Color::Green);
+//
+//    sf::Font mainGameFont;
+//    mainGameFont.loadFromFile("Futura Bk BT Book.ttf");
+//    sf::Text fpsDisplay("Test, Depp", mainGameFont);
+//
+//    const float Speed = 250.f;
+//    float x = 0, y = 0;
+//    int frame_counter = 0;
+//    float fps_time = 0;
+//
+//    sf::Clock clock; // starts the clock
+//
+//    while(window.isOpen()) {
+//        sf::Time elapsed = clock.restart();
+//        float elapsedSeconds = elapsed.asSeconds();
+//        fps_time = fps_time + elapsedSeconds;
+//        //std::cout << elapsedSeconds << std::endl;
+//        //clock.restart();
+//
+//        sf::Event event{};
+//
+//        while(window.pollEvent(event)) {
+//            /*switch(event.type)
+//                case sf::Event::Closed:
+//                    window.close();*/
+//
+//            if(event.type == sf::Event::Closed) {
+//                window.close();
+//                //app.DoDing();
+//            }
+//
+//            if(event.type == sf::Event::KeyPressed) {
+//                if(event.key.code == sf::Keyboard::Escape) {
+//                    std::cout << "the escape key was pressed" << std::endl;
+//                    std::cout << "control:" << event.key.control << std::endl;
+//                    std::cout << "alt:" << event.key.alt << std::endl;
+//                    std::cout << "shift:" << event.key.shift << std::endl;
+//                    std::cout << "system:" << event.key.system << std::endl;
+//                    window.close();
+//                }
+//            }
+//
+//            if(event.type == sf::Event::KeyPressed) {}
+//        }
+//        /*if(elapsedSeconds < 0.01)
+//           {
+//            const char *formatStr = "FPS: {:.1f}, Frame Counter: {}";
+//            fpsDisplay.setString(fmt::format(formatStr, 1.0 / elapsedSeconds, frame_counter));
+//           }*/
+//        grg::update(elapsed);
+//
+//        if(frame_counter % 60 == 0) {
+//            const char *formatStr = "FPS: {:.1f}, Frame Counter: {}";
+//            fpsDisplay.setString(fmt::format(formatStr, 60 / fps_time, frame_counter));
+//
+//            fps_time = 0;
+//        }
+//
+//        shape.setPosition(x, y);
+//        x += Speed * elapsedSeconds;
+//        y += Speed * 0.5f * elapsedSeconds;
+//        if(x > 500) {
+//            x = 0;
+//        }
+//
+//        if(y > 500) {
+//            y = 0;
+//        }
+//
+//        window.clear();
+//        window.draw(shape);
+//        window.draw(fpsDisplay);
+//        window.display();
+//
+//        if(USE_VSYNC) {
+//            sf::sleep(sf::milliseconds(12));
+//        } else {
+//            sf::sleep(sf::milliseconds(1));
+//        }
+//
+//        //sf::Thread::wait(1);
+//        frame_counter++;
+//    }
     return 0;
 } // main
