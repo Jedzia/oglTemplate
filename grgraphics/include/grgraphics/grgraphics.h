@@ -17,6 +17,8 @@
 #define GRGRAPHICS_GRGRAPHICS_H
 
 #include <SFML/System/Clock.hpp>
+//
+#include "Application.h"
 
 namespace grg {
 void bla();
