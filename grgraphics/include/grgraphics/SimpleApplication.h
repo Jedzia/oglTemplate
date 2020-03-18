@@ -28,7 +28,24 @@ namespace grg {
 class SimpleApplication {
 public:
 
-    virtual void OnDraw(sf::RenderWindow &window, sf::Time elapsed) = 0;
+    /** @brief Does fire on every event.
+     *  The place you can handle Keyboard, Mouse, etc. events.
+     *  @param event The event data.
+     */
+    virtual void OnEvent(const sf::Event &event) = 0;
+
+    /** Update state.
+     *  Refresh the state of your application here. Not guaranteed to run every frame. But can be
+     * configured to run more often than in frames to provide a smooth user experience or AI.
+     *  @param elapsed The elapsed time between calls to OnUpdate.
+     */
+    virtual void OnUpdate(sf::Time elapsed) = 0;
+
+    /** Draw content.
+     *  Draw your content to the window every frame.
+     *  @param window Provides the RenderTarget::draw(...) endpoint.
+     */
+    virtual void OnDraw(sf::RenderWindow &window) = 0;
 
     virtual ~SimpleApplication() = default;
 };

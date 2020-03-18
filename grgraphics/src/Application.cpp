@@ -60,7 +60,7 @@ void grg::Application::Run(grg::SimpleApplication &app) {
 
             if(event.type == sf::Event::Closed) {
                 _window.close();
-                //app.DoDing();
+                continue;
             }
 
             if(event.type == sf::Event::KeyPressed) {
@@ -71,10 +71,13 @@ void grg::Application::Run(grg::SimpleApplication &app) {
                     std::cout << "shift:" << event.key.shift << std::endl;
                     std::cout << "system:" << event.key.system << std::endl;
                     _window.close();
+                    continue;
                 }
             }
 
             if(event.type == sf::Event::KeyPressed) {}
+
+            app.OnEvent(event);
         }
         /*if(elapsedSeconds < 0.01)
             {
@@ -90,8 +93,10 @@ void grg::Application::Run(grg::SimpleApplication &app) {
             fps_time = 0;
         }
 
+        app.OnUpdate(elapsed);
+
         _window.clear();
-        app.OnDraw(_window, elapsed);
+        app.OnDraw(_window);
         _window.draw(fpsDisplay);
         _window.display();
 

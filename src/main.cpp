@@ -18,11 +18,11 @@
 //
 //#include <boost/locale/info.hpp>
 //#include <boost/locale.hpp>
-#include <locale>
+#include <ctime>
 #include <grcore/grcore.h>
 #include <grgraphics/grgraphics.h>
 #include <iostream>
-#include <ctime>
+#include <locale>
 
 /*
    #include <SFML/Graphics.hpp>
@@ -91,6 +91,10 @@ void logSomething() {
     grg::bla();
 }
 
+/** Brief description of $(fclass), locale
+ *  Detailed description.
+ *
+ */
 void locale() {
     //using namespace boost::locale;
     using namespace std;
@@ -104,22 +108,31 @@ void locale() {
 //    cout.imbue(loc);
     // Set as default locale for output
 
-    /*cout << boost::locale::format("Today {1,date} at {1,time} we had run our first localization example") % time(0)
+    /*cout << boost::locale::format("Today {1,date} at {1,time} we had run our first localization
+       example") % time(0)
          << endl;
 
-    cout << "This is how we show numbers in this locale " << boost::locale::as::number << 103.34 << endl;
-    cout << "This is how we show currency in this locale " << boost::locale::as::currency << 103.34 << endl;
-    cout << "This is typical date in the locale " << boost::locale::as::date << std::time(0) << endl;
-    cout << "This is typical time in the locale " << boost::locale::as::time << std::time(0) << endl;
-    cout << "This is upper case " << boost::locale::to_upper("Hello World!") << endl;
-    cout << "This is lower case " << boost::locale::to_lower("Hello World!") << endl;
-    cout << "This is title case " << boost::locale::to_title("Hello World!") << endl;
-    cout << "This is fold case " << boost::locale::fold_case("Hello World!") << endl;*/
-
+       cout << "This is how we show numbers in this locale " << boost::locale::as::number << 103.34
+          << endl;
+       cout << "This is how we show currency in this locale " << boost::locale::as::currency <<
+          103.34 << endl;
+       cout << "This is typical date in the locale " << boost::locale::as::date << std::time(0) <<
+          endl;
+       cout << "This is typical time in the locale " << boost::locale::as::time << std::time(0) <<
+          endl;
+       cout << "This is upper case " << boost::locale::to_upper("Hello World!") << endl;
+       cout << "This is lower case " << boost::locale::to_lower("Hello World!") << endl;
+       cout << "This is title case " << boost::locale::to_title("Hello World!") << endl;
+       cout << "This is fold case " << boost::locale::fold_case("Hello World!") << endl;*/
 }
 
+/** @class MyCircleShape:
+ *  Detailed description.
+ *  @param event TODO
+ */
 class MyCircleShape : public sf::CircleShape {
 public:
+
     explicit MyCircleShape(float radius = 0, std::size_t pointCount = 30) :
             CircleShape(radius, pointCount) {
         spdlog::warn("Constructor [{}]", __PRETTY_FUNCTION__);
@@ -130,14 +143,27 @@ public:
     }
 };
 
+/** @class MyApplication:
+ *  Detailed description.
+ *  @param event TODO
+ */
 class MyApplication : public grg::SimpleApplication {
 public:
+
     MyApplication() : grg::SimpleApplication(), shape(MyCircleShape(100.f)) {
         shape.setFillColor(sf::Color::Green);
-
     }
 
-    void OnDraw(sf::RenderWindow &window, sf::Time elapsed) final {
+    void OnEvent(const sf::Event &event) override {
+        if(event.type == sf::Event::KeyPressed) {
+            if(event.key.code == sf::Keyboard::R) {
+                x = 0;
+                y = 0;
+            }
+        }
+    }
+
+    void OnUpdate(sf::Time elapsed) override {
         float elapsedSeconds = elapsed.asSeconds();
         shape.setPosition(x, y);
         x += Speed * elapsedSeconds;
@@ -149,11 +175,14 @@ public:
         if(y > 500) {
             y = 0;
         }
+    }
 
+    void OnDraw(sf::RenderWindow &window) final {
         window.draw(shape);
     }
 
 private:
+
     const float Speed = 250.f;
     float x = 0, y = 0;
     MyCircleShape shape;
@@ -177,7 +206,8 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), title);
     if(USE_VSYNC) {
         window.setVerticalSyncEnabled(true);
-    } else {
+    }
+    else {
         window.setFramerateLimit(60 * 4);
     }
 
