@@ -73,6 +73,9 @@ void grg::Application::Run(grg::SimpleApplication &app) {
                     _window.close();
                     continue;
                 }
+                else if(event.key.code == sf::Keyboard::V) {
+                    _window.setVerticalSyncEnabled(true);
+                }
             }
 
             if(event.type == sf::Event::KeyPressed) {}

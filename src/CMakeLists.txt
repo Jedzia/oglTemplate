@@ -1,6 +1,9 @@
 #set(COTIRE_DEBUG ON)
 #include(cotire)
 
+# Set the project name
+project(OpenGLTemplateDemo VERSION "${OpenGLTemplate_VERSION}")
+
 # Main Demo Application
 add_executable(Application main.cpp)
 list(APPEND Libraries_Used
