@@ -18,6 +18,7 @@
 
 #include <SFML/System/Vector3.hpp>
 #include <benchmark/benchmark.h>
+#include <fmt/format.h>
 //#include "../gbenchmark/src/string_util.h"
 
 constexpr unsigned int ITERATIONS = 1000;
@@ -239,6 +240,65 @@ static void BM_StringCopy(benchmark::State& state) {
 }
 
 BENCHMARK(BM_StringCopy);
+
+/*-----------------------------------------------------------
+ * SSE stuff.
+ * --------------------------------------------------------*/
+#include <valarray>
+
+// add array of vectors via std::valarray
+static void BM_Vector3F_SSE_ADD(benchmark::State& state) {
+    sf::Vector3<float> b[] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+    std::valarray vb(b, 3); // uses explicit deduction guide
+
+    auto result = vb.sum();
+    state.SetLabel(fmt::format("vb.sum=({}, {}, {})", result.x, result.y, result.z));
+
+    for(auto _ : state)
+    {
+        for(int i = 0; i < ITERATIONS; ++i) {
+            volatile auto result2 = vb.sum();
+            static_cast<void>(result2);
+        }
+    }
+}
+
+BENCHMARK(BM_Vector3F_SSE_ADD);
+
+// add array of vectors via std::valarray
+static void BM_Vector3D_SSE_ADD(benchmark::State& state) {
+    //int a[] = {1, 2, 3};
+    //std::valarray va(a, 3); // uses explicit deduction guide
+
+    //sf::Vector3<double> vector_v3f1(1, 2, 3);
+    sf::Vector3<double> b[] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+    std::valarray vb(b, 3); // uses explicit deduction guide
+
+    auto result = vb.sum();
+    state.SetLabel(fmt::format("vb.sum=({}, {}, {})", result.x, result.y, result.z));
+
+    for(auto _ : state)
+    {
+        for(int i = 0; i < ITERATIONS; ++i) {
+            //sf::Vector3<float> vector_v3f1(1, 2, 3);
+            //sf::Vector3<float> vector_v3f2(1, 2, 3);
+            //sf::Vector3<float> vector_v3f3(1, 2, 3);
+            //vector_v3f3 = vector_v3f1 + vector_v3f2;
+            //volatile sf::Vector3<float> result(vector_v3f3);
+
+            //volatile auto result = va.max();
+            //result = va.min();
+            volatile auto result2 = vb.sum();
+            static_cast<void>(result2);
+        }
+    }
+} // BM_Vector3D_SSE_ADD
+
+BENCHMARK(BM_Vector3D_SSE_ADD);
+
+/*-----------------------------------------------------------
+ * Final create entry point.
+ * --------------------------------------------------------*/
 
 BENCHMARK_MAIN();
 

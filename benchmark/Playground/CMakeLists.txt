@@ -13,7 +13,7 @@ endif(MSVC)
 
 set(BenchmarkName BM_FloatingPoint)
 add_executable(${BenchmarkName} ${BenchmarkName}.cpp)
-target_link_libraries(${BenchmarkName} PRIVATE benchmark sfml-graphics)
+target_link_libraries(${BenchmarkName} PRIVATE benchmark sfml-graphics fmt::fmt)
 #target_include_directories(${BenchmarkName} PUBLIC ../gbenchmark/include)
 if (MSVC)
     target_link_libraries(${BenchmarkName} PRIVATE shlwapi)
