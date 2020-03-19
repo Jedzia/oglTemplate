@@ -25,12 +25,12 @@ constexpr bool USE_VSYNC = false;
  *  @return TODO
  */
 void grg::Application::DoDing() {
-    //_window.close();
+    //window.close();
 }
 
-grg::Application::Application(sf::RenderWindow &window) : _window(window) {
-    mainGameFont.loadFromFile("Futura Bk BT Book.ttf");
-    fpsDisplay = sf::Text("Test, Depp", mainGameFont);
+grg::Application::Application(sf::RenderWindow &window) : m_window(window) {
+    m_mainGameFont.loadFromFile("Futura Bk BT Book.ttf");
+    m_fpsDisplay = sf::Text("Test, Depp", m_mainGameFont);
 }
 
 /** Brief description of Application, Run
@@ -44,7 +44,7 @@ void grg::Application::Run(grg::SimpleApplication &app) {
 
     sf::Clock clock; // starts the clock
 
-    while(_window.isOpen()) {
+    while(m_window.isOpen()) {
         sf::Time elapsed = clock.restart();
         float elapsedSeconds = elapsed.asSeconds();
         fps_time = fps_time + elapsedSeconds;
@@ -53,13 +53,13 @@ void grg::Application::Run(grg::SimpleApplication &app) {
 
         sf::Event event {};
 
-        while(_window.pollEvent(event)) {
+        while(m_window.pollEvent(event)) {
             /*switch(event.type)
                 case sf::Event::Closed:
                     window.close();*/
 
             if(event.type == sf::Event::Closed) {
-                _window.close();
+                m_window.close();
                 continue;
             }
 
@@ -70,11 +70,11 @@ void grg::Application::Run(grg::SimpleApplication &app) {
                     std::cout << "alt:" << event.key.alt << std::endl;
                     std::cout << "shift:" << event.key.shift << std::endl;
                     std::cout << "system:" << event.key.system << std::endl;
-                    _window.close();
+                    m_window.close();
                     continue;
                 }
                 else if(event.key.code == sf::Keyboard::V) {
-                    _window.setVerticalSyncEnabled(true);
+                    m_window.setVerticalSyncEnabled(true);
                 }
             }
 
@@ -85,23 +85,23 @@ void grg::Application::Run(grg::SimpleApplication &app) {
         /*if(elapsedSeconds < 0.01)
             {
              const char *formatStr = "FPS: {:.1f}, Frame Counter: {}";
-             fpsDisplay.setString(fmt::format(formatStr, 1.0 / elapsedSeconds, frame_counter));
+             m_fpsDisplay.setString(fmt::format(formatStr, 1.0 / elapsedSeconds, frame_counter));
             }*/
 //        grg::update(elapsed);
 
         if(frame_counter % 60 == 0) {
             const char* formatStr = "FPS: {:.1f}, Frame Counter: {}";
-            fpsDisplay.setString(fmt::format(formatStr, 60 / fps_time, frame_counter));
+            m_fpsDisplay.setString(fmt::format(formatStr, 60 / fps_time, frame_counter));
 
             fps_time = 0;
         }
 
         app.OnUpdate(elapsed);
 
-        _window.clear();
-        app.OnDraw(_window);
-        _window.draw(fpsDisplay);
-        _window.display();
+        m_window.clear();
+        app.OnDraw(m_window);
+        m_window.draw(m_fpsDisplay);
+        m_window.display();
 
         if(USE_VSYNC) {
             sf::sleep(sf::milliseconds(12));

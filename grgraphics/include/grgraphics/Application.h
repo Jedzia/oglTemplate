@@ -50,9 +50,9 @@ public:
 
 private:
 
-    sf::RenderWindow &_window;
-    sf::Text fpsDisplay;
-    sf::Font mainGameFont;
+    sf::RenderWindow &m_window;
+    sf::Text m_fpsDisplay;
+    sf::Font m_mainGameFont;
 };
 }
 
