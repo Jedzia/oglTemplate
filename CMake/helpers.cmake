@@ -1,3 +1,29 @@
+#[=======================================================================[.rst:
+helpers.cmake
+-----------------------------
+
+This module provides functions helping with default project tasks.
+
+
+
+.. command:: add_run_target
+
+Adds a application runner named TARGET_run to TARGET. WORK_DIRECTORY specifies
+the startup path/working directory for the application.
+
+    add_run_target(<TARGET> <WORK_DIRECTORY>)
+
+
+
+.. command:: add_list_target
+
+Uses objdump to produce an Assembler-Listing of the target and provides
+a new target named TARGET_list. For example the target my_application would
+produce my_application.list in OUTPUT_DIRECTORY.
+
+    add_list_target(<TARGET> <OUTPUT_DIRECTORY>)
+
+#]=======================================================================]
 
 #SET(_HELPER_COPY_ENABLED (${WIN32} AND NOT ${MINGW}))
 set(_HELPER_COPY_ENABLED FALSE)
@@ -137,4 +163,14 @@ macro(add_run_target target working_directory)
             PROPERTIES
             FOLDER ${target}
             )
+ENDMACRO()
+
+macro(add_list_target target output_directory)
+    add_custom_target(${target}_list
+            COMMAND ${CMAKE_OBJDUMP} "$<TARGET_FILE:${target}>" -S > ${target}.list
+            DEPENDS ${target}
+            WORKING_DIRECTORY ${output_directory}
+            BYPRODUCTS "${output_directory}/${target}.list"
+            )
+    #message(FATAL_ERROR "BYPRODUCTS ${output_directory}/${target}.list")
 ENDMACRO()

@@ -21,3 +21,9 @@ else (MSVC)
     #target_link_libraries(${BenchmarkName} PRIVATE benchmark)
 endif(MSVC)
 add_run_target(${BenchmarkName} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+add_list_target(${BenchmarkName} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+
+#add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+#        COMMAND arm-none-eabi-size --format=berkeley "rtos_clion.elf")
+#add_custom_command(${BenchmarkName} ${PROJECT_NAME} POST_BUILD
+#        COMMAND arm-none-eabi-size --format=berkeley "rtos_clion.elf")
