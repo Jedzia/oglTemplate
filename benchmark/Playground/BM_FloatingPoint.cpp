@@ -113,8 +113,8 @@ BENCHMARK(BM_Vector3F_CopyDefault);
 static void BM_Vector3D_CopyDefault(benchmark::State& state) {
     for(auto _ : state)
     {
-        sf::Vector3<double> vector_v3f1;
-        volatile sf::Vector3<double> result(vector_v3f1);
+        sf::Vector3<double> vector_v3d1;
+        volatile sf::Vector3<double> result(vector_v3d1);
         static_cast<void>(result);
     }
 }
@@ -137,8 +137,8 @@ BENCHMARK(BM_Vector3F_Copy123);
 static void BM_Vector3D_Copy123(benchmark::State& state) {
     for(auto _ : state)
     {
-        sf::Vector3<double> vector_v3f1(1, 2, 3);
-        volatile sf::Vector3<double> result(vector_v3f1);
+        sf::Vector3<double> vector_v3d1(1, 2, 3);
+        volatile sf::Vector3<double> result(vector_v3d1);
         static_cast<void>(result);
     }
 }
@@ -198,11 +198,11 @@ static void BM_Vector3D_Mul(benchmark::State& state) {
     for(auto _ : state)
     {
         //for(int i = 0; i < ITERATIONS; ++i) {
-        sf::Vector3<double> vector_v3f1(1, 2, 3);
-        sf::Vector3<double> vector_v3f2(1, 2, 3);
-        sf::Vector3<double> vector_v3f3(1, 2, 3);
-        vector_v3f3 = vector_v3f1 * vector_v3f2.x;
-        volatile sf::Vector3<double> result(vector_v3f3);
+        sf::Vector3<double> vector_v3d1(1, 2, 3);
+        sf::Vector3<double> vector_v3d2(1, 2, 3);
+        sf::Vector3<double> vector_v3d3(1, 2, 3);
+        vector_v3d3 = vector_v3d1 * vector_v3d2.x;
+        volatile sf::Vector3<double> result(vector_v3d3);
         static_cast<void>(result);
         //}
     }
@@ -251,9 +251,9 @@ static void BM_Vector3D_Compare(benchmark::State& state) {
     for(auto _ : state)
     {
         //for(int i = 0; i < ITERATIONS; ++i) {
-        sf::Vector3<double> vector_v3f1(1, 2, 3);
-        sf::Vector3<double> vector_v3f2(1, 2, 3);
-        volatile bool result = vector_v3f1 == vector_v3f2;
+        sf::Vector3<double> vector_v3d1(1, 2, 3);
+        sf::Vector3<double> vector_v3d2(1, 2, 3);
+        volatile bool result = vector_v3d1 == vector_v3d2;
         static_cast<void>(result);
         //}
     }
