@@ -27,14 +27,13 @@ constexpr unsigned int ITERATIONS = 1000;
 
 // benchmark float instantiation
 static void BM_FloatCreation(benchmark::State& state) {
-    //state.SetLabel(StrFormat("float:%.1f%%", 100.0));
-    state.SetLabel("float bench");
-
     for(auto _ : state)
     {
-        volatile float empty_double;
-        static_cast<void>(empty_double);
+        volatile float empty_float;
+        static_cast<void>(empty_float);
     }
+    //state.SetLabel(StrFormat("float:%.1f%%", 100.0));
+    state.SetLabel("float bench");
 }
 
 // Register the function as a benchmark
@@ -55,11 +54,12 @@ BENCHMARK(BM_DoubleCreation);
 static void BM_Vector3F_CreateDefault(benchmark::State& state) {
     for(auto _ : state)
     {
-        for(int i = 0; i < 1000; ++i) {
+        for(int i = 0; i < ITERATIONS * 1000 * 1000; ++i) {
             volatile sf::Vector3<float> result;
             static_cast<void>(result);
         }
     }
+    state.SetLabel(fmt::format("x{}", ITERATIONS * 1000 * 1000));
 }
 
 BENCHMARK(BM_Vector3F_CreateDefault);
@@ -68,111 +68,12 @@ BENCHMARK(BM_Vector3F_CreateDefault);
 static void BM_Vector3D_CreateDefault(benchmark::State& state) {
     for(auto _ : state)
     {
-        for(int i = 0; i < 1000; ++i) {
-            volatile sf::Vector3<double> result;
-            static_cast<void>(result);
-        }
+        volatile sf::Vector3<double> result;
+        static_cast<void>(result);
     }
 }
 
 BENCHMARK(BM_Vector3D_CreateDefault);
-
-// copy float vector
-static void BM_Vector3F_CopyDefault(benchmark::State& state) {
-    for(auto _ : state)
-    {
-        for(int i = 0; i < ITERATIONS; ++i) {
-            sf::Vector3<float> vector_v3f1;
-            volatile sf::Vector3<float> result(vector_v3f1);
-            static_cast<void>(result);
-        }
-    }
-}
-
-BENCHMARK(BM_Vector3F_CopyDefault);
-
-// copy initialized float vector
-static void BM_Vector3F_Copy123(benchmark::State& state) {
-    for(auto _ : state)
-    {
-        for(int i = 0; i < ITERATIONS; ++i) {
-            sf::Vector3<float> vector_v3f1(1, 2, 3);
-            volatile sf::Vector3<float> result(vector_v3f1);
-            static_cast<void>(result);
-        }
-    }
-}
-
-BENCHMARK(BM_Vector3F_Copy123);
-
-// add float vectors
-static void BM_Vector3F_Add(benchmark::State& state) {
-    for(auto _ : state)
-    {
-        for(int i = 0; i < ITERATIONS; ++i) {
-            sf::Vector3<float> vector_v3f1(1, 2, 3);
-            sf::Vector3<float> vector_v3f2(1, 2, 3);
-            sf::Vector3<float> vector_v3f3(1, 2, 3);
-            vector_v3f3 = vector_v3f1 + vector_v3f2;
-            volatile sf::Vector3<float> result(vector_v3f3);
-            static_cast<void>(result);
-        }
-    }
-}
-
-BENCHMARK(BM_Vector3F_Add);
-
-// add double vectors
-static void BM_Vector3D_Add(benchmark::State& state) {
-    for(auto _ : state)
-    {
-        for(int i = 0; i < ITERATIONS; ++i) {
-            sf::Vector3<double> vector_v3d1(1, 2, 3);
-            sf::Vector3<double> vector_v3d2(1, 2, 3);
-            sf::Vector3<double> vector_v3d3(1, 2, 3);
-            vector_v3d3 = vector_v3d1 + vector_v3d2;
-            volatile sf::Vector3<double> result(vector_v3d3);
-            static_cast<void>(result);
-        }
-    }
-}
-
-BENCHMARK(BM_Vector3D_Add);
-
-// multiply float vectors
-static void BM_Vector3F_Mul(benchmark::State& state) {
-    for(auto _ : state)
-    {
-        for(int i = 0; i < ITERATIONS; ++i) {
-            sf::Vector3<float> vector_v3f1(1, 2, 3);
-            sf::Vector3<float> vector_v3f2(1, 2, 3);
-            sf::Vector3<float> vector_v3f3(1, 2, 3);
-            vector_v3f3 = vector_v3f1 * vector_v3f2.x;
-            volatile sf::Vector3<float> result(vector_v3f3);
-            static_cast<void>(result);
-        }
-    }
-}
-
-BENCHMARK(BM_Vector3F_Mul);
-
-// multiply double vectors
-static void BM_Vector3D_Mul(benchmark::State& state) {
-    for(auto _ : state)
-    {
-        for(int i = 0; i < ITERATIONS; ++i) {
-            sf::Vector3<double> vector_v3f1(1, 2, 3);
-            sf::Vector3<double> vector_v3f2(1, 2, 3);
-            sf::Vector3<double> vector_v3f3(1, 2, 3);
-            vector_v3f3 = vector_v3f1 * vector_v3f2.x;
-            volatile sf::Vector3<double> result(vector_v3f3);
-            static_cast<void>(result);
-        }
-    }
-}
-
-// Register the function as a benchmark
-BENCHMARK(BM_Vector3D_Mul);
 
 // copy float vector
 static void BM_Vector3FCopy(benchmark::State& state) {
@@ -196,36 +97,167 @@ static void BM_Vector3DCopy(benchmark::State& state) {
 
 BENCHMARK(BM_Vector3DCopy);
 
+// copy float vector
+static void BM_Vector3F_CopyDefault(benchmark::State& state) {
+    for(auto _ : state)
+    {
+        sf::Vector3<float> vector_v3f1;
+        volatile sf::Vector3<float> result(vector_v3f1);
+        static_cast<void>(result);
+    }
+}
+
+BENCHMARK(BM_Vector3F_CopyDefault);
+
+// copy double vector
+static void BM_Vector3D_CopyDefault(benchmark::State& state) {
+    for(auto _ : state)
+    {
+        sf::Vector3<double> vector_v3f1;
+        volatile sf::Vector3<double> result(vector_v3f1);
+        static_cast<void>(result);
+    }
+}
+
+BENCHMARK(BM_Vector3D_CopyDefault);
+
+// copy initialized float vector
+static void BM_Vector3F_Copy123(benchmark::State& state) {
+    for(auto _ : state)
+    {
+        sf::Vector3<float> vector_v3f1(1, 2, 3);
+        volatile sf::Vector3<float> result(vector_v3f1);
+        static_cast<void>(result);
+    }
+}
+
+BENCHMARK(BM_Vector3F_Copy123);
+
+// copy initialized double vector
+static void BM_Vector3D_Copy123(benchmark::State& state) {
+    for(auto _ : state)
+    {
+        sf::Vector3<double> vector_v3f1(1, 2, 3);
+        volatile sf::Vector3<double> result(vector_v3f1);
+        static_cast<void>(result);
+    }
+}
+
+BENCHMARK(BM_Vector3D_Copy123);
+
+// add float vectors
+static void BM_Vector3F_Add(benchmark::State& state) {
+    for(auto _ : state)
+    {
+        sf::Vector3<float> vector_v3f1(1, 2, 3);
+        sf::Vector3<float> vector_v3f2(1, 2, 3);
+        sf::Vector3<float> vector_v3f3(1, 2, 3);
+        vector_v3f3 = vector_v3f1 + vector_v3f2;
+        volatile sf::Vector3<float> result(vector_v3f3);
+        static_cast<void>(result);
+    }
+}
+
+BENCHMARK(BM_Vector3F_Add);
+
+// add double vectors
+static void BM_Vector3D_Add(benchmark::State& state) {
+    for(auto _ : state)
+    {
+        sf::Vector3<double> vector_v3d1(1, 2, 3);
+        sf::Vector3<double> vector_v3d2(1, 2, 3);
+        sf::Vector3<double> vector_v3d3(1, 2, 3);
+        vector_v3d3 = vector_v3d1 + vector_v3d2;
+        volatile sf::Vector3<double> result(vector_v3d3);
+        static_cast<void>(result);
+    }
+}
+
+BENCHMARK(BM_Vector3D_Add);
+
+// multiply float vectors
+static void BM_Vector3F_Mul(benchmark::State& state) {
+    for(auto _ : state)
+    {
+        //for(int i = 0; i < ITERATIONS; ++i) {
+        sf::Vector3<float> vector_v3f1(1, 2, 3);
+        sf::Vector3<float> vector_v3f2(1, 2, 3);
+        sf::Vector3<float> vector_v3f3(1, 2, 3);
+        vector_v3f3 = vector_v3f1 * vector_v3f2.x;
+        volatile sf::Vector3<float> result(vector_v3f3);
+        static_cast<void>(result);
+        //}
+    }
+    //state.SetLabel(fmt::format("x{}", ITERATIONS));
+}
+
+BENCHMARK(BM_Vector3F_Mul);
+
+// multiply double vectors
+static void BM_Vector3D_Mul(benchmark::State& state) {
+    for(auto _ : state)
+    {
+        //for(int i = 0; i < ITERATIONS; ++i) {
+        sf::Vector3<double> vector_v3f1(1, 2, 3);
+        sf::Vector3<double> vector_v3f2(1, 2, 3);
+        sf::Vector3<double> vector_v3f3(1, 2, 3);
+        vector_v3f3 = vector_v3f1 * vector_v3f2.x;
+        volatile sf::Vector3<double> result(vector_v3f3);
+        static_cast<void>(result);
+        //}
+    }
+    //state.SetLabel(fmt::format("x{}", ITERATIONS));
+}
+
+// Register the function as a benchmark
+BENCHMARK(BM_Vector3D_Mul);
+
 // compare float vectors
 static void BM_Vector3F_Compare(benchmark::State& state) {
     for(auto _ : state)
     {
-        for(int i = 0; i < ITERATIONS; ++i) {
-            sf::Vector3<float> vector_v3f1(1, 2, 3);
-            sf::Vector3<float> vector_v3f2(1, 2, 3);
-            sf::Vector3<float> vector_v3f3(1, 2, 3);
-            vector_v3f3 = vector_v3f1 + vector_v3f2;
-            volatile sf::Vector3<float> result(vector_v3f3);
-            static_cast<void>(result);
-        }
+        //for(int i = 0; i < ITERATIONS; ++i) {
+        sf::Vector3<float> vector_v3f1(1, 2, 3);
+        sf::Vector3<float> vector_v3f2(1, 2, 3);
+        volatile bool result = vector_v3f1 == vector_v3f2;
+        static_cast<void>(result);
+        //}
     }
+    // state.SetLabel(fmt::format("x{}", ITERATIONS));
 }
 
 BENCHMARK(BM_Vector3F_Compare);
+
+/*
+   // compare float vectors
+   static void BM_Vector3F_CompareX(benchmark::State& state) {
+    for(auto _ : state)
+    {
+        //for(int i = 0; i < ITERATIONS; ++i) {
+        sf::Vector3<float> vector_v3f1(1, 2, 3);
+        sf::Vector3<float> vector_v3f2(4, 5, 6);
+        volatile bool result = vector_v3f1 == vector_v3f2;
+        static_cast<void>(result);
+        //}
+    }
+    // state.SetLabel(fmt::format("x{}", ITERATIONS));
+   }
+
+   BENCHMARK(BM_Vector3F_CompareX);
+ */
 
 // compare double vectors
 static void BM_Vector3D_Compare(benchmark::State& state) {
     for(auto _ : state)
     {
-        for(int i = 0; i < ITERATIONS; ++i) {
-            sf::Vector3<double> vector_v3f1(1, 2, 3);
-            sf::Vector3<double> vector_v3f2(1, 2, 3);
-            sf::Vector3<double> vector_v3f3(1, 2, 3);
-            vector_v3f3 = vector_v3f1 + vector_v3f2;
-            volatile sf::Vector3<double> result(vector_v3f3);
-            static_cast<void>(result);
-        }
+        //for(int i = 0; i < ITERATIONS; ++i) {
+        sf::Vector3<double> vector_v3f1(1, 2, 3);
+        sf::Vector3<double> vector_v3f2(1, 2, 3);
+        volatile bool result = vector_v3f1 == vector_v3f2;
+        static_cast<void>(result);
+        //}
     }
+    //state.SetLabel(fmt::format("x{}", ITERATIONS));
 }
 
 BENCHMARK(BM_Vector3D_Compare);
@@ -247,26 +279,25 @@ BENCHMARK(BM_StringCopy);
 #include <valarray>
 
 // add array of vectors via std::valarray
-static void BM_Vector3F_SSE_ADD(benchmark::State& state) {
+static void BM_Vector3F_ARRAY_ADD(benchmark::State& state) {
     sf::Vector3<float> b[] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
     std::valarray vb(b, 3); // uses explicit deduction guide
 
-    auto result = vb.sum();
-    state.SetLabel(fmt::format("vb.sum=({}, {}, {})", result.x, result.y, result.z));
-
     for(auto _ : state)
     {
-        for(int i = 0; i < ITERATIONS; ++i) {
-            volatile auto result2 = vb.sum();
-            static_cast<void>(result2);
-        }
+        //for(int i = 0; i < ITERATIONS; ++i) {
+        volatile auto result2 = vb.sum();
+        static_cast<void>(result2);
+        //}
     }
+    //auto result = vb.sum();
+    //state.SetLabel(fmt::format("vb.sum=({}, {}, {})", result.x, result.y, result.z));
 }
 
-BENCHMARK(BM_Vector3F_SSE_ADD);
+BENCHMARK(BM_Vector3F_ARRAY_ADD);
 
 // add array of vectors via std::valarray
-static void BM_Vector3D_SSE_ADD(benchmark::State& state) {
+static void BM_Vector3D_ARRAY_ADD(benchmark::State& state) {
     //int a[] = {1, 2, 3};
     //std::valarray va(a, 3); // uses explicit deduction guide
 
@@ -274,27 +305,26 @@ static void BM_Vector3D_SSE_ADD(benchmark::State& state) {
     sf::Vector3<double> b[] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
     std::valarray vb(b, 3); // uses explicit deduction guide
 
-    auto result = vb.sum();
-    state.SetLabel(fmt::format("vb.sum=({}, {}, {})", result.x, result.y, result.z));
-
     for(auto _ : state)
     {
-        for(int i = 0; i < ITERATIONS; ++i) {
-            //sf::Vector3<float> vector_v3f1(1, 2, 3);
-            //sf::Vector3<float> vector_v3f2(1, 2, 3);
-            //sf::Vector3<float> vector_v3f3(1, 2, 3);
-            //vector_v3f3 = vector_v3f1 + vector_v3f2;
-            //volatile sf::Vector3<float> result(vector_v3f3);
+        //for(int i = 0; i < ITERATIONS; ++i) {
+        //sf::Vector3<float> vector_v3f1(1, 2, 3);
+        //sf::Vector3<float> vector_v3f2(1, 2, 3);
+        //sf::Vector3<float> vector_v3f3(1, 2, 3);
+        //vector_v3f3 = vector_v3f1 + vector_v3f2;
+        //volatile sf::Vector3<float> result(vector_v3f3);
 
-            //volatile auto result = va.max();
-            //result = va.min();
-            volatile auto result2 = vb.sum();
-            static_cast<void>(result2);
-        }
+        //volatile auto result = va.max();
+        //result = va.min();
+        volatile auto result2 = vb.sum();
+        static_cast<void>(result2);
+        //}
     }
-} // BM_Vector3D_SSE_ADD
+    //auto result = vb.sum();
+    //state.SetLabel(fmt::format("vb.sum=({}, {}, {})", result.x, result.y, result.z));
+} // BM_Vector3D_ARRAY_ADD
 
-BENCHMARK(BM_Vector3D_SSE_ADD);
+BENCHMARK(BM_Vector3D_ARRAY_ADD);
 
 /*-----------------------------------------------------------
  * Final create entry point.
