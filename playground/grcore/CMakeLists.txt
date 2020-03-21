@@ -4,23 +4,23 @@
 
 
 # playground single source files
-SET(PLAYGROUND_CPP_FILES *.cpp)
-SET(PLAYGROUND_HPP_FILES *.h)
-SET(PLAYGROUND_MOC_FILES moc_*.cpp)
+set(PLAYGROUND_CPP_FILES *.cpp)
+set(PLAYGROUND_HPP_FILES *.h)
+set(PLAYGROUND_MOC_FILES moc_*.cpp)
 
-FILE(GLOB playground_sources ${CMAKE_CURRENT_SOURCE_DIR}/${PLAYGROUND_CPP_FILES})
-FILE(GLOB playground_headers ${CMAKE_CURRENT_SOURCE_DIR}/${PLAYGROUND_HPP_FILES})
+file(GLOB playground_sources ${CMAKE_CURRENT_SOURCE_DIR}/${PLAYGROUND_CPP_FILES})
+file(GLOB playground_headers ${CMAKE_CURRENT_SOURCE_DIR}/${PLAYGROUND_HPP_FILES})
 
 #LIST(REMOVE_ITEM playground_sources ${TOP_SRC_DIR}/src/insets/InsetTheorem.cpp)
 #MESSAGE(STATUS "[GLOB] Files: ${playground_sources}")
-INCLUDE_DIRECTORIES()
+include_directories()
 
-FOREACH (f ${playground_sources})
-    GET_FILENAME_COMPONENT(_target_name ${f} NAME_WE)
-    IF (${_target_name} STREQUAL "stdafx")
-    ELSE (${_target_name} STREQUAL "stdafx")
+foreach (f ${playground_sources})
+    get_filename_component(_target_name ${f} NAME_WE)
+    if (${_target_name} STREQUAL "stdafx")
+    else (${_target_name} STREQUAL "stdafx")
         set(_target_name "Playground_GrCore_${_target_name}")
-        ADD_EXECUTABLE(${_target_name} ${f})
+        add_executable(${_target_name} ${f})
         #target_link_libraries(${_target_name} GrCore)
         #target_include_directories(${BENCHMARK_RUNNER_NAME} PRIVATE include)
         target_link_libraries(${_target_name}
@@ -37,13 +37,13 @@ FOREACH (f ${playground_sources})
                 )
         #        TargetLinkBoost(${_target_name} "filesystem;system;regex;thread;date_time;chrono")
         #SET_PROPERTY(TARGET throw_error PROPERTY FOLDER "Playground/3rdParty")
-        SET_PROPERTY(TARGET ${_target_name} PROPERTY FOLDER "Playground")
+        set_property(TARGET ${_target_name} PROPERTY FOLDER "Playground")
 
-        SET_TARGET_PROPERTIES(${_target_name}
+        set_target_properties(${_target_name}
                 PROPERTIES
                 #		EXCLUDE_FROM_DEFAULT_BUILD
                 EXCLUDE_FROM_ALL_BUILD
                 TRUE)
-        MESSAGE(STATUS "[GLOB EXAMPLE] Adding Example Project: ${_target_name}")
-    ENDIF (${_target_name} STREQUAL "stdafx")
-ENDFOREACH ()
+        message(STATUS "[GLOB EXAMPLE] Adding Example Project: ${_target_name}")
+    endif (${_target_name} STREQUAL "stdafx")
+endforeach ()
