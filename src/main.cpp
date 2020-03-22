@@ -133,8 +133,7 @@ void locale() {
 class MyCircleShape : public sf::CircleShape {
 public:
 
-    explicit MyCircleShape(float radius = 0, std::size_t pointCount = 30) :
-        CircleShape(radius, pointCount) {
+    explicit MyCircleShape(float radius = 0, std::size_t pointCount = 30) : CircleShape(radius, pointCount) {
         spdlog::warn("Constructor [{}]", __PRETTY_FUNCTION__);
     }
 
