@@ -28,3 +28,6 @@
 [submodule "tests/Catch2"]
 	path = tests/Catch2
 	url = https://github.com/catchorg/Catch2.git
+[submodule "external/sm/metapushkin"]
+	path = external/sm/metapushkin
+	url = https://github.com/zmij/metapushkin.git

@@ -20,3 +20,5 @@ if (CMAKE_CXX_COMPILER MATCHES "clang[+][+]" OR CMAKE_CXX_COMPILER_ID MATCHES "C
     find_package(Freetype REQUIRED)
 endif ()
 add_subdirectory(SFML)
+
+add_subdirectory(sm)

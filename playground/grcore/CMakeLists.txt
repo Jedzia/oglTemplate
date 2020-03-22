@@ -44,6 +44,11 @@ foreach (f ${playground_sources})
                 #		EXCLUDE_FROM_DEFAULT_BUILD
                 EXCLUDE_FROM_ALL_BUILD
                 TRUE)
+        add_run_target(${_target_name} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
         message(STATUS "[GLOB EXAMPLE] Adding Example Project: ${_target_name}")
     endif (${_target_name} STREQUAL "stdafx")
 endforeach ()
+
+#target_link_libraries(Playground_GrCore_statemachine02 PRIVATE afsm)
+target_include_directories(Playground_GrCore_statemachine02 PRIVATE ${AFSM_INCLUDE_DIRS})
+#message(FATAL_ERROR "AFSM_INCLUDE_DIRS ${AFSM_INCLUDE_DIRS}")

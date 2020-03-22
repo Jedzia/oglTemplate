@@ -17,6 +17,7 @@
 #include <fmt/printf.h>
 #include <grcore/wgl_common.h>
 #include <iostream>
+#include <afsm/fsm.hpp>
 //
 #include <winuser.h>
 
@@ -26,12 +27,12 @@ using namespace std;
  *  @param hdc window device context
  *  @return forwarded to program exit code
  */
-static int test_function(HDC hdc) {
+/*static int test_function(HDC hdc) {
     fmt::printf("HDC: '%p'\r\n", hdc); // printf format string syntax
     //MessageBoxA(0,(char*)glGetString(GL_VERSION), "OPENGL VERSION",0);
     MessageBoxA(0, "Dreck !", "OPENGL VERSION", 0);
-    return true;
-}
+    return false;
+}*/
 
 /** Program Entry Function, main
  *  The designated start of the program.
@@ -39,7 +40,7 @@ static int test_function(HDC hdc) {
  */
 int main(){ // the main code portion of a C++ program
     cout << "Hello cheesy World" << endl;  //print Hello World on the screen
-    make_window_and_test(test_function);
+    //make_window_and_test(test_function);
     /* UNREACHED */
     return 0;
 }
