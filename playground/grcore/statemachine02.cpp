@@ -89,10 +89,12 @@ struct minimal_def : ::afsm::def::state_machine<minimal_def> {
 
     using initial_state = initial;
     using transitions   = transition_table<
+    // *INDENT-OFF*
     /*  State       Event       Next          Action  */
     tr< initial,    start,      running,     do_start     >,
     tr< running,    stop,       terminated,  do_stop      >
     >;
+    // *INDENT-ON*
 
     static void doSomething() {
         cout << "doSomething()" << endl;
