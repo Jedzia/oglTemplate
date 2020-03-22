@@ -157,7 +157,7 @@ public:
      *  Detailed description.
      *  @param event TODO
      */
-    void OnEvent(const sf::Event &event) override {
+    void OnEvent(const sf::Event& event) override {
         if(event.type == sf::Event::KeyPressed) {
             if(event.key.code == sf::Keyboard::R) {
                 x = 0;
@@ -188,7 +188,7 @@ public:
      *  Detailed description.
      *  @param window TODO
      */
-    void OnDraw(sf::RenderWindow &window) final {
+    void OnDraw(sf::RenderWindow& window) final {
         window.draw(shape);
     }
 
@@ -208,6 +208,10 @@ int main() {
     constexpr auto WINDOW_RATIO = std::make_tuple(16.0, 9.0);
     constexpr int WINDOW_HEIGHT = static_cast<int>(WINDOW_WIDTH * std::get<1>(WINDOW_RATIO) /
                                                    std::get<0>(WINDOW_RATIO));
+
+    int i;
+    int& iref = i;
+    static_cast<void>(iref);
 
     logSomething();
     core::bla();
