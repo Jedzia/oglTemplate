@@ -82,14 +82,14 @@ struct minimal_def : ::afsm::def::state_machine<minimal_def> {
     }
 
     using initial_state = initial;
-    using transitions = transition_table <
-                        // @formatter:off *INDENT-OFF* clang-format off
+    using transitions = transition_table<
+      // @formatter:off *INDENT-OFF* clang-format off
     /*  State       Event       Next          Action  */
     tr< initial,    start,      running,     do_start     >,
     tr< running,    stop,       terminated,  do_stop      >
     >;
 
-                        // @formatter:on  *INDENT-ON*  clang-format on
+    // @formatter:on  *INDENT-ON*  clang-format on
 };
 
 // State machine object
@@ -97,9 +97,9 @@ using minimal = ::afsm::state_machine<minimal_def>;
 
 void use() {
     //int x = 5;
-    minimal fsm {};
-    fsm.process_event(start {});
-    fsm.process_event(stop {});
+    minimal fsm{};
+    fsm.process_event(start{});
+    fsm.process_event(stop{});
 }
 
 /** Program Entry Function, main
