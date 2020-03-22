@@ -68,7 +68,7 @@ int handle_main_arguments(int argc, const char* * argv) {
                 true,                   // show help if requested
                 "Naval Fate 2.0");      // version string
 
-    for(auto const& arg : args) {
+    for(auto const &arg : args) {
         std::cout << arg.first << arg.second << std::endl;
     }
     return 0;
@@ -157,7 +157,7 @@ public:
      *  Detailed description.
      *  @param event TODO
      */
-    void OnEvent(const sf::Event& event) override {
+    void OnEvent(const sf::Event &event) override {
         if(event.type == sf::Event::KeyPressed) {
             if(event.key.code == sf::Keyboard::R) {
                 x = 0;
@@ -188,7 +188,7 @@ public:
      *  Detailed description.
      *  @param window TODO
      */
-    void OnDraw(sf::RenderWindow& window) final {
+    void OnDraw(sf::RenderWindow &window) final {
         window.draw(shape);
     }
 
@@ -210,7 +210,7 @@ int main() {
                                                    std::get<0>(WINDOW_RATIO));
 
     int i;
-    int& iref = i;
+    int &iref = i;
     static_cast<void>(iref);
 
     logSomething();
