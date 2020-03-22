@@ -62,7 +62,7 @@ struct do_stop {
 struct minimal_def : ::afsm::def::state_machine<minimal_def>{
     //@{
     /** @name States */
-    struct initial : state<initial>{  };
+    struct initial : state<initial>{};
     struct running : state<running>{
         template<typename Event, typename FSM>
         void on_enter(Event && /*evt*/, FSM & /*fsm*/) {
@@ -83,13 +83,13 @@ struct minimal_def : ::afsm::def::state_machine<minimal_def>{
 
     using initial_state = initial;
     using transitions = transition_table <
-// @formatter:off *INDENT-OFF* clang-format off
+                        // @formatter:off *INDENT-OFF* clang-format off
     /*  State       Event       Next          Action  */
     tr< initial,    start,      running,     do_start     >,
     tr< running,    stop,       terminated,  do_stop      >
     >;
 
-// @formatter:on  *INDENT-ON*  clang-format on
+                        // @formatter:on  *INDENT-ON*  clang-format on
 };
 
 // State machine object
@@ -106,8 +106,8 @@ void use() {
  *  The designated start of the program.
  *  @return program exit code.
  */
-int main() { // the main code portion of a C++ program
-    cout << "Hello cheesy World" << endl;  //print Hello World on the screen
+int main() {// the main code portion of a C++ program
+    cout << "Hello cheesy World" << endl;//print Hello World on the screen
     //make_window_and_test(test_function);
     /* UNREACHED */
     use();
