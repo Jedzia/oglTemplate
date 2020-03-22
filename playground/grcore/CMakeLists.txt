@@ -49,6 +49,6 @@ foreach (f ${playground_sources})
     endif (${_target_name} STREQUAL "stdafx")
 endforeach ()
 
-#target_link_libraries(Playground_GrCore_statemachine02 PRIVATE afsm)
-target_include_directories(Playground_GrCore_statemachine02 PRIVATE ${AFSM_INCLUDE_DIRS})
+target_link_libraries(Playground_GrCore_statemachine02 PRIVATE afsm::afsm)
+#target_include_directories(Playground_GrCore_statemachine02 PRIVATE ${AFSM_INCLUDE_DIRS})
 #message(FATAL_ERROR "AFSM_INCLUDE_DIRS ${AFSM_INCLUDE_DIRS}")
