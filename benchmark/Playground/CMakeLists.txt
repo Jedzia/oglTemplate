@@ -7,8 +7,7 @@ if (MSVC)
     target_link_libraries(${BenchmarkName} PRIVATE benchmark shlwapi)
 else (MSVC)
     target_link_libraries(${BenchmarkName} PRIVATE benchmark)
-endif(MSVC)
-
+endif (MSVC)
 
 
 set(BenchmarkName BM_FloatingPoint)
@@ -19,7 +18,7 @@ if (MSVC)
     target_link_libraries(${BenchmarkName} PRIVATE shlwapi)
 else (MSVC)
     #target_link_libraries(${BenchmarkName} PRIVATE benchmark)
-endif(MSVC)
+endif (MSVC)
 add_run_target(${BenchmarkName} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 add_list_target(${BenchmarkName} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 
@@ -27,3 +26,17 @@ add_list_target(${BenchmarkName} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 #        COMMAND arm-none-eabi-size --format=berkeley "rtos_clion.elf")
 #add_custom_command(${BenchmarkName} ${PROJECT_NAME} POST_BUILD
 #        COMMAND arm-none-eabi-size --format=berkeley "rtos_clion.elf")
+
+if(NOT DEFINED PROJECT_NAME)
+    set(NOT_SUBPROJECT ON)
+endif()
+if(DEFINED PROJECT_NAME)
+    set(SUBPROJECT ON)
+endif()
+
+if (NOT_SUBPROJECT)
+    message(WARNING "NOT_SUBPROJECT")
+endif ()
+if (SUBPROJECT)
+    message(WARNING "SUBPROJECT")
+endif ()

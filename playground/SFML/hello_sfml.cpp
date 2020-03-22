@@ -8,7 +8,7 @@
 #include <fmt/format.h>
 #include <iostream>
 
-const bool USE_VSYNC = false;
+const bool USE_VSYNC = true;
 
 int main() {
     constexpr int WINDOW_WIDTH = 1280;

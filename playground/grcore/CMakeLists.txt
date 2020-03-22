@@ -8,8 +8,8 @@ set(PLAYGROUND_CPP_FILES *.cpp)
 set(PLAYGROUND_HPP_FILES *.h)
 set(PLAYGROUND_MOC_FILES moc_*.cpp)
 
-file(GLOB playground_sources ${CMAKE_CURRENT_SOURCE_DIR}/${PLAYGROUND_CPP_FILES})
-file(GLOB playground_headers ${CMAKE_CURRENT_SOURCE_DIR}/${PLAYGROUND_HPP_FILES})
+file(GLOB playground_sources CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${PLAYGROUND_CPP_FILES})
+file(GLOB playground_headers CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${PLAYGROUND_HPP_FILES})
 
 #LIST(REMOVE_ITEM playground_sources ${TOP_SRC_DIR}/src/insets/InsetTheorem.cpp)
 #MESSAGE(STATUS "[GLOB] Files: ${playground_sources}")
