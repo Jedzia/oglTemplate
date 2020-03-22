@@ -31,3 +31,6 @@
 [submodule "external/sm/metapushkin"]
 	path = external/sm/metapushkin
 	url = https://github.com/zmij/metapushkin.git
+[submodule "external/sm/afsm"]
+	path = external/sm/afsm
+	url = https://github.com/Jedzia/afsm.git
