@@ -27,7 +27,7 @@ using namespace std;
 // Events
 struct start {
     template<typename Event, typename FSM>
-    void operator()(Event const&, FSM& fsm) const {
+    void operator()(Event const &, FSM &fsm) const {
         cout << "OPERATOR reload" << endl;
         root_machine(fsm).reload();
     }
@@ -39,21 +39,21 @@ struct stop {
     }
 };
 
-void p(const std::string& msg) {
+void p(const std::string &msg) {
     cout << "" << msg << "" << endl;
 }
 
 // Actions
 struct do_start {
     template<typename Event, typename FSM, typename SourceState, typename TargetState>
-    void operator()(Event const&, FSM& fsm, SourceState&, TargetState&) const {
+    void operator()(Event const &, FSM &fsm, SourceState &, TargetState &) const {
         p("do start");
         root_machine(fsm).doSomething();
     }
 };
 struct do_stop {
     template<typename Event, typename FSM, typename SourceState, typename TargetState>
-    void operator()(Event const&, FSM&, SourceState&, TargetState&) const {
+    void operator()(Event const &, FSM &, SourceState &, TargetState &) const {
         p("do stop");
     }
 };
@@ -65,12 +65,12 @@ struct minimal_def : ::afsm::def::state_machine<minimal_def>{
     struct initial : state<initial>{  };
     struct running : state<running>{
         template<typename Event, typename FSM>
-        void on_enter(Event&& /*evt*/, FSM& /*fsm*/) {
+        void on_enter(Event && /*evt*/, FSM & /*fsm*/) {
             ::std::cout << "state<running> enter" << ::std::endl;
         }
 
         template<typename Event, typename FSM>
-        void on_exit(Event const& /*evt*/, FSM& /*fsm*/) {
+        void on_exit(Event const & /*evt*/, FSM & /*fsm*/) {
             ::std::cout << "state<running> exit" << ::std::endl;
         }
     };
