@@ -23,16 +23,59 @@
 
 using namespace std;
 
-/** Code called during window event loop
- *  @param hdc window device context
- *  @return forwarded to program exit code
- */
-/*static int test_function(HDC hdc) {
-    fmt::printf("HDC: '%p'\r\n", hdc); // printf format string syntax
-    //MessageBoxA(0,(char*)glGetString(GL_VERSION), "OPENGL VERSION",0);
-    MessageBoxA(0, "Dreck !", "OPENGL VERSION", 0);
-    return false;
-}*/
+// Events
+struct start {};
+struct stop {};
+
+void p(const std::string& msg) {
+    cout << "" << msg << "" << endl;
+}
+
+// Actions
+struct do_start{
+    template < typename Event, typename FSM, typename SourceState, typename TargetState >
+    void
+    operator()(Event const&, FSM&, SourceState&, TargetState&) const
+    {
+        p("do start");
+    }
+};
+struct do_stop {
+    template < typename Event, typename FSM, typename SourceState, typename TargetState >
+    void
+    operator()(Event const&, FSM&, SourceState&, TargetState&) const
+    {
+        p("do stop");
+    }
+};
+
+
+// State machine definition
+struct minimal_def : ::afsm::def::state_machine<minimal_def> {
+    //@{
+    /** @name States */
+    struct initial      : state<initial> {  };
+    struct running      : state<running> {};
+    struct terminated   : terminal_state<terminated> {};
+    //@}
+
+    using initial_state = initial;
+    using transitions   = transition_table<
+    /*  State       Event       Next          Action  */
+    tr< initial,    start,      running,     do_start     >,
+    tr< running,    stop,       terminated,  do_stop      >
+    >;
+};
+
+// State machine object
+using minimal = ::afsm::state_machine<minimal_def>;
+
+void use()
+{
+    minimal fsm;
+    fsm.process_event(start{});
+    fsm.process_event(stop{});
+}
 
 /** Program Entry Function, main
  *  The designated start of the program.
@@ -42,5 +85,6 @@ int main(){ // the main code portion of a C++ program
     cout << "Hello cheesy World" << endl;  //print Hello World on the screen
     //make_window_and_test(test_function);
     /* UNREACHED */
+    use();
     return 0;
 }
