@@ -134,7 +134,7 @@ class MyCircleShape : public sf::CircleShape {
 public:
 
     explicit MyCircleShape(float radius = 0, std::size_t pointCount = 30) :
-            CircleShape(radius, pointCount) {
+        CircleShape(radius, pointCount) {
         spdlog::warn("Constructor [{}]", __PRETTY_FUNCTION__);
     }
 
@@ -154,6 +154,10 @@ public:
         shape.setFillColor(sf::Color::Green);
     }
 
+    /** Brief description of MyApplication, OnEvent
+     *  Detailed description.
+     *  @param event TODO
+     */
     void OnEvent(const sf::Event &event) override {
         if(event.type == sf::Event::KeyPressed) {
             if(event.key.code == sf::Keyboard::R) {
@@ -163,6 +167,10 @@ public:
         }
     }
 
+    /** Brief description of MyApplication, OnUpdate
+     *  Detailed description.
+     *  @param elapsed TODO
+     */
     void OnUpdate(sf::Time elapsed) override {
         float elapsedSeconds = elapsed.asSeconds();
         shape.setPosition(x, y);
@@ -177,6 +185,10 @@ public:
         }
     }
 
+    /** Brief description of MyApplication, OnDraw
+     *  Detailed description.
+     *  @param window TODO
+     */
     void OnDraw(sf::RenderWindow &window) final {
         window.draw(shape);
     }
@@ -206,8 +218,7 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), title);
     if(USE_VSYNC) {
         window.setVerticalSyncEnabled(true);
-    }
-    else {
+    } else {
         window.setFramerateLimit(60 * 4);
     }
 
