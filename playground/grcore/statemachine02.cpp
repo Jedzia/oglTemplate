@@ -59,11 +59,11 @@ struct do_stop {
 };
 
 // State machine definition
-struct minimal_def : ::afsm::def::state_machine<minimal_def>{
+struct minimal_def : ::afsm::def::state_machine<minimal_def> {
     //@{
     /** @name States */
-    struct initial : state<initial>{};
-    struct running : state<running>{
+    struct initial : state<initial> {};
+    struct running : state<running> {
         template<typename Event, typename FSM>
         void on_enter(Event && /*evt*/, FSM & /*fsm*/) {
             ::std::cout << "state<running> enter" << ::std::endl;
@@ -74,7 +74,7 @@ struct minimal_def : ::afsm::def::state_machine<minimal_def>{
             ::std::cout << "state<running> exit" << ::std::endl;
         }
     };
-    struct terminated : terminal_state<terminated>{};
+    struct terminated : terminal_state<terminated> {};
     //@}
 
     static void doSomething() {
