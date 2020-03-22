@@ -95,7 +95,7 @@ struct minimal_def : ::afsm::def::state_machine<minimal_def>{
 // State machine object
 using minimal = ::afsm::state_machine<minimal_def>;
 
-void use(){
+void use() {
     //int x = 5;
     minimal fsm {};
     fsm.process_event(start {});
@@ -106,7 +106,7 @@ void use(){
  *  The designated start of the program.
  *  @return program exit code.
  */
-int main(){ // the main code portion of a C++ program
+int main() { // the main code portion of a C++ program
     cout << "Hello cheesy World" << endl;  //print Hello World on the screen
     //make_window_and_test(test_function);
     /* UNREACHED */
