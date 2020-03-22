@@ -83,13 +83,13 @@ struct minimal_def : ::afsm::def::state_machine<minimal_def>{
 
     using initial_state = initial;
     using transitions = transition_table <
-// *INDENT-OFF*
+// @formatter:off *INDENT-OFF* clang-format off
     /*  State       Event       Next          Action  */
     tr< initial,    start,      running,     do_start     >,
     tr< running,    stop,       terminated,  do_stop      >
     >;
 
-// *INDENT-ON*
+// @formatter:on  *INDENT-ON*  clang-format on
 };
 
 // State machine object
