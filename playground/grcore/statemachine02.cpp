@@ -23,9 +23,23 @@
 
 using namespace std;
 
+// see https://github.com/zmij/afsm/tree/c++17/examples
 // Events
-struct start {};
-struct stop {};
+struct start {
+    template <typename Event, typename FSM>
+    void
+    operator()(Event const&, FSM& fsm) const
+    {
+        cout << "OPERATOR reload" << endl;
+        root_machine(fsm).reload();
+    }
+};
+struct stop {
+    void operator()() const
+    {
+        cout << "OPERATOR stop" << endl;
+    }
+};
 
 void p(const std::string& msg) {
     cout << "" << msg << "" << endl;
@@ -35,9 +49,10 @@ void p(const std::string& msg) {
 struct do_start{
     template < typename Event, typename FSM, typename SourceState, typename TargetState >
     void
-    operator()(Event const&, FSM&, SourceState&, TargetState&) const
+    operator()(Event const&, FSM& fsm, SourceState&, TargetState&) const
     {
         p("do start");
+        root_machine(fsm).doSomething();
     }
 };
 struct do_stop {
@@ -65,6 +80,10 @@ struct minimal_def : ::afsm::def::state_machine<minimal_def> {
     tr< initial,    start,      running,     do_start     >,
     tr< running,    stop,       terminated,  do_stop      >
     >;
+
+    void doSomething() {
+        cout << "doSomething()" << endl;
+    }
 };
 
 // State machine object
@@ -72,7 +91,8 @@ using minimal = ::afsm::state_machine<minimal_def>;
 
 void use()
 {
-    minimal fsm;
+    //int x = 5;
+    minimal fsm{};
     fsm.process_event(start{});
     fsm.process_event(stop{});
 }
