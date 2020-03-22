@@ -61,7 +61,7 @@ static const char USAGE[] =
  *  @param argv TODO
  *  @return TODO
  */
-int handle_main_arguments(int argc, const char* * argv){
+int handle_main_arguments(int argc, const char* * argv) {
     std::map<std::string, docopt::value> args =
         docopt::docopt(USAGE,
                 { argv + 1, argv + argc },
