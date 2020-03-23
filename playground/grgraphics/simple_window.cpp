@@ -23,6 +23,7 @@ class MyApplication final : public grg::SimpleApplication {
 public:
 
     typedef sf::RectangleShape MyShape;
+    typedef sf::Vector2f v2f;
 
     MyApplication() : grg::SimpleApplication(), m_shape(MyShape({100.f, 50.f})) {
         m_shape.setFillColor(sf::Color::Magenta);
@@ -51,17 +52,23 @@ public:
             Reset();
         }
 
+
         m_shape.setPosition(m_coord);
-        m_coord.x += Speed * elapsedSeconds;
-        m_coord.y += Speed * 0.5f * elapsedSeconds;
-        if(m_coord.x > 500) {
-            m_coord.x = 0;
-        }
+        v2f translation{Speed, Speed * 0.5f};
+        m_coord += translation * elapsedSeconds;
+        checkBounds();
 
         if(m_coord.y > 500) {
             m_coord.y = 0;
         }
-    } // OnUpdate
+    }
+
+    void checkBounds()  {
+        if(m_coord.x > 500) {
+            m_coord.x = 0;
+        }
+    }
+    // OnUpdate
 
     /** Draw content.
      *  Draw your content to the window every frame.
@@ -75,7 +82,7 @@ public:
 private:
 
     const float Speed = 250.f;
-    sf::Vector2f m_coord{0, 0};
+    v2f m_coord{0, 0};
     MyShape m_shape;
 };
 
