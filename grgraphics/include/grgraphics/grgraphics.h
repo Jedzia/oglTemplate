@@ -19,6 +19,7 @@
 #include <SFML/System/Clock.hpp>
 //
 #include "Application.h"
+#include "Setup.h"
 
 namespace grg {
 void bla();

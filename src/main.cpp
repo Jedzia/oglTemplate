@@ -32,9 +32,6 @@
    #include <iostream>
  */
 
-//#define USE_VSYNC false
-constexpr bool USE_VSYNC = false;
-
 #if USE_DOC_OPTS
 static const char USAGE[] =
     R"(Naval Fate.
@@ -157,7 +154,6 @@ public:
                 Reset();
         }
        }*/
-
     void Reset() {
         x = 0;
         y = 0;
@@ -207,21 +203,12 @@ private:
  *  @return program exit code.
  */
 int main() {
-    using namespace core;
-    WindowCalculator wc(1280, 16, 9);
-
     logSomething();
     core::bla();
     locale();
 
-    auto title = fmt::format("SFML Window ({0}, {1} -> {2:.1f}:{3})", wc.getWidth(), wc.getHeight(),
-            wc.getRatioAntecedent(), wc.getRatioConsequent());
-    sf::RenderWindow window(sf::VideoMode(wc.getWidth(), wc.getHeight()), title);
-    if(USE_VSYNC) {
-        window.setVerticalSyncEnabled(true);
-    } else {
-        window.setFramerateLimit(60 * 4);
-    }
+    auto window = grg::createRenderWindow(1280, 16, 9);
+    window.setFramerateLimit(60 * 4);
 
     grg::Application app(window);
     app.Run<MyApplication>();

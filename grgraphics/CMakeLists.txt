@@ -8,6 +8,7 @@ project(GrGraphics VERSION "${OpenGLTemplate_VERSION}")
 set(GrGraphics_INC_FILES
         include/grgraphics/Application.h
         include/grgraphics/SimpleApplication.h
+        include/grgraphics/Setup.h
         include/grgraphics/warning/SFML_Graphics.h
         include/grgraphics/warning/FMT_format.h
         )
@@ -16,7 +17,7 @@ set(GrGraphics_SRC_FILES
         src/sfml-test.cpp
         src/Application.cpp
         src/SimpleApplication.cpp
-        )
+        src/Setup.cpp)
 if (WIN32)
     #    set(GrGraphics_SRC_FILES ${GrGraphics_SRC_FILES}
     #            src/win/wgl_common.cpp)
