@@ -146,7 +146,7 @@ public:
  *  Detailed description.
  *  @param event TODO
  */
-class MyApplication : public grg::SimpleApplication {
+class MyApplication final : public grg::SimpleApplication {
 public:
 
     MyApplication() : grg::SimpleApplication(), shape(MyCircleShape(100.f)) {
@@ -168,9 +168,10 @@ public:
         y = 0;
     }
 
-    /** Brief description of MyApplication, OnUpdate
-     *  Detailed description.
-     *  @param elapsed TODO
+    /** Update state.
+     *  Refresh the state of your application here. Not guaranteed to run every frame. But can be
+     * configured to run more often than in frames to provide a smooth user experience or AI.
+     *  @param elapsed The elapsed time between calls to OnUpdate.
      */
     void OnUpdate(sf::Time elapsed) override {
         float elapsedSeconds = elapsed.asSeconds();
@@ -191,9 +192,9 @@ public:
         }
     } // OnUpdate
 
-    /** Brief description of MyApplication, OnDraw
-     *  Detailed description.
-     *  @param window TODO
+    /** Draw content.
+     *  Draw your content to the window every frame.
+     *  @param window Provides the RenderTarget::draw(...) endpoint.
      */
     void OnDraw(sf::RenderWindow &window) final {
         window.draw(shape);
