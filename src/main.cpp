@@ -127,8 +127,7 @@ void locale() {
 }
 
 /** @class MyCircleShape:
- *  Detailed description.
- *  @param event TODO
+ *  Dummy stub for testing sf::CircleShape lifetime.
  */
 class MyCircleShape : public sf::CircleShape {
 public:
@@ -143,8 +142,7 @@ public:
 };
 
 /** @class MyApplication:
- *  Detailed description.
- *  @param event TODO
+ *  Represents the handler for all window actions.
  */
 class MyApplication final : public grg::SimpleApplication {
 public:
@@ -153,16 +151,13 @@ public:
         shape.setFillColor(sf::Color::Green);
     }
 
-    /** Brief description of MyApplication, OnEvent
-     *  Detailed description.
-     *  @param event TODO
-     */
     /*void OnEvent(const sf::Event &event) override {
         if(event.type == sf::Event::KeyPressed) {
             if(event.key.code == sf::Keyboard::R)
                 Reset();
         }
        }*/
+
     void Reset() {
         x = 0;
         y = 0;
@@ -207,9 +202,9 @@ private:
     MyCircleShape shape;
 };
 
-/** Brief description of $(fclass), main
- *  Detailed description.
- *  @return TODO
+/** Program Entry Function, main
+ *  The designated start of the program.
+ *  @return program exit code.
  */
 int main() {
     using namespace core;
