@@ -52,38 +52,51 @@ public:
             Reset();
         }
 
-
         m_shape.setPosition(m_coord);
-        v2f translation{Speed, Speed * 0.5f};
+        v2f translation {Speed, Speed * 0.5f};
         m_coord += translation * elapsedSeconds;
-        checkBounds();
-
-        if(m_coord.y > 500) {
-            m_coord.y = 0;
-        }
+        m_drawShape = !checkBounds(m_coord, 500, 500, static_cast<int>(-m_shape.getSize().x), static_cast<int>(-m_shape.getSize().y));
     }
 
-    void checkBounds()  {
-        if(m_coord.x > 500) {
-            m_coord.x = 0;
+    static int checkBounds(v2f &v, int x_max, int y_max, int x_min = 0, int y_min = 0) {
+        int result = 0;
+        if(v.x < static_cast<float>(x_min)) {
+            v.x = x_max;
+            result = -1;
+        } else if(v.x > static_cast<float>(x_max)) {
+            v.x = x_min;
+            result = 1;
         }
-    }
-    // OnUpdate
+
+        if(v.y < static_cast<float>(y_min)) {
+            v.y = y_max;
+            result = -2;
+        } else if(v.y > static_cast<float>(y_max)) {
+            v.y = y_min;
+            result = 2;
+        }
+
+        return result;
+    } // checkBounds
 
     /** Draw content.
      *  Draw your content to the window every frame.
      *  @param window Provides the RenderTarget::draw(...) endpoint.
      */
     void OnDraw(sf::RenderWindow &window) final {
-        window.draw(m_shape);
+        if(m_drawShape) {
+            window.draw(m_shape);
+        }
+
         sf::sleep(sf::milliseconds(10));
     }
 
 private:
 
     const float Speed = 250.f;
-    v2f m_coord{0, 0};
+    v2f m_coord {0, 0};
     MyShape m_shape;
+    bool m_drawShape = false;
 };
 
 /** Program Entry Function, main
