@@ -10,15 +10,16 @@
  * \date       2020-01-23
  * \author     Jedzia.
  *
- * modified    2020-01-23, Jedzia
+ * modified    2020-03-23, Jedzia
  */
 /*---------------------------------------------------------*/
 #ifndef GRCORE_GRCORE_H
 #define GRCORE_GRCORE_H
 
 #include "logging.h"
+#include "math.h"
 
 namespace core {
 void bla();
 }
-#endif //GRCORE_GRCORE_H
+#endif//GRCORE_GRCORE_H

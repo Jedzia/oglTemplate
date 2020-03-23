@@ -4,13 +4,15 @@ configure_file(src/win/GrCore.rc.in ${CMAKE_CURRENT_BINARY_DIR}/src/win/GrCore.r
 
 ### list of source files of the GrCore library
 set(GrCore_INC_FILES
-        #        include/MemoryDB.h
-        #        include/DBCreate.h
-        #        include/FileUtil.h
+        include/grcore/grcore.h
+        include/grcore/logging.h
+        include/grcore/math.h
+        include/grcore/wgl_common.h
         )
 set(GrCore_SRC_FILES
         src/test.cpp
         src/logging.cpp
+        src/math.cpp
         )
 if (WIN32)
     set(GrCore_SRC_FILES ${GrCore_SRC_FILES}
@@ -28,6 +30,7 @@ source_group(src FILES ${GrCore_SRC_FILES} main.cpp)
 
 #add_library_with_resource(GrCore STATIC
 add_library_with_resource(GrCore SHARED
+        "${GrCore_INC_FILES}"
         "${GrCore_SRC_FILES}"
         "${CMAKE_CURRENT_BINARY_DIR}/src/win/GrCore.rc")
 target_include_directories(GrCore PUBLIC ${INCLUDE_DIRECTORIES})

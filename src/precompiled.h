@@ -10,7 +10,7 @@
  * \date       2020-03-15
  * \author     Jedzia.
  *
- * modified    2020-03-15, Jedzia
+ * modified    2020-03-23, Jedzia
  */
 /*---------------------------------------------------------*/
 
@@ -18,30 +18,29 @@
 #define OPENGL_TEMPLATE_PRECOMPILED_H
 
 /*#ifdef __has_feature
-#  define FMT_HAS_FEATURE(x) __has_feature(x)
-#else
-#  define FMT_HAS_FEATURE(x) 0
-#endif
+ #  define FMT_HAS_FEATURE(x) __has_feature(x)
+ ##else
+ #  define FMT_HAS_FEATURE(x) 0
+ ##endif
 
-#ifndef FMT_BEGIN_NAMESPACE
-#  if FMT_HAS_FEATURE(cxx_inline_namespaces) || FMT_GCC_VERSION >= 404 || \
+ ##ifndef FMT_BEGIN_NAMESPACE
+ #  if FMT_HAS_FEATURE(cxx_inline_namespaces) || FMT_GCC_VERSION >= 404 || \
       FMT_MSC_VER >= 1900
-#    define FMT_INLINE_NAMESPACE inline namespace
-#    define FMT_END_NAMESPACE \
+ #    define FMT_INLINE_NAMESPACE inline namespace
+ #    define FMT_END_NAMESPACE \
       }                       \
       }
-#  else
-#    define FMT_INLINE_NAMESPACE namespace
-#    define FMT_END_NAMESPACE \
+ #  else
+ #    define FMT_INLINE_NAMESPACE namespace
+ #    define FMT_END_NAMESPACE \
       }                       \
       using namespace v6;     \
       }
-#  endif
-#  define FMT_BEGIN_NAMESPACE \
+ #  endif
+ #  define FMT_BEGIN_NAMESPACE \
     namespace fmtx {           \
     FMT_INLINE_NAMESPACE v6 {
-#endif*/
-
+ #endif*/
 
 #if defined(__GNUC__) && defined(WARNINGS_SKIP_TEMPORARY)
 #  pragma GCC diagnostic ignored "-Wsign-conversion"
@@ -73,7 +72,9 @@
 #endif
 
 //#if USE_SPDLOG
-#  include <spdlog/spdlog.h>
+#include <spdlog/spdlog.h>
+#include <grcore/grcore.h>
+#include <grgraphics/grgraphics.h>
 //#endif
 
 #endif //OPENGL_TEMPLATE_PRECOMPILED_H
