@@ -157,13 +157,15 @@ public:
      *  Detailed description.
      *  @param event TODO
      */
-    void OnEvent(const sf::Event &event) override {
+    /*void OnEvent(const sf::Event &event) override {
         if(event.type == sf::Event::KeyPressed) {
-            if(event.key.code == sf::Keyboard::R) {
-                x = 0;
-                y = 0;
-            }
+            if(event.key.code == sf::Keyboard::R)
+                Reset();
         }
+       }*/
+    void Reset() {
+        x = 0;
+        y = 0;
     }
 
     /** Brief description of MyApplication, OnUpdate
@@ -172,6 +174,11 @@ public:
      */
     void OnUpdate(sf::Time elapsed) override {
         float elapsedSeconds = elapsed.asSeconds();
+
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::R)) {
+            Reset();
+        }
+
         shape.setPosition(x, y);
         x += Speed * elapsedSeconds;
         y += Speed * 0.5f * elapsedSeconds;
@@ -182,7 +189,7 @@ public:
         if(y > 500) {
             y = 0;
         }
-    }
+    } // OnUpdate
 
     /** Brief description of MyApplication, OnDraw
      *  Detailed description.
@@ -224,4 +231,4 @@ int main() {
     app.Run<MyApplication>();
 
     return 0;
-} // main
+}         // main

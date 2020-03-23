@@ -32,7 +32,7 @@ public:
      *  The place you can handle Keyboard, Mouse, etc. events.
      *  @param event The event data.
      */
-    virtual void OnEvent(const sf::Event &event) = 0;
+    virtual void OnEvent(const sf::Event /*&event*/) {};
 
     /** Update state.
      *  Refresh the state of your application here. Not guaranteed to run every frame. But can be
