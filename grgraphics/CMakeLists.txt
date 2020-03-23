@@ -66,7 +66,7 @@ endif (MSVC)
 target_link_libraries(GrGraphics
         PUBLIC ${GrGraphics_PlatformLinkLibs}
         PRIVATE spdlog::spdlog
-        PRIVATE sfml-graphics
+        PUBLIC sfml-graphics
         PUBLIC oglTemplate::GrCore
         #PRIVATE fmt::fmt
         PRIVATE project_options project_warnings

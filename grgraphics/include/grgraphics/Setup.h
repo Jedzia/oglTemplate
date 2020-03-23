@@ -22,6 +22,7 @@
 #include "warning/SFML_Graphics.h"
 
 namespace grg {
-sf::RenderWindow createRenderWindow(unsigned int width, double ratio_antecedent, double ratio_consequent);
+sf::RenderWindow createRenderWindow(unsigned int width, double ratio_antecedent, double ratio_consequent,
+        const std::string &title = "SFML Window");
 }
 #endif//OPENGLTEMPLATE_97F4AB5A9AED47ACBD7F1FEF78FA4B1C_SETUP_H

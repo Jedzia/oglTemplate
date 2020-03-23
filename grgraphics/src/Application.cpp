@@ -18,7 +18,7 @@
 #include "grgraphics/warning/FMT_format.h"
 #include <iostream>
 
-constexpr bool USE_VSYNC = false;
+//constexpr bool USE_VSYNC = false;
 
 /** Brief description of Application, DoDing
  *  Detailed description.
@@ -72,8 +72,7 @@ void grg::Application::Run(grg::SimpleApplication &app) {
                     std::cout << "system:" << event.key.system << std::endl;
                     m_window.close();
                     continue;
-                }
-                else if(event.key.code == sf::Keyboard::V) {
+                } else if(event.key.code == sf::Keyboard::V) {
                     m_window.setVerticalSyncEnabled(true);
                 }
             }
@@ -103,12 +102,12 @@ void grg::Application::Run(grg::SimpleApplication &app) {
         m_window.draw(m_fpsDisplay);
         m_window.display();
 
-        if(USE_VSYNC) {
-            sf::sleep(sf::milliseconds(12));
-        }
-        else {
-            sf::sleep(sf::milliseconds(1));
-        }
+        //if(USE_VSYNC) {
+        //   sf::sleep(sf::milliseconds(12));
+        //}
+        //else {
+        sf::sleep(sf::milliseconds(1));
+        // }
 
         //sf::Thread::wait(1);
         frame_counter++;
