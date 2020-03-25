@@ -48,6 +48,8 @@ public:
         Run(app);
     }
 
+    const sf::Font &getMainGameFont() const;
+
 private:
 
     sf::RenderWindow &m_window;

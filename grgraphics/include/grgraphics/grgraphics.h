@@ -20,6 +20,7 @@
 //
 #include "Application.h"
 #include "Setup.h"
+#include "Drawables/CoordSystem.h"
 
 namespace grg {
 void bla();

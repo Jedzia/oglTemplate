@@ -7,17 +7,20 @@ project(GrGraphics VERSION "${OpenGLTemplate_VERSION}")
 ### list of source files of the GrGraphics library
 set(GrGraphics_INC_FILES
         include/grgraphics/Application.h
-        include/grgraphics/SimpleApplication.h
+        include/grgraphics/Drawables/CoordSystem.h
         include/grgraphics/Setup.h
-        include/grgraphics/warning/SFML_Graphics.h
+        include/grgraphics/SimpleApplication.h
         include/grgraphics/warning/FMT_format.h
+        include/grgraphics/warning/SFML_Graphics.h
         )
 set(GrGraphics_SRC_FILES
-        src/test.cpp
-        src/sfml-test.cpp
         src/Application.cpp
+        src/Drawables/CoordSystem.cpp
+        src/Setup.cpp
         src/SimpleApplication.cpp
-        src/Setup.cpp)
+        src/sfml-test.cpp
+        src/test.cpp
+        )
 if (WIN32)
     #    set(GrGraphics_SRC_FILES ${GrGraphics_SRC_FILES}
     #            src/win/wgl_common.cpp)

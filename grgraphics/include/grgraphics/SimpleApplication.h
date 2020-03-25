@@ -20,19 +20,25 @@
 #include "warning/SFML_Graphics.h"
 
 namespace grg {
+class Application;
+
 /** @class SimpleApplication:
- *  Detailed description.
- *  @param window TODO
- *  @param elapsed TODO
+ *  Main loop for a SFML based application.
  */
 class SimpleApplication {
 public:
+
+    /** @brief Setup Routine.
+     *  The place you can initialize your implementation.
+     *  @param application Host application providing system and window data.
+     */
+    virtual void OnInit(const Application & /*application*/) {}
 
     /** @brief Does fire on every event.
      *  The place you can handle Keyboard, Mouse, etc. events.
      *  @param event The event data.
      */
-    virtual void OnEvent(const sf::Event /*&event*/) {};
+    virtual void OnEvent(const sf::Event /*&event*/) {}
 
     /** Update state.
      *  Refresh the state of your application here. Not guaranteed to run every frame. But can be
@@ -49,6 +55,6 @@ public:
 
     virtual ~SimpleApplication() = default;
 };
-}
+}// namespace grg
 
-#endif //OPENGLTEMPLATE_61CDCBB50D51466E91769A07F3D44D19_SIMPLEAPPLICATION_H
+#endif//OPENGLTEMPLATE_61CDCBB50D51466E91769A07F3D44D19_SIMPLEAPPLICATION_H

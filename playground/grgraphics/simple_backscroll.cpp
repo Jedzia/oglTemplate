@@ -15,6 +15,7 @@
 /*---------------------------------------------------------*/
 #include <SFML/Graphics/Color.hpp>
 #include <grgraphics/grgraphics.h>
+#include <grgraphics/warning/FMT_format.h>
 
 /** @class MyApplication:
  *  Represents the handler for all window actions.
@@ -22,10 +23,10 @@
 class MyApplication final : public grg::SimpleApplication {
 public:
 
-    typedef sf::RectangleShape MyShape;
-    typedef sf::Vector2f v2f;
+    using MyShape = sf::RectangleShape;
+    using v2f = sf::Vector2f;
 
-    MyApplication() : grg::SimpleApplication(), m_shape(MyShape({100.f, 50.f})) {
+    MyApplication() : grg::SimpleApplication(), m_shape(MyShape({100.F, 50.F})) {
         m_shape.setFillColor(sf::Color::Magenta);
     }
 
@@ -40,23 +41,36 @@ public:
         m_coord.y = 0;
     }
 
+    void OnInit(const grg::Application &application) override {
+        //m_MainGameFont = application.getMainGameFont();
+        //const sf::Font& font = application.getMainGameFont();
+        //static_cast<void>(font);
+        //static_cast<void>(m_MainGameFont);
+        //m_MainGameFont = &application.getMainGameFont();
+        m_backGround = std::make_unique<sf::Text>(__PRETTY_FUNCTION__, application.getMainGameFont(), 24);
+        m_backGround->setPosition({100, 100});
+    }
+
     /** Update state.
      *  Refresh the state of your application here. Not guaranteed to run every frame. But can be
      * configured to run more often than in frames to provide a smooth user experience or AI.
      *  @param elapsed The elapsed time between calls to OnUpdate.
      */
     void OnUpdate(sf::Time elapsed) override {
+        m_totalTime += elapsed;
         float elapsedSeconds = elapsed.asSeconds();
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::R)) {
             Reset();
         }
 
+        m_backGround->setString(fmt::format("elapsed time: {:.2f}s, x: {:.1f}, y: {:.1f}", m_totalTime.asSeconds(), m_coord.x, m_coord.y));
+
         m_shape.setPosition(m_coord);
-        v2f translation {Speed, Speed * 0.5f};
+        v2f translation {Speed, Speed * 0.5F};
         m_coord += translation * elapsedSeconds;
-        m_drawShape = !checkBounds(m_coord, 500, 500,
-                static_cast<int>(-m_shape.getSize().x), static_cast<int>(-m_shape.getSize().y));
+        m_drawShape = (checkBounds(m_coord, 500, 500,
+                static_cast<int>(-m_shape.getSize().x), static_cast<int>(-m_shape.getSize().y)) == 0);
     }
 
     static int checkBounds(v2f &v, int x_max, int y_max, int x_min = 0, int y_min = 0) {
@@ -89,15 +103,20 @@ public:
             window.draw(m_shape);
         }
 
+        window.draw(*m_backGround);
+
         sf::sleep(sf::milliseconds(10));
     }
 
 private:
 
-    const float Speed = 250.f;
+    const float Speed = 250.F;
     v2f m_coord {0, 0};
     MyShape m_shape;
     bool m_drawShape = false;
+    //const sf::Font * m_MainGameFont = nullptr;
+    std::unique_ptr<sf::Text> m_backGround;
+    sf::Time m_totalTime;
 };
 
 /** Program Entry Function, main

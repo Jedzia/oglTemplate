@@ -42,7 +42,11 @@ void grg::Application::Run(grg::SimpleApplication &app) {
     int frame_counter = 0;
     float fps_time = 0;
 
-    sf::Clock clock; // starts the clock
+    // init user application.
+    app.OnInit(*this);
+
+    // starts the clock
+    sf::Clock clock;
 
     while(m_window.isOpen()) {
         sf::Time elapsed = clock.restart();
@@ -79,6 +83,7 @@ void grg::Application::Run(grg::SimpleApplication &app) {
 
             if(event.type == sf::Event::KeyPressed) {}
 
+            // handle user events.
             app.OnEvent(event);
         }
         /*if(elapsedSeconds < 0.01)
@@ -95,9 +100,11 @@ void grg::Application::Run(grg::SimpleApplication &app) {
             fps_time = 0;
         }
 
+        // update user application.
         app.OnUpdate(elapsed);
 
         m_window.clear();
+        // draw user application.
         app.OnDraw(m_window);
         m_window.draw(m_fpsDisplay);
         m_window.display();
@@ -112,4 +119,9 @@ void grg::Application::Run(grg::SimpleApplication &app) {
         //sf::Thread::wait(1);
         frame_counter++;
     }
-} // grg::Application::Run
+}
+
+const sf::Font &grg::Application::getMainGameFont() const {
+    return m_mainGameFont;
+}
+// grg::Application::Run
