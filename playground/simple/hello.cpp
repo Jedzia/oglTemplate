@@ -13,15 +13,14 @@
  * modified    2020-01-23, Jedzia
  */
 /*---------------------------------------------------------*/
-#include <iostream> // include API
+#include <iostream>
 
-using namespace std;
-
-/** Brief description of $(fclass), main
- *  Detailed description.
- *  @return TODO
+/** Program Entry Function, main
+ *  The designated start of the program.
+ *  @return program exit code.
  */
-int main(){ // the main code portion of a C++ program
-    cout << "Hello cheesy World" << endl;  //print Hello World on the screen
+int main() {
+    // print Hello World on the screen
+    std::cout << "Hello cheesy World" << std::endl;
     return 0; // conventional
 }
