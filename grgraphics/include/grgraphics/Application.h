@@ -49,6 +49,7 @@ public:
     }
 
     const sf::Font &getMainGameFont() const;
+    sf::Vector2<unsigned int> getSize() const;
 
 private:
 

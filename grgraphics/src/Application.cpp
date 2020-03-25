@@ -124,4 +124,8 @@ void grg::Application::Run(grg::SimpleApplication &app) {
 const sf::Font &grg::Application::getMainGameFont() const {
     return m_mainGameFont;
 }
+
+sf::Vector2<unsigned int> grg::Application::getSize() const {
+    return m_window.getSize();
+}
 // grg::Application::Run

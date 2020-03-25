@@ -49,6 +49,10 @@ public:
         //m_MainGameFont = &application.getMainGameFont();
         m_backGround = std::make_unique<sf::Text>(__PRETTY_FUNCTION__, application.getMainGameFont(), 24);
         m_backGround->setPosition({100, 100});
+        //std::make_unique<grg::CoordSystem>(sf::FloatRect({0.F, 0.F}, {600.F, 600.F}));
+        //p_coords = std::make_unique<grg::CoordSystem>(sf::FloatRect({0.F, 0.F}, {600.F, 600.F}));
+        const auto size = application.getSize();
+        p_coords = std::make_unique<grg::CoordSystem>(sf::FloatRect({0.F, 0.F}, {static_cast<float>(size.x), static_cast<float>(size.y)}));
     }
 
     /** Update state.
@@ -70,7 +74,7 @@ public:
         v2f translation {Speed, Speed * 0.5F};
         m_coord += translation * elapsedSeconds;
         m_drawShape = (checkBounds(m_coord, 500, 500,
-                static_cast<int>(-m_shape.getSize().x), static_cast<int>(-m_shape.getSize().y)) == 0);
+                               static_cast<int>(-m_shape.getSize().x), static_cast<int>(-m_shape.getSize().y)) == 0);
     }
 
     static int checkBounds(v2f &v, int x_max, int y_max, int x_min = 0, int y_min = 0) {
@@ -104,6 +108,7 @@ public:
         }
 
         window.draw(*m_backGround);
+        window.draw(*p_coords);
 
         sf::sleep(sf::milliseconds(10));
     }
@@ -113,6 +118,7 @@ private:
     const float Speed = 250.F;
     v2f m_coord {0, 0};
     MyShape m_shape;
+    std::unique_ptr<grg::CoordSystem> p_coords;
     bool m_drawShape = false;
     //const sf::Font * m_MainGameFont = nullptr;
     std::unique_ptr<sf::Text> m_backGround;

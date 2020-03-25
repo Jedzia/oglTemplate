@@ -17,18 +17,28 @@
 #define OPENGLTEMPLATE_9E8EADFBCB3D404C8029D83491885AF6_COORDSYSTEM_H
 
 #include <SFML/Graphics/Drawable.hpp>
+#include <experimental/propagate_const>
 #include <memory>
-#include <vector>
 
 namespace grg {
-class CoordSystem : public sf::Drawable {
+class CoordSystem final : public sf::Drawable {
+public:
+
+    CoordSystem(const sf::FloatRect &dimensions);
+    ~CoordSystem();
+
 protected:
 
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
 private:
 
-    std::vector<std::unique_ptr<sf::Drawable>> pointers;
+    struct impl;
+    std::experimental::propagate_const<std::unique_ptr<impl>> p_impl;
+    //std::unique_ptr<impl> p_impl;
+    //std::experimental::propagate_const<std::shared_ptr<impl>> p_impl;
+    //std::shared_ptr<impl> p_impl;
+
 };
 }
 
