@@ -22,5 +22,5 @@
 int main() {
     // print Hello World on the screen
     std::cout << "Hello cheesy World" << std::endl;
-    return 0; // conventional
+    return 0; // program exit code
 }
