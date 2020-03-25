@@ -43,17 +43,47 @@ public:
         //auto line = new sf::Lines({ 60.F, 60.F });
         //m_drawables.push_back(draw_ptr(line));
 
-        addLine({70.F, 120.F}, {370.F, 520.F});
-        addLine({270.F, 620.F}, {70.F, 20.F});
+        addLine({70.F, 120.F}, {370.F, 520.F}, sf::Color::Green);
+        addLine({270.F, 620.F}, {70.F, 20.F}, sf::Color::Yellow);
 
-        addLine({dimensions.left, dimensions.top}, {dimensions.width, dimensions.height});
+        addLine({dimensions.left, dimensions.top}, {dimensions.width, dimensions.height}, sf::Color::Red);
 
+        int stepWidth = 50;
+
+        // X-Axis
+        int horizontalOffset = -50;
+        sf::Vector2f x_start({dimensions.left, dimensions.height + horizontalOffset});
+        sf::Vector2f x_end({dimensions.width, dimensions.height + horizontalOffset});
+        addLine(x_start, x_end, sf::Color::White);
+
+        // Y-Axis
+        int verticalOffset = 50;
+        sf::Vector2f y_start({dimensions.left + verticalOffset, dimensions.top});
+        sf::Vector2f y_end({dimensions.left + verticalOffset, dimensions.height});
+        addLine(y_start, y_end, sf::Color::White);
+
+        // X-Axis die striche<- namen
+        auto x_baseline = dimensions.height + horizontalOffset;
+
+        for(int x = stepWidth + verticalOffset; x < dimensions.width; x += stepWidth) {
+            addLine({static_cast<float>(x), x_baseline - 20}, {static_cast<float>(x), x_baseline + 20}, sf::Color::Blue);
+            //addLine(x_start + 5.F, x_end, sf::Color::White);
+        }
+
+        // Y-Axis die striche<- namen .. ToDo: invers abarbeiten ... oben ist ja 0
+        auto y_baseline = dimensions.left + verticalOffset;
+
+        for(int y = stepWidth + horizontalOffset; y < dimensions.height; y += stepWidth) {
+            addLine({y_baseline - 20, static_cast<float>(y)}, {y_baseline + 20, static_cast<float>(y) }, sf::Color::Blue);
+            //addLine(x_start + 5.F, x_end, sf::Color::White);
+        }
     }
 
     inline
-    void addLine(const sf::Vector2f &start, const sf::Vector2f &end) {
-        m_vertices.push_back(sf::Vertex(start));
-        m_vertices.push_back(sf::Vertex(end));
+    void addLine(const sf::Vector2f &start, const sf::Vector2f &end, sf::Color color = sf::Color::White) {
+        std::cout << "addLine: " << start.x << ", " << start.y << " - " << end.x << ", " << end.y << std::endl;
+        m_vertices.push_back(sf::Vertex(start, color));
+        m_vertices.push_back(sf::Vertex(end, color));
     }
 
     ~impl() {
@@ -102,7 +132,7 @@ void grg::CoordSystem::draw(sf::RenderTarget &target, sf::RenderStates states) c
 }
 
 grg::CoordSystem::CoordSystem(const sf::FloatRect &dimensions)
-  //: p_impl(std::make_unique<grg::CoordSystem::impl>(sf::FloatRect({0.F, 0.F}, {600.F, 600.F}))) {
+//: p_impl(std::make_unique<grg::CoordSystem::impl>(sf::FloatRect({0.F, 0.F}, {600.F, 600.F}))) {
     : p_impl(std::make_unique<grg::CoordSystem::impl>(dimensions)) {
     //p_impl.reset(new grg::CoordSystem::impl());
 }
