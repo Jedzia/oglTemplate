@@ -29,7 +29,7 @@ public:
 
     MyApplication() : grg::SimpleApplication(), m_shape(MyShape({100.F, 50.F})) {
         m_shape.setFillColor(sf::Color::Magenta);
-        Instrumentor::Instance().beginSession(__PRETTY_FUNCTION__);
+        //Instrumentor::Instance().beginSession(__PRETTY_FUNCTION__);
     }
 
     /*void OnEvent(const sf::Event &event) override {
@@ -81,19 +81,19 @@ public:
 
     static int checkBounds(v2f &v, int x_max, int y_max, int x_min = 0, int y_min = 0) {
         int result = 0;
-        if(v.x < static_cast<float>(x_min)) {
-            v.x = x_max;
+        if(static_cast<int>(v.x) < x_min) {
+            v.x = static_cast<float>(x_max);
             result = -1;
-        } else if(v.x > static_cast<float>(x_max)) {
-            v.x = x_min;
+        } else if(static_cast<int>(v.x) > x_max) {
+            v.x = static_cast<float>(x_min);
             result = 1;
         }
 
-        if(v.y < static_cast<float>(y_min)) {
-            v.y = y_max;
+        if(static_cast<int>(v.y) < y_min) {
+            v.y = static_cast<float>(y_max);
             result = -2;
-        } else if(v.y > static_cast<float>(y_max)) {
-            v.y = y_min;
+        } else if(static_cast<int>(v.y) > y_max) {
+            v.y = static_cast<float>(y_min);
             result = 2;
         }
 
@@ -112,7 +112,7 @@ public:
         window.draw(*m_backGround);
 
         {
-            InstrumentationTimer timer("draw grg::CoordSystem");
+            //InstrumentationTimer timer("draw grg::CoordSystem");
             window.draw(*p_coords);
             //sf::sleep(sf::milliseconds(1));
         }
@@ -141,7 +141,8 @@ int main() {
     //core::bla();
     //locale();
 
-    auto window = grg::createRenderWindow(1280, 16, 9, __FILE_NAME__);
+    //auto window = grg::createRenderWindow(1280, 16, 9, __FILE_NAME__);
+    auto window = grg::createRenderWindow(1280, 16, 9, __FILE__);
     //window.setFramerateLimit(60 * 4);
     window.setVerticalSyncEnabled(true);
 

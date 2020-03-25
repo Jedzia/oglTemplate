@@ -43,16 +43,15 @@
 #define PROFILING 1
 #ifdef PROFILING
 #  define PROFILE_SCOPE(name) InstrumentationTimer timer ## __LINE__(name)
-#  define PROFILE_FUNCTION()  PROFILE_SCOPE(__FUNCTION__)
+#  define PROFILE_FUNCTION() PROFILE_SCOPE(__FUNCTION__)
 #else
 #  define PROFILE_SCOPE(name)
 #endif
 
-struct ProfileResult
-{
+struct ProfileResult {
     const std::string name;
     long long start, end;
-#if 1 // M64_Bit
+#if 1// M64_Bit
     std::thread::id threadID;
 #else
     uint32_t threadID;
@@ -66,7 +65,7 @@ class Instrumentor {
     std::mutex m_lock;
     bool m_activeSession = false;
 
-    Instrumentor() { }
+    Instrumentor() {}
 
 public:
 
@@ -114,7 +113,7 @@ public:
         m_outputStream << "\"tid\":" << result.threadID << ",";
         m_outputStream << "\"ts\":" << result.start;
         m_outputStream << "}";
-    } // writeProfile
+    }// writeProfile
 
     void writeHeader() {
         m_outputStream << "{\"otherData\": {},\"traceEvents\":[";
@@ -126,7 +125,7 @@ public:
 };
 
 class InstrumentationTimer {
-#if 1 // MinGW, see https://github.com/msys2/MINGW-packages/issues/5086#issuecomment-476499828
+#if 1// MinGW, see https://github.com/msys2/MINGW-packages/issues/5086#issuecomment-476499828
     typedef std::chrono::steady_clock clock;
 #else
     typedef std::chrono::high_resolution_clock clock;
@@ -138,10 +137,10 @@ class InstrumentationTimer {
 
 public:
 
-    InstrumentationTimer(const std::string &name) : m_result({ name, 0, 0, {}
-                }),
-        m_stopped(false)
-    {
+    InstrumentationTimer(const std::string &name) : m_result({
+        name, 0, 0, {}
+    }),
+        m_stopped(false) {
         m_startTimepoint = clock::now();
     }
 
@@ -154,14 +153,14 @@ public:
 
         m_result.start = std::chrono::time_point_cast<std::chrono::microseconds>(m_startTimepoint).time_since_epoch().count();
         m_result.end = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch().count();
-/*#pragma clang diagnostic push
-   #pragma clang diagnostic ignored "-Wunused-variable"
-        auto timeS = std::chrono::time_point_cast<std::chrono::microseconds>(m_startTimepoint);
-        auto timeE = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint);
-        auto diff = timeE - timeS;
- #pragma clang diagnostic pop*/
+        /*#pragma clang diagnostic push
+           #pragma clang diagnostic ignored "-Wunused-variable"
+           auto timeS = std::chrono::time_point_cast<std::chrono::microseconds>(m_startTimepoint);
+           auto timeE = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint);
+           auto diff = timeE - timeS;
+         #pragma clang diagnostic pop*/
         //m_result.threadID = std::hash<std::thread::id>{}(std::this_thread::get_id());
-        m_result.threadID = std::this_thread::get_id(); // is typedef unsigned __int64 uintptr_t
+        m_result.threadID = std::this_thread::get_id();// is typedef unsigned __int64 uintptr_t
         Instrumentor::Instance().writeProfile(m_result);
 
         m_stopped = true;

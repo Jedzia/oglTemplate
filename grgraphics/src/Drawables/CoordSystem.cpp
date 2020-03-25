@@ -48,16 +48,16 @@ public:
 
         addLine({dimensions.left, dimensions.top}, {dimensions.width, dimensions.height}, sf::Color::Red);
 
-        int stepWidth = 50;
+        float stepWidth = 50.0F;
 
         // X-Axis
-        int horizontalOffset = -50;
+        float horizontalOffset = -50.0F;
         sf::Vector2f x_start({dimensions.left, dimensions.height + horizontalOffset});
         sf::Vector2f x_end({dimensions.width, dimensions.height + horizontalOffset});
         addLine(x_start, x_end, sf::Color::White);
 
         // Y-Axis
-        int verticalOffset = 50;
+        float verticalOffset = 50.0F;
         sf::Vector2f y_start({dimensions.left + verticalOffset, dimensions.top});
         sf::Vector2f y_end({dimensions.left + verticalOffset, dimensions.height});
         addLine(y_start, y_end, sf::Color::White);
@@ -65,16 +65,15 @@ public:
         // X-Axis die striche<- namen
         auto x_baseline = dimensions.height + horizontalOffset;
 
-        for(int x = stepWidth + verticalOffset; x < dimensions.width; x += stepWidth) {
-            addLine({static_cast<float>(x), x_baseline - 20}, {static_cast<float>(x), x_baseline + 20}, sf::Color::Blue);
+        for(float x = stepWidth + verticalOffset; x < dimensions.width; x += stepWidth) {
+            addLine({x, x_baseline - 20}, {x, x_baseline + 20}, sf::Color::Blue);
             //addLine(x_start + 5.F, x_end, sf::Color::White);
         }
-
         // Y-Axis die striche<- namen .. ToDo: invers abarbeiten ... oben ist ja 0
         auto y_baseline = dimensions.left + verticalOffset;
 
-        for(int y = stepWidth + horizontalOffset; y < dimensions.height; y += stepWidth) {
-            addLine({y_baseline - 20, static_cast<float>(y)}, {y_baseline + 20, static_cast<float>(y) }, sf::Color::Blue);
+        for(float y = stepWidth + horizontalOffset; y < dimensions.height; y += stepWidth) {
+            addLine({y_baseline - 20, y}, {y_baseline + 20, y }, sf::Color::Blue);
             //addLine(x_start + 5.F, x_end, sf::Color::White);
         }
     }
