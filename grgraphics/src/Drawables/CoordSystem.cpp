@@ -119,7 +119,8 @@ private:
     sf::FloatRect m_dimensions;
     std::vector<draw_ptr> m_drawables;
     //std::array<sf::Vertex> m_vertices;
-    std::vector<sf::Vertex> m_vertices;
+    std::vector<sf::Vertex> m_vertices; // alternative is to use sf::VertexArray.
+    //sf::VertexArray m_vertices;
     // managed by vector
     sf::RectangleShape* p_rect;
 };

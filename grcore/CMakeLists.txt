@@ -8,6 +8,7 @@ set(GrCore_INC_FILES
         include/grcore/logging.h
         include/grcore/math.h
         include/grcore/wgl_common.h
+        include/grcore/instrumentation.h
         )
 set(GrCore_SRC_FILES
         src/test.cpp

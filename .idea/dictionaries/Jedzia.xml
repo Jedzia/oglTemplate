@@ -9,11 +9,13 @@
       <w>grcore</w>
       <w>grgraphics</w>
       <w>headeronly</w>
+      <w>instrumentor</w>
       <w>jedzia</w>
       <w>opengltemplate</w>
       <w>sfml</w>
       <w>spdlog</w>
       <w>spio</w>
+      <w>timepoint</w>
       <w>uncrustified</w>
       <w>versioning</w>
       <w>vsync</w>

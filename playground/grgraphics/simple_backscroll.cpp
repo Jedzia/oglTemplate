@@ -14,6 +14,7 @@
  */
 /*---------------------------------------------------------*/
 #include <SFML/Graphics/Color.hpp>
+#include <grcore/instrumentation.h>
 #include <grgraphics/grgraphics.h>
 #include <grgraphics/warning/FMT_format.h>
 
@@ -28,6 +29,7 @@ public:
 
     MyApplication() : grg::SimpleApplication(), m_shape(MyShape({100.F, 50.F})) {
         m_shape.setFillColor(sf::Color::Magenta);
+        Instrumentor::Instance().beginSession(__PRETTY_FUNCTION__);
     }
 
     /*void OnEvent(const sf::Event &event) override {
@@ -108,7 +110,12 @@ public:
         }
 
         window.draw(*m_backGround);
-        window.draw(*p_coords);
+
+        {
+            InstrumentationTimer timer("draw grg::CoordSystem");
+            window.draw(*p_coords);
+            //sf::sleep(sf::milliseconds(1));
+        }
 
         sf::sleep(sf::milliseconds(10));
     }

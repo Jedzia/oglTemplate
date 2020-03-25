@@ -2,9 +2,20 @@
 // Created by Jedzia on 25.03.2020.
 //
 
+// Usage: include this header file somewhere in your code (eg. precompiled header), and then use like:
+//
+// Instrumentor::Get().BeginSession("Session Name");        // Begin session
+// {
+//     InstrumentationTimer timer("Profiled Scope Name");   // Place code like this in scopes you'd like to include in profiling
+//     // Code
+// }
+// Instrumentor::Get().EndSession();                        // End Session
+//
+// You will probably want to macro-fy this, to switch on/off easily and use things like __FUNCSIG__ for the profile name.
+//
+
 #ifndef OPENGLTEMPLATE_609F3B0194144707BCFEE246D8A15CB2_INSTRUMENTATION_H
 #define OPENGLTEMPLATE_609F3B0194144707BCFEE246D8A15CB2_INSTRUMENTATION_H
-#pragma once
 
 #include <string>
 #include <chrono>
@@ -25,7 +36,11 @@ struct ProfileResult
 {
     const std::string name;
     long long start, end;
+#if 1 // M64_Bit
+    std::thread::id threadID;
+#else
     uint32_t threadID;
+#endif
 };
 
 class Instrumentor
@@ -102,18 +117,24 @@ class Instrumentor
 
 class InstrumentationTimer
 {
+
+#if 1 // MinGW, see https://github.com/msys2/MINGW-packages/issues/5086#issuecomment-476499828
+    typedef std::chrono::steady_clock clock;
+#else
+    typedef std::chrono::high_resolution_clock clock;
+#endif
     ProfileResult m_result;
 
-    std::chrono::time_point<std::chrono::high_resolution_clock> m_startTimepoint;
+    std::chrono::time_point<clock> m_startTimepoint;
     bool m_stopped;
 
   public:
 
     InstrumentationTimer(const std::string & name)
-      : m_result({ name, 0, 0, 0 })
+      : m_result({ name, 0, 0, {} })
       , m_stopped(false)
     {
-        m_startTimepoint = std::chrono::high_resolution_clock::now();
+        m_startTimepoint = clock::now();
     }
 
     ~InstrumentationTimer()
@@ -123,11 +144,18 @@ class InstrumentationTimer
 
     void stop()
     {
-        auto endTimepoint = std::chrono::high_resolution_clock::now();
+        auto endTimepoint = clock::now();
 
         m_result.start = std::chrono::time_point_cast<std::chrono::microseconds>(m_startTimepoint).time_since_epoch().count();
         m_result.end   = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch().count();
-        m_result.threadID = std::hash<std::thread::id>{}(std::this_thread::get_id());
+/*#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-variable"
+        auto timeS = std::chrono::time_point_cast<std::chrono::microseconds>(m_startTimepoint);
+        auto timeE = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint);
+        auto diff = timeE - timeS;
+#pragma clang diagnostic pop*/
+        //m_result.threadID = std::hash<std::thread::id>{}(std::this_thread::get_id());
+        m_result.threadID = std::this_thread::get_id(); // is typedef unsigned __int64 uintptr_t
         Instrumentor::Instance().writeProfile(m_result);
 
         m_stopped = true;
