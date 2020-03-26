@@ -22,7 +22,7 @@
 #  pragma GCC diagnostic ignored "-Wsign-conversion"
 #  pragma GCC diagnostic ignored "-Wdouble-promotion"
 #endif
-#include <grcore/logging.h>
+#include <grcore/Logging.h>
 //#if USE_SPDLOG
 #include <spdlog/spdlog.h>
 //#endif

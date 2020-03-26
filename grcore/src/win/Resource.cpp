@@ -14,7 +14,7 @@
  */
 /*---------------------------------------------------------*/
 
-#include "grcore/resource.h"
+#include "grcore/Resource.h"
 #include <iostream>
 #include <stdexcept>
 #include <windows.h>

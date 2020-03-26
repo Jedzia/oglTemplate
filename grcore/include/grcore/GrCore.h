@@ -16,9 +16,9 @@
 #ifndef GRCORE_GRCORE_H
 #define GRCORE_GRCORE_H
 
-#include "logging.h"
-#include "math.h"
-#include "resource.h"
+#include "Logging.h"
+#include "Math.h"
+#include "Resource.h"
 
 namespace core {
 void bla();

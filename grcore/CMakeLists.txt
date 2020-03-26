@@ -9,22 +9,22 @@ configure_file(src/win/GrCore.rc.in "${RESOURCE_OUT_FILE}" @ONLY)
 ### list of source files of the GrCore library
 set(GrCore_INC_FILES
         include/grcore/GrCore.h
-        include/grcore/logging.h
-        include/grcore/math.h
+        include/grcore/Logging.h
+        include/grcore/Math.h
         include/grcore/wgl_common.h
-        include/grcore/instrumentation.h
-        include/grcore/resource.h
+        include/grcore/Instrumentation.h
+        include/grcore/Resource.h
         )
 set(GrCore_SRC_FILES
         src/test.cpp
-        src/logging.cpp
-        src/math.cpp
+        src/Logging.cpp
+        src/Math.cpp
         )
 if (WIN32)
     set(GrCore_SRC_FILES ${GrCore_SRC_FILES}
             src/win/wgl_common.cpp
-            src/win/resource.cpp
-            src/win/dllentry.cpp
+            src/win/Resource.cpp
+            src/win/DllEntry.cpp
             )
 endif (WIN32)
 set(INCLUDE_DIRECTORIES

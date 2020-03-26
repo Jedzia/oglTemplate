@@ -13,7 +13,7 @@
  * modified    2020-03-26, Jedzia
  */
 /*---------------------------------------------------------*/
-#include <grcore/resource.h>
+#include <grcore/Resource.h>
 #include <windows.h>
 
 void* HINST_DLL = nullptr;

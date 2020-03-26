@@ -18,7 +18,7 @@
 //#include <grcore/instrumentation.h>
 #include <grgraphics/grgraphics.h>
 #include <grcore/warning/FMT_format_log.h>
-#include <grcore/logging.h>
+#include <grcore/Logging.h>
 //#include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/sinks/ansicolor_sink.h>
 #include <grcore/GrCore.h>

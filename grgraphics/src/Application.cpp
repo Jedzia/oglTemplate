@@ -16,7 +16,7 @@
 
 #include "grgraphics/Application.h"
 #include "grgraphics/warning/FMT_format.h"
-#include <grcore/resource.h>
+#include <grcore/Resource.h>
 #include <iostream>
 #include <spdlog/spdlog.h>
 

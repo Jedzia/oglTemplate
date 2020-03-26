@@ -17,7 +17,7 @@
 // Created by Jedzia on 23.03.2020.
 //
 
-#include "grcore/math.h"
+#include "grcore/Math.h"
 core::WindowCalculator::WindowCalculator(unsigned int width, double ratioAntecedent, double ratioConsequent) : m_width(width),
     m_ratioAntecedent(ratioAntecedent), m_ratioConsequent(ratioConsequent) {
     m_height = static_cast<unsigned int>(CalcHeight(width, ratioAntecedent, ratioConsequent));
