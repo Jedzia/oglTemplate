@@ -13,7 +13,7 @@
  * modified    2020-01-23, Jedzia
  */
 /*---------------------------------------------------------*/
-#include <grcore/grcore.h>
+//#include <grcore/grcore.h>
 //
 //#define SPDLOG_HEADER_ONLY
 #include <iostream>
@@ -22,7 +22,7 @@
 #include <spdlog/sinks/wincolor_sink.h>
 #include "grcore/warning/FMT_format_log.h"
 
-#include "spdlog/sinks/rotating_file_sink.h"
+//#include "spdlog/sinks/rotating_file_sink.h"
 
 #ifdef _WIN32
 #include "spdlog/sinks/ansicolor_sink-inl.h"

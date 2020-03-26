@@ -19,10 +19,10 @@
 
 #include <windef.h>
 
-/** Brief description of $(fclass), make_window_and_test
+/** Brief description of $(fclass), makeWindowAndTest
  *  Detailed description.
  *  @param hdc TODO
  */
-void make_window_and_test(int (* callback)(HDC hdc));
+void makeWindowAndTest(int (* callback)(HDC hdc));
 
 #endif //OPENGLTEMPLATE_WGL_COMMON_H

@@ -15,7 +15,7 @@
 /*---------------------------------------------------------*/
 #include <SFML/Graphics/Color.hpp>
 #include <memory>
-#include <grcore/instrumentation.h>
+//#include <grcore/instrumentation.h>
 #include <grgraphics/grgraphics.h>
 #include <grcore/warning/FMT_format_log.h>
 #include <grcore/logging.h>
@@ -30,7 +30,7 @@
 class MyApplication final : public grg::SimpleApplication {
   public:
     using MyShape = sf::RectangleShape;
-    using v2f = sf::Vector2f;
+    using V2F = sf::Vector2f;
 
     MyApplication() : grg::SimpleApplication(), m_shape(MyShape({ 100.F, 50.F })) {
         m_shape.setFillColor(sf::Color::Magenta);
@@ -57,9 +57,9 @@ class MyApplication final : public grg::SimpleApplication {
         m_backGround = std::make_unique<sf::Text>(__PRETTY_FUNCTION__, application.GetMainGameFont(), 24);
         m_backGround->setPosition({ 100, 100 });
         //std::make_unique<grg::CoordSystem>(sf::FloatRect({0.F, 0.F}, {600.F, 600.F}));
-        //p_coords = std::make_unique<grg::CoordSystem>(sf::FloatRect({0.F, 0.F}, {600.F, 600.F}));
+        //m_pCoords = std::make_unique<grg::CoordSystem>(sf::FloatRect({0.F, 0.F}, {600.F, 600.F}));
         const auto size = application.GetSize();
-        p_coords = std::make_unique<grg::CoordSystem>(sf::FloatRect({ 0.F, 0.F }, { static_cast<float>(size.x), static_cast<float>(size.y) }),
+        m_pCoords = std::make_unique<grg::CoordSystem>(sf::FloatRect({0.F, 0.F }, {static_cast<float>(size.x), static_cast<float>(size.y) }),
           application.GetDebugFont());
     }
 
@@ -79,31 +79,32 @@ class MyApplication final : public grg::SimpleApplication {
         m_backGround->setString(fmt::format("elapsed time: {:.2f}s, x: {:.1f}, y: {:.1f}", m_totalTime.asSeconds(), m_coord.x, m_coord.y));
 
         m_shape.setPosition(m_coord);
-        v2f translation{ Speed, Speed * 0.5F };
+        V2F translation{Speed, Speed * 0.5F };
         m_coord += translation * elapsedSeconds;
-        m_drawShape = (checkBounds(m_coord, 500, 500, static_cast<int>(-m_shape.getSize().x), static_cast<int>(-m_shape.getSize().y)) == 0);
+        m_drawShape = (
+          CheckBounds(m_coord, 500, 500, static_cast<int>(-m_shape.getSize().x), static_cast<int>(-m_shape.getSize().y)) == 0);
     }
 
-    static int checkBounds(v2f &v, int x_max, int y_max, int x_min = 0, int y_min = 0) {
+    static int CheckBounds(V2F &v, int xMax, int yMax, int xMin = 0, int yMin = 0) {
         int result = 0;
-        if (static_cast<int>(v.x) < x_min) {
-            v.x = static_cast<float>(x_max);
+        if (static_cast<int>(v.x) < xMin) {
+            v.x = static_cast<float>(xMax);
             result = -1;
-        } else if (static_cast<int>(v.x) > x_max) {
-            v.x = static_cast<float>(x_min);
+        } else if (static_cast<int>(v.x) > xMax) {
+            v.x = static_cast<float>(xMin);
             result = 1;
         }
 
-        if (static_cast<int>(v.y) < y_min) {
-            v.y = static_cast<float>(y_max);
+        if (static_cast<int>(v.y) < yMin) {
+            v.y = static_cast<float>(yMax);
             result = -2;
-        } else if (static_cast<int>(v.y) > y_max) {
-            v.y = static_cast<float>(y_min);
+        } else if (static_cast<int>(v.y) > yMax) {
+            v.y = static_cast<float>(yMin);
             result = 2;
         }
 
         return result;
-    }// checkBounds
+    }// CheckBounds
 
     /** Draw content.
      *  Draw your content to the window every frame.
@@ -118,7 +119,7 @@ class MyApplication final : public grg::SimpleApplication {
 
         {
             //InstrumentationTimer timer("draw grg::CoordSystem");
-            window.draw(*p_coords);
+            window.draw(*m_pCoords);
             //sf::sleep(sf::milliseconds(1));
         }
 
@@ -127,9 +128,9 @@ class MyApplication final : public grg::SimpleApplication {
 
   private:
     const float Speed = 250.F;
-    v2f m_coord{ 0, 0 };
+    V2F m_coord{0, 0 };
     MyShape m_shape;
-    std::unique_ptr<grg::CoordSystem> p_coords;
+    std::unique_ptr<grg::CoordSystem> m_pCoords;
     bool m_drawShape = false;
     //const sf::Font * m_MainGameFont = nullptr;
     std::unique_ptr<sf::Text> m_backGround;
@@ -148,16 +149,16 @@ int main() {
     //spdlog::default_logger()
     spdlog::set_level(spdlog::level::debug);
     //spdlog::set(spdlog::level::debug);
-    core::logging::set_level(spdlog::level::debug);
+    core::logging::setLevel(spdlog::level::debug);
     spdlog::debug("+++ [{}]  called. +++", __PRETTY_FUNCTION__);
 
     //auto console = spdlog::stdout_color_mt("console");
     //console.set_color_mode(spdlog::color_mode::always);
     //console->warn("Testing");
 
-    //auto sink = std::make_shared<spdlog::sinks::ansicolor_stdout_sink_mt>();
-    //auto console = std::make_shared<spdlog::logger>("console", sink);
-    //console->warn("Testing");
+    // auto sink = std::make_shared<spdlog::sinks::ansicolor_stdout_sink_mt>();
+    // auto console = std::make_shared<spdlog::logger>("console", sink);
+    // console->warn("Testing");
 
     //auto window = grg::createRenderWindow(1280, 16, 9, __FILE_NAME__);
     auto window = grg::createRenderWindow(1280, 16, 9, __FILE__);

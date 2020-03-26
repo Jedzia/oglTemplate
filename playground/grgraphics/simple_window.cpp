@@ -53,13 +53,13 @@ public:
         }
 
         m_shape.setPosition(m_coord);
-        v2f translation {Speed, Speed * 0.5f};
+        V2f translation {Speed, Speed * 0.5f};
         m_coord += translation * elapsedSeconds;
-        m_drawShape = !checkBounds(m_coord, 500, 500,
+        m_drawShape = !CheckBounds(m_coord, 500, 500,
                 static_cast<int>(-m_shape.getSize().x), static_cast<int>(-m_shape.getSize().y));
     }
 
-    static int checkBounds(v2f &v, int x_max, int y_max, int x_min = 0, int y_min = 0) {
+    static int CheckBounds(sf::Vector2<float> &v, int x_max, int y_max, int x_min = 0, int y_min = 0) {
         int result = 0;
         if(v.x < static_cast<float>(x_min)) {
             v.x = x_max;
@@ -78,7 +78,7 @@ public:
         }
 
         return result;
-    } // checkBounds
+    } // CheckBounds
 
     /** Draw content.
      *  Draw your content to the window every frame.
@@ -95,7 +95,7 @@ public:
 private:
 
     const float Speed = 250.f;
-    v2f m_coord {0, 0};
+    V2f m_coord {0, 0};
     MyShape m_shape;
     bool m_drawShape = false;
 };

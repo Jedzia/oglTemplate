@@ -37,7 +37,7 @@ test_function(HDC hdc)
  */
 int main(){ // the main code portion of a C++ program
     cout << "Hello cheesy World" << endl;  //print Hello World on the screen
-    make_window_and_test(test_function);
+    makeWindowAndTest(test_function);
     /* UNREACHED */
     return 0;
 }

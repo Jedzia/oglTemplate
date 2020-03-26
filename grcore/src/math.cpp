@@ -18,29 +18,29 @@
 //
 
 #include "grcore/math.h"
-core::WindowCalculator::WindowCalculator(unsigned int width, double ratio_antecedent, double ratio_consequent) : m_width(width),
-    m_ratio_antecedent(ratio_antecedent), m_ratio_consequent(ratio_consequent) {
-    m_height = static_cast<unsigned int>(calcHeight(width, ratio_antecedent, ratio_consequent));
+core::WindowCalculator::WindowCalculator(unsigned int width, double ratioAntecedent, double ratioConsequent) : m_width(width),
+    m_ratioAntecedent(ratioAntecedent), m_ratioConsequent(ratioConsequent) {
+    m_height = static_cast<unsigned int>(CalcHeight(width, ratioAntecedent, ratioConsequent));
 }
 
-/*core::WindowCalculator::WindowCalculator(double ratio_antecedent, double ratio_consequent, int height) : m_height(height),
-    m_ratio_antecedent(ratio_antecedent), m_ratio_consequent(ratio_consequent) {}*/
+/*core::WindowCalculator::WindowCalculator(double ratioAntecedent, double ratioConsequent, int height) : m_height(height),
+    m_ratioAntecedent(ratioAntecedent), m_ratioConsequent(ratioConsequent) {}*/
 
-double core::WindowCalculator::calcHeight(unsigned int width, double ratio_antecedent, double ratio_consequent) {
-    return width * ratio_consequent / ratio_antecedent;
+double core::WindowCalculator::CalcHeight(unsigned int width, double ratioAntecedent, double ratioConsequent) {
+    return width * ratioConsequent / ratioAntecedent;
 }
-unsigned int core::WindowCalculator::getWidth() const {
+unsigned int core::WindowCalculator::GetWidth() const {
     return m_width;
 }
-unsigned int core::WindowCalculator::getHeight() const {
+unsigned int core::WindowCalculator::GetHeight() const {
     return m_height;
 }
-double core::WindowCalculator::getRatioAntecedent() const {
-    return m_ratio_antecedent;
+double core::WindowCalculator::GetRatioAntecedent() const {
+    return m_ratioAntecedent;
 }
-double core::WindowCalculator::getRatioConsequent() const {
-    return m_ratio_consequent;
+double core::WindowCalculator::GetRatioConsequent() const {
+    return m_ratioConsequent;
 }
-std::tuple<double, double> core::WindowCalculator::getRatio() const {
-    return std::make_tuple(m_ratio_antecedent, m_ratio_consequent);
+std::tuple<double, double> core::WindowCalculator::GetRatio() const {
+    return std::make_tuple(m_ratioAntecedent, m_ratioConsequent);
 }

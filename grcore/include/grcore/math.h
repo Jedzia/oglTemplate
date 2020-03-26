@@ -23,31 +23,30 @@ namespace core {
 class WindowCalculator {
 public:
 
-    explicit WindowCalculator(unsigned int width, double ratio_antecedent, double ratio_consequent);
+    explicit WindowCalculator(unsigned int width, double ratioAntecedent, double ratioConsequent);
     // explicit WindowCalculator(double ratio_antecedent, double ratio_consequent, int height);
 
-    double calcHeight(unsigned int width, double ratio_antecedent, double ratio_consequent);
+    static double CalcHeight(unsigned int width, double ratioAntecedent, double ratioConsequent);
 
     //double calcWidth(int height, double ratio_antecedent, double ratio_consequent);
     //
-    [[nodiscard]] unsigned int getWidth() const;
+    [[nodiscard]] unsigned int GetWidth() const;
 
-    [[nodiscard]] unsigned int getHeight() const;
+    [[nodiscard]] unsigned int GetHeight() const;
 
-    [[nodiscard]] double getRatioAntecedent() const;
+    [[nodiscard]] double GetRatioAntecedent() const;
 
-    [[nodiscard]] double getRatioConsequent() const;
+    [[nodiscard]] double GetRatioConsequent() const;
 
-    //
-    [[nodiscard]] std::tuple<double, double> getRatio() const;
+    [[nodiscard]] std::tuple<double, double> GetRatio() const;
 
 private:
 
     unsigned int m_width = 0;
     unsigned int m_height = 0;
     //std::tuple<double, double> m_ratio;
-    double m_ratio_antecedent = 0;
-    double m_ratio_consequent = 0;
+    double m_ratioAntecedent = 0;
+    double m_ratioConsequent = 0;
 };
 }// namespace core
 

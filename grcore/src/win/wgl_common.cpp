@@ -23,13 +23,13 @@
 #include "grcore/wgl_common.h"
 #include <windows.h>
 
-static int (* test_callback)(HDC hdc);
+static int (* TEST_CALLBACK)(HDC hdc);
 
-/** Brief description of $(fclass), setup_pixel_format
+/** Brief description of $(fclass), setupPixelFormat
  *  Detailed description.
  *  @param hdc TODO
  */
-static void setup_pixel_format(HDC hdc)             {
+static void setupPixelFormat(HDC hdc)             {
     PIXELFORMATDESCRIPTOR pfd = {
         sizeof(PIXELFORMATDESCRIPTOR),
         1,
@@ -50,19 +50,19 @@ static void setup_pixel_format(HDC hdc)             {
         0,
         0, 0, 0,
     };
-    int pixel_format;
+    int pixelFormat;
 
-    pixel_format = ChoosePixelFormat(hdc, &pfd);
-    if(!pixel_format) {
+    pixelFormat = ChoosePixelFormat(hdc, &pfd);
+    if(!pixelFormat) {
         fputs("ChoosePixelFormat failed.\n", stderr);
         exit(1);
     }
 
-    if(SetPixelFormat(hdc, pixel_format, &pfd) != TRUE) {
+    if(SetPixelFormat(hdc, pixelFormat, &pfd) != TRUE) {
         fputs("SetPixelFormat() failed.\n", stderr);
         exit(1);
     }
-} // setup_pixel_format
+} // setupPixelFormat
 
 /** Brief description of $(fclass), window_proc
  *  Detailed description.
@@ -78,8 +78,8 @@ static LRESULT CALLBACK window_proc(HWND hwnd, UINT message, WPARAM wparam, LPAR
 
     switch(message) {
     case WM_CREATE:
-        setup_pixel_format(hdc);
-        ret = test_callback(hdc);
+        setupPixelFormat(hdc);
+        ret = TEST_CALLBACK(hdc);
         ReleaseDC(hwnd, hdc);
         exit(ret);
         return 0;
@@ -89,40 +89,40 @@ static LRESULT CALLBACK window_proc(HWND hwnd, UINT message, WPARAM wparam, LPAR
     }
 }
 
-/** Brief description of $(fclass), make_window_and_test
+/** Brief description of $(fclass), makeWindowAndTest
  *  Detailed description.
  *  @param hdc TODO
  */
-void make_window_and_test(int (* callback)(HDC hdc))       {
-    const char* class_name = "epoxy";
-    const char* window_name = "epoxy";
+void makeWindowAndTest(int (* callback)(HDC hdc))       {
+    const char* className = "epoxy";
+    const char* windowName = "epoxy";
     int width = 150;
     int height = 150;
     HWND hwnd;
     HINSTANCE currentInstance = nullptr;
-    WNDCLASS window_class;
+    WNDCLASS windowClass;
     MSG msg;
 
-    test_callback = callback;
+    TEST_CALLBACK = callback;
 
-    memset(&window_class, 0, sizeof(window_class));
-    window_class.style = CS_OWNDC | CS_HREDRAW | CS_VREDRAW;
-    window_class.lpfnWndProc = window_proc;
-    window_class.cbClsExtra = 0;
-    window_class.cbWndExtra = 0;
-    window_class.hInstance = currentInstance;
-    window_class.hIcon = LoadIcon(nullptr, IDI_APPLICATION);
-    window_class.hCursor = LoadCursor(nullptr, IDC_ARROW);
-    window_class.hbrBackground = reinterpret_cast<HBRUSH>((COLOR_WINDOW + 1));
-    window_class.lpszMenuName = nullptr;
-    window_class.lpszClassName = class_name;
-    if(!RegisterClass(&window_class)) {
+    memset(&windowClass, 0, sizeof(windowClass));
+    windowClass.style = CS_OWNDC | CS_HREDRAW | CS_VREDRAW;
+    windowClass.lpfnWndProc = window_proc;
+    windowClass.cbClsExtra = 0;
+    windowClass.cbWndExtra = 0;
+    windowClass.hInstance = currentInstance;
+    windowClass.hIcon = LoadIcon(nullptr, IDI_APPLICATION);
+    windowClass.hCursor = LoadCursor(nullptr, IDC_ARROW);
+    windowClass.hbrBackground = reinterpret_cast<HBRUSH>((COLOR_WINDOW + 1));
+    windowClass.lpszMenuName = nullptr;
+    windowClass.lpszClassName = className;
+    if(!RegisterClass(&windowClass)) {
         fputs("Failed to register window class\n", stderr);
         exit(1);
     }
 
     /* create window */
-    hwnd = CreateWindow(class_name, window_name,
+    hwnd = CreateWindow(className, windowName,
             WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS,
             0, 0, width, height,
             nullptr, nullptr, currentInstance, nullptr);
@@ -134,4 +134,4 @@ void make_window_and_test(int (* callback)(HDC hdc))       {
         TranslateMessage(&msg);
         DispatchMessage(&msg);
     }
-} // make_window_and_test
+} // makeWindowAndTest

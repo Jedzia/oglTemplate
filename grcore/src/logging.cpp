@@ -41,6 +41,6 @@ void core::info() {
 //#endif
 }
 
-void core::logging::set_level(int level) {
+void core::logging::setLevel(int level) {
     spdlog::set_level(static_cast<spdlog::level::level_enum>(level));
 }

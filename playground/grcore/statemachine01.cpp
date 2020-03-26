@@ -234,7 +234,7 @@ namespace  // Concrete FSM implementation
 
 int main(){ // the main code portion of a C++ program
     std::cout << "Hello cheesy World" << std::endl;  //print Hello World on the screen
-    //make_window_and_test(test_function);
+    //makeWindowAndTest(test_function);
     test();
     return 0;
 }

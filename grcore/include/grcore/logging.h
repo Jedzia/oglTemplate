@@ -22,7 +22,7 @@
 
 namespace core {
 namespace logging {
-void set_level(int level);
+void setLevel(int level);
 }
 void info();
 
