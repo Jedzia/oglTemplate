@@ -21,7 +21,7 @@
 #include <grcore/logging.h>
 //#include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/sinks/ansicolor_sink.h>
-#include <grcore/grcore.h>
+#include <grcore/GrCore.h>
 //#include <grcore/resource.h>
 
 /** @class MyApplication:

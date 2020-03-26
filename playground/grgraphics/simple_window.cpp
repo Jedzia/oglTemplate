@@ -23,7 +23,7 @@ class MyApplication final : public grg::SimpleApplication {
 public:
 
     typedef sf::RectangleShape MyShape;
-    typedef sf::Vector2f v2f;
+    typedef sf::Vector2f V2F;
 
     MyApplication() : grg::SimpleApplication(), m_shape(MyShape({100.f, 50.f})) {
         m_shape.setFillColor(sf::Color::Magenta);
@@ -53,27 +53,27 @@ public:
         }
 
         m_shape.setPosition(m_coord);
-        V2f translation {Speed, Speed * 0.5f};
+        V2F translation {Speed, Speed * 0.5f};
         m_coord += translation * elapsedSeconds;
         m_drawShape = !CheckBounds(m_coord, 500, 500,
                 static_cast<int>(-m_shape.getSize().x), static_cast<int>(-m_shape.getSize().y));
     }
 
-    static int CheckBounds(sf::Vector2<float> &v, int x_max, int y_max, int x_min = 0, int y_min = 0) {
+    static int CheckBounds(sf::Vector2<float> &v, int xMax, int yMax, int xMin = 0, int yMin = 0) {
         int result = 0;
-        if(v.x < static_cast<float>(x_min)) {
-            v.x = x_max;
+        if(v.x < static_cast<float>(xMin)) {
+            v.x = static_cast<float>(xMax);
             result = -1;
-        } else if(v.x > static_cast<float>(x_max)) {
-            v.x = x_min;
+        } else if(v.x > static_cast<float>(xMax)) {
+            v.x = static_cast<float>(xMin);
             result = 1;
         }
 
-        if(v.y < static_cast<float>(y_min)) {
-            v.y = y_max;
+        if(v.y < static_cast<float>(yMin)) {
+            v.y = static_cast<float>(yMax);
             result = -2;
-        } else if(v.y > static_cast<float>(y_max)) {
-            v.y = y_min;
+        } else if(v.y > static_cast<float>(yMax)) {
+            v.y = static_cast<float>(yMin);
             result = 2;
         }
 
@@ -95,7 +95,7 @@ public:
 private:
 
     const float Speed = 250.f;
-    V2f m_coord {0, 0};
+    V2F m_coord {0, 0};
     MyShape m_shape;
     bool m_drawShape = false;
 };
@@ -109,7 +109,8 @@ int main() {
     //core::bla();
     //locale();
 
-    auto window = grg::createRenderWindow(1280, 16, 9, __FILE_NAME__);
+    //auto window = grg::createRenderWindow(1280, 16, 9, __FILE_NAME__);
+    auto window = grg::createRenderWindow(1280, 16, 9, __FILE__);
     //window.setFramerateLimit(60 * 4);
     window.setVerticalSyncEnabled(true);
 

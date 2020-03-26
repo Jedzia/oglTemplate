@@ -48,7 +48,7 @@
 #include <fstream>
 #include <iostream>
 #include <locale>
-#include <grcore/grcore.h>
+#include <grcore/GrCore.h>
 
 struct separate_thousands : std::numpunct<char>{
     /** Brief description of $(fclass), do_thousands_sep

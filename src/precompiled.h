@@ -73,7 +73,7 @@
 
 //#if USE_SPDLOG
 #include <spdlog/spdlog.h>
-#include <grcore/grcore.h>
+#include <grcore/GrCore.h>
 #include <grgraphics/grgraphics.h>
 //#endif
 

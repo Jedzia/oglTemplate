@@ -8,7 +8,7 @@ configure_file(src/win/GrCore.rc.in "${RESOURCE_OUT_FILE}" @ONLY)
 
 ### list of source files of the GrCore library
 set(GrCore_INC_FILES
-        include/grcore/grcore.h
+        include/grcore/GrCore.h
         include/grcore/logging.h
         include/grcore/math.h
         include/grcore/wgl_common.h
