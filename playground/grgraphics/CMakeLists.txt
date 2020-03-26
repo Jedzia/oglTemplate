@@ -2,9 +2,10 @@
 # s. E:\Projects\C++\Playground\projects\Playground\CMakeLists.txt for globbing
 #add_executable(simple_main hello.cpp)
 
+# Prepare Resource File
 set(RESOURCE_OUT_FILE "${CMAKE_CURRENT_BINARY_DIR}/res/Playground_GrGraphics.rc")
+set(CURRENT_RESOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/res")
 configure_file(res/Playground_GrGraphics.rc.in "${RESOURCE_OUT_FILE}" @ONLY)
-set(CURRENT_RESOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/res CACHE INTERNAL "")
 
 # playground single source files
 set(PLAYGROUND_CPP_FILES *.cpp)

@@ -17,6 +17,7 @@
 #include <grcore/instrumentation.h>
 #include <grgraphics/grgraphics.h>
 #include <grgraphics/warning/FMT_format.h>
+#include <grcore/resource.h>
 
 /** @class MyApplication:
  *  Represents the handler for all window actions.
@@ -141,6 +142,8 @@ int main() {
     //core::bla();
     //locale();
 
+    core::Resource res(253);
+    res.Get();
     //auto window = grg::createRenderWindow(1280, 16, 9, __FILE_NAME__);
     auto window = grg::createRenderWindow(1280, 16, 9, __FILE__);
     //window.setFramerateLimit(60 * 4);

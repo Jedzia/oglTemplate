@@ -1,6 +1,10 @@
 project(GrCore VERSION "${OpenGLTemplate_VERSION}")
 
-configure_file(src/win/GrCore.rc.in ${CMAKE_CURRENT_BINARY_DIR}/src/win/GrCore.rc @ONLY)
+# Prepare Resource File
+set(RESOURCE_OUT_FILE "${CMAKE_CURRENT_BINARY_DIR}/src/win/GrCore.rc")
+#set(CURRENT_RESOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/res" CACHE INTERNAL "")
+set(CURRENT_RESOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/res")
+configure_file(src/win/GrCore.rc.in "${RESOURCE_OUT_FILE}" @ONLY)
 
 ### list of source files of the GrCore library
 set(GrCore_INC_FILES
@@ -9,11 +13,13 @@ set(GrCore_INC_FILES
         include/grcore/math.h
         include/grcore/wgl_common.h
         include/grcore/instrumentation.h
+        include/grcore/resource.h
         )
 set(GrCore_SRC_FILES
         src/test.cpp
         src/logging.cpp
         src/math.cpp
+        src/resource.cpp
         )
 if (WIN32)
     set(GrCore_SRC_FILES ${GrCore_SRC_FILES}
@@ -31,9 +37,8 @@ source_group(src FILES ${GrCore_SRC_FILES} main.cpp)
 
 #add_library_with_resource(GrCore STATIC
 add_library_with_resource(GrCore SHARED
-        "${GrCore_INC_FILES}"
-        "${GrCore_SRC_FILES}"
-        "${CMAKE_CURRENT_BINARY_DIR}/src/win/GrCore.rc")
+        "${GrCore_INC_FILES};${GrCore_SRC_FILES}"
+        "${RESOURCE_OUT_FILE}")
 target_include_directories(GrCore PUBLIC ${INCLUDE_DIRECTORIES})
 target_compile_definitions(GrCore PRIVATE GrCore_WIN_EXPORT)
 

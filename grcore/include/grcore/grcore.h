@@ -18,6 +18,7 @@
 
 #include "logging.h"
 #include "math.h"
+#include "resource.h"
 
 namespace core {
 void bla();
