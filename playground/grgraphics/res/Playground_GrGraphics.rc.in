@@ -1,0 +1,54 @@
+#include <winresrc.h>
+
+#define IDS_HELLO    1
+#define IDS_GOODBYE  2
+
+STRINGTABLE
+{
+    IDS_HELLO,   "Playground_GrGraphics Hello Fucker"
+    IDS_GOODBYE, "Goodbye"
+}
+
+#define TEXTFILE   256
+#define IDR_DATA1  255
+IDR_DATA1 TEXTFILE "@CURRENT_RESOURCE_DIR@/Items.txt"
+
+#define FONTFILE   254
+#define IDR_DATA2  253
+IDR_DATA2 FONTFILE "@CURRENT_RESOURCE_DIR@/FiraCode-Regular.ttf"
+
+VS_VERSION_INFO VERSIONINFO
+  FILEVERSION    @OpenGLTemplate_VERSION_MAJOR@, @OpenGLTemplate_VERSION_MINOR@, @OpenGLTemplate_VERSION_PATCH@, @OpenGLTemplate_VERSION_TWEAK@
+  PRODUCTVERSION @OpenGLTemplate_VERSION_MAJOR@, @OpenGLTemplate_VERSION_MINOR@, @OpenGLTemplate_VERSION_PATCH@, @OpenGLTemplate_VERSION_TWEAK@
+  FILEFLAGSMASK VS_FFI_FILEFLAGSMASK
+#ifndef NDEBUG
+  FILEFLAGS 0
+#else
+  FILEFLAGS VER_DEBUG
+#endif
+  FILEOS VOS_NT_WINDOWS32
+#ifdef OpenGLTemplate_WIN_EXPORT
+  FILETYPE VFT_DLL
+#else
+  FILETYPE VFT_STATIC_LIB
+#endif
+  FILESUBTYPE VFT2_UNKNOWN
+  BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+      BLOCK "04090000"
+      BEGIN
+        VALUE "FileDescription", "OpenGLTemplate, the efficient I/O library"
+        VALUE "FileVersion", "@OpenGLTemplate_VERSION@"
+        VALUE "InternalName", "OpenGLTemplate"
+        VALUE "LegalCopyright", "Licensed under GPLv2"
+        VALUE "OriginalFilename", "@PROJECT_NAME@.dll"
+        VALUE "ProductName", "OpenGLTemplate"
+        VALUE "ProductVersion", "@OpenGLTemplate_VERSION@"
+      END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+      VALUE "Translation", 0x409, 1200
+    END
+  END

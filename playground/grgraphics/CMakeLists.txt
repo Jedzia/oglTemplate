@@ -2,6 +2,9 @@
 # s. E:\Projects\C++\Playground\projects\Playground\CMakeLists.txt for globbing
 #add_executable(simple_main hello.cpp)
 
+set(RESOURCE_OUT_FILE "${CMAKE_CURRENT_BINARY_DIR}/res/Playground_GrGraphics.rc")
+configure_file(res/Playground_GrGraphics.rc.in "${RESOURCE_OUT_FILE}" @ONLY)
+set(CURRENT_RESOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/res CACHE INTERNAL "")
 
 # playground single source files
 set(PLAYGROUND_CPP_FILES *.cpp)
@@ -20,7 +23,7 @@ foreach (f ${playground_sources})
     if (${_target_name} STREQUAL "stdafx")
     else (${_target_name} STREQUAL "stdafx")
         set(_target_name "Playground_GrGraphics_${_target_name}")
-        add_executable(${_target_name} ${f})
+        add_executable(${_target_name} ${f} "${RESOURCE_OUT_FILE}")
         #target_link_libraries(${_target_name} GrGraphics)
         #target_include_directories(${BENCHMARK_RUNNER_NAME} PRIVATE include)
         target_link_libraries(${_target_name}
@@ -49,6 +52,7 @@ foreach (f ${playground_sources})
     endif (${_target_name} STREQUAL "stdafx")
 endforeach ()
 
+#target_link_libraries(Playground_GrGraphics_simple_backscroll PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/res/GrGraphics.rc")
 #target_link_libraries(Playground_GrGraphics_statemachine02 PRIVATE afsm::afsm)
 #target_include_directories(Playground_GrGraphics_statemachine02 PRIVATE ${AFSM_INCLUDE_DIRS})
 #message(FATAL_ERROR "AFSM_INCLUDE_DIRS ${AFSM_INCLUDE_DIRS}")

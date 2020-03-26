@@ -2,7 +2,7 @@ project(GrGraphics VERSION "${OpenGLTemplate_VERSION}")
 #project(GrGraphics)
 #message(FATAL_ERROR "{PROJECT_NAME}_{FILE_NAME}_{EXT} ${CMAKE_PROJECT_NAME} - ${FILE_NAME} - ${EXT}")
 #message(FATAL_ERROR "{PROJECT_NAME}_{FILE_NAME}_{EXT} ${PROJECT_NAME} - ${FILE_NAME} - ${EXT}")
-#configure_file(src/win/GrGraphics.rc.in ${CMAKE_CURRENT_BINARY_DIR}/src/win/GrGraphics.rc @ONLY)
+configure_file(src/win/GrGraphics.rc.in ${CMAKE_CURRENT_BINARY_DIR}/src/win/GrGraphics.rc @ONLY)
 
 ### list of source files of the GrGraphics library
 set(GrGraphics_INC_FILES
@@ -44,6 +44,7 @@ add_library_with_resource(GrGraphics SHARED
 #add_library(GrGraphics SHARED
 add_library(GrGraphics STATIC
         "${GrGraphics_SRC_FILES}"
+        "${CMAKE_CURRENT_BINARY_DIR}/src/win/GrGraphics.rc"
         )
 target_include_directories(GrGraphics PUBLIC ${INCLUDE_DIRECTORIES})
 #target_include_directories(GrGraphics PRIVATE "E:/Projects/C++/oglTemplate/external/spdlog/include")
