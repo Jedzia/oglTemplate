@@ -80,7 +80,8 @@ public:
 
     inline
     void addLine(const sf::Vector2f &start, const sf::Vector2f &end, sf::Color color = sf::Color::White) {
-        std::cout << "addLine: " << start.x << ", " << start.y << " - " << end.x << ", " << end.y << std::endl;
+        //std::cout << "addLine: " << start.x << ", " << start.y << " - " << end.x << ", " << end.y
+        // << std::endl;
         m_vertices.push_back(sf::Vertex(start, color));
         m_vertices.push_back(sf::Vertex(end, color));
     }
@@ -131,10 +132,11 @@ void grg::CoordSystem::draw(sf::RenderTarget &target, sf::RenderStates states) c
     p_impl->draw(target, states);
 }
 
-grg::CoordSystem::CoordSystem(const sf::FloatRect &dimensions)
+grg::CoordSystem::CoordSystem(const sf::FloatRect &dimensions, const sf::Font &font)
 //: p_impl(std::make_unique<grg::CoordSystem::impl>(sf::FloatRect({0.F, 0.F}, {600.F, 600.F}))) {
-    : p_impl(std::make_unique<grg::CoordSystem::impl>(dimensions)) {
+    : p_impl(std::make_unique<grg::CoordSystem::impl>(dimensions)), m_Font(font) {
     //p_impl.reset(new grg::CoordSystem::impl());
+    static_cast<void>(m_Font);
 }
 
 grg::CoordSystem::~CoordSystem() {}

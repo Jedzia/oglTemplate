@@ -55,7 +55,7 @@ public:
         //std::make_unique<grg::CoordSystem>(sf::FloatRect({0.F, 0.F}, {600.F, 600.F}));
         //p_coords = std::make_unique<grg::CoordSystem>(sf::FloatRect({0.F, 0.F}, {600.F, 600.F}));
         const auto size = application.getSize();
-        p_coords = std::make_unique<grg::CoordSystem>(sf::FloatRect({0.F, 0.F}, {static_cast<float>(size.x), static_cast<float>(size.y)}));
+        p_coords = std::make_unique<grg::CoordSystem>(sf::FloatRect({0.F, 0.F}, {static_cast<float>(size.x), static_cast<float>(size.y)}), application.getDebugFont());
     }
 
     /** Update state.
@@ -142,8 +142,6 @@ int main() {
     //core::bla();
     //locale();
 
-    core::Resource res(253);
-    res.Get();
     //auto window = grg::createRenderWindow(1280, 16, 9, __FILE_NAME__);
     auto window = grg::createRenderWindow(1280, 16, 9, __FILE__);
     //window.setFramerateLimit(60 * 4);

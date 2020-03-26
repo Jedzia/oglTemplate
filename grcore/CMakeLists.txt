@@ -19,11 +19,13 @@ set(GrCore_SRC_FILES
         src/test.cpp
         src/logging.cpp
         src/math.cpp
-        src/resource.cpp
         )
 if (WIN32)
     set(GrCore_SRC_FILES ${GrCore_SRC_FILES}
-            src/win/wgl_common.cpp)
+            src/win/wgl_common.cpp
+            src/win/resource.cpp
+            src/win/dllentry.cpp
+            )
 endif (WIN32)
 set(INCLUDE_DIRECTORIES
         #         include

@@ -48,15 +48,25 @@ public:
         Run(app);
     }
 
-    const sf::Font &getMainGameFont() const;
+    const sf::Font &getMainGameFont() const {
+        return m_mainGameFont;
+    }
+
+    const sf::Font &getDebugFont() const {
+        return m_debugFont;
+    }
+
     sf::Vector2<unsigned int> getSize() const;
 
 private:
 
+    void loadDebugFont();
+
     sf::RenderWindow &m_window;
     sf::Text m_fpsDisplay;
     sf::Font m_mainGameFont;
+    sf::Font m_debugFont;
 };
-}
+}// namespace grg
 
-#endif //GRGRAPHICS_APPLICATION_H
+#endif//GRGRAPHICS_APPLICATION_H

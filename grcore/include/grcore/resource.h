@@ -20,14 +20,25 @@
 #ifndef OPENGLTEMPLATE_184BD536C24F498D954956C919487BF7_RESOURCE_H
 #define OPENGLTEMPLATE_184BD536C24F498D954956C919487BF7_RESOURCE_H
 
-namespace core {
-class Resource {
-  public:
-    Resource(int mId);
+#include <tuple>
 
-    void Get();
-  private:
-int m_id=0;
+namespace core {
+class Resource final {
+public:
+
+    Resource(int resourceName);
+    ~Resource();
+
+    static void SetHandle(void* handle) {
+        p_handle = handle;
+    }
+
+    [[nodiscard]] std::tuple<const void *, size_t, int> Get();
+
+private:
+
+    int m_id = 0;
+    static void* p_handle;
 };
 }// namespace core
 

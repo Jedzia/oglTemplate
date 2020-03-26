@@ -20,11 +20,14 @@
 #include <experimental/propagate_const>
 #include <memory>
 
+namespace sf {
+class SFML_GRAPHICS_API Font;
+}
 namespace grg {
 class CoordSystem final : public sf::Drawable {
 public:
 
-    CoordSystem(const sf::FloatRect &dimensions);
+    CoordSystem(const sf::FloatRect &dimensions, const sf::Font &font);
     ~CoordSystem();
 
 protected:
@@ -38,7 +41,7 @@ private:
     //std::unique_ptr<impl> p_impl;
     //std::experimental::propagate_const<std::shared_ptr<impl>> p_impl;
     //std::shared_ptr<impl> p_impl;
-
+    const sf::Font &m_Font;
 };
 }
 

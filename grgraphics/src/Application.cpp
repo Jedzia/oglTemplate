@@ -16,7 +16,9 @@
 
 #include "grgraphics/Application.h"
 #include "grgraphics/warning/FMT_format.h"
+#include <grcore/resource.h>
 #include <iostream>
+#include <spdlog/spdlog.h>
 
 //constexpr bool USE_VSYNC = false;
 
@@ -31,6 +33,7 @@ void grg::Application::DoDing() {
 grg::Application::Application(sf::RenderWindow &window) : m_window(window) {
     m_mainGameFont.loadFromFile("Futura Bk BT Book.ttf");
     m_fpsDisplay = sf::Text("Test, Depp", m_mainGameFont);
+    loadDebugFont();
 }
 
 /** Brief description of Application, Run
@@ -91,7 +94,7 @@ void grg::Application::Run(grg::SimpleApplication &app) {
              const char *formatStr = "FPS: {:.1f}, Frame Counter: {}";
              m_fpsDisplay.setString(fmt::format(formatStr, 1.0 / elapsedSeconds, frame_counter));
             }*/
-//        grg::update(elapsed);
+        //        grg::update(elapsed);
 
         if(frame_counter % 60 == 0) {
             const char* formatStr = "FPS: {:.1f}, Frame Counter: {}";
@@ -119,13 +122,34 @@ void grg::Application::Run(grg::SimpleApplication &app) {
         //sf::Thread::wait(1);
         frame_counter++;
     }
-}
-
-const sf::Font &grg::Application::getMainGameFont() const {
-    return m_mainGameFont;
-}
+}// grg::Application::Run
 
 sf::Vector2<unsigned int> grg::Application::getSize() const {
     return m_window.getSize();
 }
+
+void grg::Application::loadDebugFont() {
+    const int fontID = 129;
+    auto fi = m_debugFont.getInfo();
+    if(!(fi.family == "")) {return; }
+
+    spdlog::warn("[{}] Loading Font from resource (id={}).", __PRETTY_FUNCTION__, fontID);
+    core::Resource res(fontID);
+    auto [data, size, error] = res.Get();
+    //std::cout << "data:" << data << std::endl;
+    //std::cout << "size:" << size << std::endl;
+    //std::cout << "error:" << error << std::endl;
+    if(!error) {
+        bool success = m_debugFont.loadFromMemory(data, size);
+        if(success) {
+            fi = m_debugFont.getInfo();
+            spdlog::warn("[{}] Loaded Font from resource (id={}): '{}'.", __PRETTY_FUNCTION__, fontID, fi.family);
+        } else {
+            spdlog::error("[{}] ERROR loading Font from resource (id={}).", __PRETTY_FUNCTION__, fontID);
+        }
+    }
+} // grg::Application::loadDebugFont
+
+// grg::Application::getDebugFont
+
 // grg::Application::Run
