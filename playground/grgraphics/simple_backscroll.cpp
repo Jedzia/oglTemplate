@@ -16,7 +16,7 @@
 #include <SFML/Graphics/Color.hpp>
 #include <memory>
 //#include <grcore/instrumentation.h>
-#include <grgraphics/grgraphics.h>
+#include <grgraphics/GrGraphics.h>
 #include <grcore/warning/FMT_format_log.h>
 #include <grcore/Logging.h>
 //#include <spdlog/sinks/stdout_color_sinks.h>

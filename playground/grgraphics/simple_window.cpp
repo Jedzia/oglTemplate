@@ -14,7 +14,7 @@
  */
 /*---------------------------------------------------------*/
 #include <SFML/Graphics/Color.hpp>
-#include <grgraphics/grgraphics.h>
+#include <grgraphics/GrGraphics.h>
 
 /** @class MyApplication:
  *  Represents the handler for all window actions.

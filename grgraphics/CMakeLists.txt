@@ -22,7 +22,6 @@ set(GrGraphics_SRC_FILES
         src/Drawables/CoordSystem.cpp
         src/Setup.cpp
         src/SimpleApplication.cpp
-        src/sfml-test.cpp
         src/test.cpp
         )
 if (WIN32)

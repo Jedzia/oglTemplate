@@ -13,7 +13,7 @@
  * modified    2020-01-23, Jedzia
  */
 /*---------------------------------------------------------*/
-#include <grgraphics/grgraphics.h>
+#include <grgraphics/GrGraphics.h>
 //
 #include <iostream>
 //

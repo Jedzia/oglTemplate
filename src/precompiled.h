@@ -74,7 +74,7 @@
 //#if USE_SPDLOG
 #include <spdlog/spdlog.h>
 #include <grcore/GrCore.h>
-#include <grgraphics/grgraphics.h>
+#include <grgraphics/GrGraphics.h>
 //#endif
 
 #endif //OPENGL_TEMPLATE_PRECOMPILED_H
