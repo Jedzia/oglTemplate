@@ -24,6 +24,16 @@
 
 #include "spdlog/sinks/rotating_file_sink.h"
 
+#ifdef _WIN32
+#include "spdlog/sinks/ansicolor_sink-inl.h"
+template class spdlog::sinks::ansicolor_sink<spdlog::details::console_mutex>;
+template class spdlog::sinks::ansicolor_sink<spdlog::details::console_nullmutex>;
+template class spdlog::sinks::ansicolor_stdout_sink<spdlog::details::console_mutex>;
+template class spdlog::sinks::ansicolor_stdout_sink<spdlog::details::console_nullmutex>;
+template class spdlog::sinks::ansicolor_stderr_sink<spdlog::details::console_mutex>;
+template class spdlog::sinks::ansicolor_stderr_sink<spdlog::details::console_nullmutex>;
+#endif
+
 namespace core {
 /** Brief description of $(fclass), bla
  *  Detailed description.
@@ -49,8 +59,14 @@ void bla() {
 
     //auto sink = new spdlog::sinks::wincolor_stderr_sink_st;
     auto sink = std::make_shared<spdlog::sinks::wincolor_stdout_sink_mt>();
+    sink->set_color_mode(spdlog::color_mode::always);
     auto console = std::make_shared<spdlog::logger>("console", sink);
     console->warn("Testing spdlog::sinks::wincolor_stdout_sink_mt");
+
+    auto sink2 = std::make_shared<spdlog::sinks::ansicolor_stdout_sink_mt>();
+    sink2->set_color_mode(spdlog::color_mode::always);
+    auto console2 = std::make_shared<spdlog::logger>("console", sink2);
+    console2->warn("Testing spdlog::sinks::ansicolor_stdout_sink_mt");
 
     //static_cast<void>(sink);
 
