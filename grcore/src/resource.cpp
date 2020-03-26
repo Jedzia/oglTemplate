@@ -27,12 +27,15 @@ core::Resource::Resource(int mId) : m_id(mId) {
 }
 void core::Resource::Get() {
     static_cast<void>(m_id);
-    int type = 166; //static_cast<int>(RT_FONT);
-    int name = 167;
+    //int type = 333; //static_cast<int>(RT_FONT);
+    int name = 129;
     //int type = 256;
     //int name = 255;
-    HMODULE handle = ::GetModuleHandleW(NULL);
-    HRSRC rc = ::FindResourceW(handle, MAKEINTRESOURCEW(name), MAKEINTRESOURCEW(type));
+    //HMODULE handle = ::GetModuleHandleW(NULL);
+    HMODULE handle = ::GetModuleHandleW(L"libGrCore.dll");
+    //HRSRC rc = ::FindResourceW(handle, MAKEINTRESOURCEW(name), MAKEINTRESOURCEW(type));
+    HRSRC rc = ::FindResourceW(handle, MAKEINTRESOURCEW(name), L"BINARY");
+    //HRSRC rc = ::FindResource(handle, MAKEINTRESOURCE(name), MAKEINTRESOURCE(type));
     HGLOBAL rcData = ::LoadResource(handle, rc);
     auto size = ::SizeofResource(handle, rc);
     //auto data = static_cast<const wchar_t*>(::LockResource(rcData));
