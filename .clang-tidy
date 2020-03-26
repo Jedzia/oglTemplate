@@ -3,6 +3,8 @@ Checks:          '*,-fuchsia-*,-google-*,-zircon-*,-abseil-*,-modernize-use-trai
 WarningsAsErrors: '1'
 HeaderFilterRegex: ''
 FormatStyle:     none
-readability-magic-numbers: none
+#readability-magic-numbers: none
+cppcoreguidelines-avoid-magic-numbers: none
+readability-identifier-naming: CamelCase
 
 
