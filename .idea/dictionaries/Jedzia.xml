@@ -3,8 +3,11 @@
     <words>
       <w>EvePanix</w>
       <w>cotire</w>
+      <w>cout</w>
       <w>drawables</w>
+      <w>endl</w>
       <w>freetype</w>
+      <w>futura</w>
       <w>glbinding</w>
       <w>grcore</w>
       <w>grgraphics</w>
@@ -12,6 +15,7 @@
       <w>instrumentor</w>
       <w>jedzia</w>
       <w>opengltemplate</w>
+      <w>panix</w>
       <w>sfml</w>
       <w>spdlog</w>
       <w>spio</w>

@@ -4,5 +4,6 @@
     <inspection_tool class="ClangTidy" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="useCustomListOfClangTidyChecks" value="false" />
     </inspection_tool>
+    <inspection_tool class="OCInconsistentNaming" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
   </profile>
 </component>

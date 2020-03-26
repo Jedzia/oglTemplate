@@ -14,8 +14,8 @@
  */
 /*---------------------------------------------------------*/
 
-#ifndef GRGRAPHICS_APPLICATION_H
-#define GRGRAPHICS_APPLICATION_H
+#ifndef OPENGLTEMPLATE_7C6596A73F134A68A428CA3FD2E6D069_APPLICATION_H
+#define OPENGLTEMPLATE_7C6596A73F134A68A428CA3FD2E6D069_APPLICATION_H
 
 #include "SimpleApplication.h"
 #include "warning/SFML_Graphics.h"
@@ -33,8 +33,6 @@ public:
 
     Application(sf::RenderWindow &window);
 
-    void DoDing();
-
     void Run(SimpleApplication &app);
 
     /** Brief description of Application, Run
@@ -48,19 +46,19 @@ public:
         Run(app);
     }
 
-    const sf::Font &getMainGameFont() const {
+    const sf::Font &GetMainGameFont() const {
         return m_mainGameFont;
     }
 
-    const sf::Font &getDebugFont() const {
+    const sf::Font &GetDebugFont() const {
         return m_debugFont;
     }
 
-    sf::Vector2<unsigned int> getSize() const;
+    sf::Vector2<unsigned int> GetSize() const;
 
 private:
 
-    void loadDebugFont();
+    void LoadDebugFont();
 
     sf::RenderWindow &m_window;
     sf::Text m_fpsDisplay;
@@ -69,4 +67,4 @@ private:
 };
 }// namespace grg
 
-#endif//GRGRAPHICS_APPLICATION_H
+#endif//OPENGLTEMPLATE_7C6596A73F134A68A428CA3FD2E6D069_APPLICATION_H

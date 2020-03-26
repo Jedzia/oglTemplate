@@ -49,17 +49,18 @@ class MyApplication final : public grg::SimpleApplication {
     }
 
     void OnInit(const grg::Application &application) override {
-        //m_MainGameFont = application.getMainGameFont();
-        //const sf::Font& font = application.getMainGameFont();
+        //m_MainGameFont = application.GetMainGameFont();
+        //const sf::Font& font = application.GetMainGameFont();
         //static_cast<void>(font);
         //static_cast<void>(m_MainGameFont);
-        //m_MainGameFont = &application.getMainGameFont();
-        m_backGround = std::make_unique<sf::Text>(__PRETTY_FUNCTION__, application.getMainGameFont(), 24);
+        //m_MainGameFont = &application.GetMainGameFont();
+        m_backGround = std::make_unique<sf::Text>(__PRETTY_FUNCTION__, application.GetMainGameFont(), 24);
         m_backGround->setPosition({ 100, 100 });
         //std::make_unique<grg::CoordSystem>(sf::FloatRect({0.F, 0.F}, {600.F, 600.F}));
         //p_coords = std::make_unique<grg::CoordSystem>(sf::FloatRect({0.F, 0.F}, {600.F, 600.F}));
-        const auto size = application.getSize();
-        p_coords = std::make_unique<grg::CoordSystem>(sf::FloatRect({ 0.F, 0.F }, { static_cast<float>(size.x), static_cast<float>(size.y) }), application.getDebugFont());
+        const auto size = application.GetSize();
+        p_coords = std::make_unique<grg::CoordSystem>(sf::FloatRect({ 0.F, 0.F }, { static_cast<float>(size.x), static_cast<float>(size.y) }),
+          application.GetDebugFont());
     }
 
     /** Update state.

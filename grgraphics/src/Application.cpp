@@ -22,18 +22,10 @@
 
 //constexpr bool USE_VSYNC = false;
 
-/** Brief description of Application, DoDing
- *  Detailed description.
- *  @return TODO
- */
-void grg::Application::DoDing() {
-    //window.close();
-}
-
 grg::Application::Application(sf::RenderWindow &window) : m_window(window) {
     m_mainGameFont.loadFromFile("Futura Bk BT Book.ttf");
-    m_fpsDisplay = sf::Text("Test, Depp", m_mainGameFont);
-    loadDebugFont();
+    m_fpsDisplay = sf::Text("Test, Test", m_mainGameFont);
+    LoadDebugFont();
 }
 
 /** Brief description of Application, Run
@@ -42,8 +34,8 @@ grg::Application::Application(sf::RenderWindow &window) : m_window(window) {
  *  @return TODO
  */
 void grg::Application::Run(grg::SimpleApplication &app) {
-    int frame_counter = 0;
-    float fps_time = 0;
+    int frameCounter = 0;
+    float fpsTime = 0;
 
     // init user application.
     app.OnInit(*this);
@@ -54,7 +46,7 @@ void grg::Application::Run(grg::SimpleApplication &app) {
     while(m_window.isOpen()) {
         sf::Time elapsed = clock.restart();
         float elapsedSeconds = elapsed.asSeconds();
-        fps_time = fps_time + elapsedSeconds;
+        fpsTime = fpsTime + elapsedSeconds;
         //std::cout << elapsedSeconds << std::endl;
         //clock.restart();
 
@@ -92,15 +84,15 @@ void grg::Application::Run(grg::SimpleApplication &app) {
         /*if(elapsedSeconds < 0.01)
             {
              const char *formatStr = "FPS: {:.1f}, Frame Counter: {}";
-             m_fpsDisplay.setString(fmt::format(formatStr, 1.0 / elapsedSeconds, frame_counter));
+             m_fpsDisplay.setString(fmt::format(formatStr, 1.0 / elapsedSeconds, frameCounter));
             }*/
         //        grg::update(elapsed);
 
-        if(frame_counter % 60 == 0) {
+        if(frameCounter % 60 == 0) {
             const char* formatStr = "FPS: {:.1f}, Frame Counter: {}";
-            m_fpsDisplay.setString(fmt::format(formatStr, 60 / fps_time, frame_counter));
+            m_fpsDisplay.setString(fmt::format(formatStr, 60 / fpsTime, frameCounter));
 
-            fps_time = 0;
+            fpsTime = 0;
         }
 
         // update user application.
@@ -120,21 +112,21 @@ void grg::Application::Run(grg::SimpleApplication &app) {
         // }
 
         //sf::Thread::wait(1);
-        frame_counter++;
+        frameCounter++;
     }
 }// grg::Application::Run
 
-sf::Vector2<unsigned int> grg::Application::getSize() const {
+sf::Vector2<unsigned int> grg::Application::GetSize() const {
     return m_window.getSize();
 }
 
-void grg::Application::loadDebugFont() {
-    const int fontID = 129;
+void grg::Application::LoadDebugFont() {
+    const int fontId = 129;
     auto fi = m_debugFont.getInfo();
     if(!(fi.family == "")) {return; }
 
-    spdlog::warn("[{}] Loading Font from resource (id={}).", __PRETTY_FUNCTION__, fontID);
-    core::Resource res(fontID);
+    spdlog::warn("[{}] Loading Font from resource (id={}).", __PRETTY_FUNCTION__, fontId);
+    core::Resource res(fontId);
     auto [data, size, error] = res.Get();
     //std::cout << "data:" << data << std::endl;
     //std::cout << "size:" << size << std::endl;
@@ -143,13 +135,13 @@ void grg::Application::loadDebugFont() {
         bool success = m_debugFont.loadFromMemory(data, size);
         if(success) {
             fi = m_debugFont.getInfo();
-            spdlog::warn("[{}] Loaded Font from resource (id={}): '{}'.", __PRETTY_FUNCTION__, fontID, fi.family);
+            spdlog::warn("[{}] Loaded Font from resource (id={}): '{}'.", __PRETTY_FUNCTION__, fontId, fi.family);
         } else {
-            spdlog::error("[{}] ERROR loading Font from resource (id={}).", __PRETTY_FUNCTION__, fontID);
+            spdlog::error("[{}] ERROR loading Font from resource (id={}).", __PRETTY_FUNCTION__, fontId);
         }
     }
-} // grg::Application::loadDebugFont
+} // grg::Application::LoadDebugFont
 
-// grg::Application::getDebugFont
+// grg::Application::GetDebugFont
 
 // grg::Application::Run
