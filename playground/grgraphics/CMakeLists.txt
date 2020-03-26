@@ -53,7 +53,7 @@ foreach (f ${playground_sources})
     endif (${_target_name} STREQUAL "stdafx")
 endforeach ()
 
-#target_link_libraries(Playground_GrGraphics_simple_backscroll PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/res/GrGraphics.rc")
+target_link_libraries(Playground_GrGraphics_simple_backscroll PRIVATE spdlog::spdlog)
 #target_link_libraries(Playground_GrGraphics_statemachine02 PRIVATE afsm::afsm)
 #target_include_directories(Playground_GrGraphics_statemachine02 PRIVATE ${AFSM_INCLUDE_DIRS})
 #message(FATAL_ERROR "AFSM_INCLUDE_DIRS ${AFSM_INCLUDE_DIRS}")

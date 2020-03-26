@@ -18,10 +18,18 @@
 #include <iostream>
 #include <stdexcept>
 #include <windows.h>
+#include "grcore/warning/FMT_format_log.h"
 
-core::Resource::Resource(int resourceName) : m_id(resourceName) {}
+extern void* HINST_DLL;
+
+core::Resource::Resource(int resourceName) : m_id(resourceName) {
+    //std::cout << "+++ Constructor " << __PRETTY_FUNCTION__ << " called. +++" << "\n";
+    spdlog::debug(" {1}:{2} +++ Constructor [{0}]  called. +++", __PRETTY_FUNCTION__, __FILE__, __LINE__);
+}
 
 core::Resource::~Resource() {
+    //std::cout << "+++ Destructor  " << __PRETTY_FUNCTION__ << " called. +++" << "\n";
+    spdlog::debug(" {1}:{2} +++ Destructor  [{0}]  called. +++", __PRETTY_FUNCTION__, __FILE__, __LINE__);
     // no need to free something, its a embedded resource.
     //if(p_handle)
 }
@@ -30,16 +38,16 @@ std::tuple<const void *, size_t, int> core::Resource::Get() {
     static_cast<void>(m_id);
     //int type = 333; //static_cast<int>(RT_FONT);
     int error = 0;
-    if(!p_handle) {
-        p_handle = ::GetModuleHandleW(L"libGrCore.dll");
-        std::cout << __PRETTY_FUNCTION__ << ": Handle via GetModuleHandleW(L\"libGrCore.dll\")" << std::endl;
+    if(!HINST_DLL) {
+        HINST_DLL = ::GetModuleHandleW(L"libGrCore.dll");
+        std::cout << __PRETTY_FUNCTION__ << ": Handle via GetModuleHandleW(L\"libGrCore.dll\")" << "\n";
     }
 
-    if(!p_handle) {
+    if(!HINST_DLL) {
         throw new std::runtime_error("Missing DLL Handle");
     }
 
-    HMODULE handle = static_cast<HMODULE>(p_handle);
+    HMODULE handle = static_cast<HMODULE>(HINST_DLL);
     HRSRC rc = ::FindResourceW(handle, MAKEINTRESOURCEW(m_id), L"BINARY");
     HGLOBAL rcData = ::LoadResource(handle, rc);
     auto size = ::SizeofResource(handle, rc);
@@ -51,4 +59,4 @@ std::tuple<const void *, size_t, int> core::Resource::Get() {
     };
 } // core::Resource::Get
 
-void * core::Resource::p_handle = nullptr;
+//void * core::Resource::p_handle = nullptr;

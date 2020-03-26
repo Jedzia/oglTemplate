@@ -43,6 +43,7 @@ add_library_with_resource(GrCore SHARED
         "${RESOURCE_OUT_FILE}")
 target_include_directories(GrCore PUBLIC ${INCLUDE_DIRECTORIES})
 target_compile_definitions(GrCore PRIVATE GrCore_WIN_EXPORT)
+#target_compile_definitions(GrCore PUBLIC SPDLOG_HEADER_ONLY)
 
 # #get_property(fancy_lib_location TARGET ${PROJECT_NAME} PROPERTY LIBRARY_LOCATION)
 # # Push the current (NEW) CMake policy onto the stack, and apply the OLD policy.

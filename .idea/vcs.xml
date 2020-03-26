@@ -3,7 +3,6 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/benchmark/gbenchmark" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/build/external/sm/afsm/cmake-scripts" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/external/SFML" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/external/docopt.cpp" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/external/fmt" vcs="Git" />

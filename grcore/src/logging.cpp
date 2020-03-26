@@ -40,3 +40,7 @@ void core::info() {
     spdlog::info("core::info() -> Hello, {}!", "World from core::info()");
 //#endif
 }
+
+void core::logging::set_level(int level) {
+    spdlog::set_level(static_cast<spdlog::level::level_enum>(level));
+}

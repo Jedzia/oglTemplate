@@ -13,9 +13,6 @@
  * modified    2020-03-25, Jedzia
  */
 /*---------------------------------------------------------*/
-//
-// Created by Jedzia on 26.03.2020.
-//
 
 #ifndef OPENGLTEMPLATE_184BD536C24F498D954956C919487BF7_RESOURCE_H
 #define OPENGLTEMPLATE_184BD536C24F498D954956C919487BF7_RESOURCE_H
@@ -29,16 +26,16 @@ public:
     Resource(int resourceName);
     ~Resource();
 
-    static void SetHandle(void* handle) {
+    /*static void SetHandle(void* handle) {
         p_handle = handle;
-    }
+    }*/
 
     [[nodiscard]] std::tuple<const void *, size_t, int> Get();
 
 private:
 
     int m_id = 0;
-    static void* p_handle;
+    //static void* p_handle;
 };
 }// namespace core
 
