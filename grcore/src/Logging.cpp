@@ -45,3 +45,7 @@ void core::info() {
 void core::logging::setLevel(int level) {
     spdlog::set_level(static_cast<spdlog::level::level_enum>(level));
 }
+
+void core::logging::setUpLogger() {
+    checkConsole();
+}

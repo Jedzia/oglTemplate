@@ -22,6 +22,8 @@
 
 namespace core {
 namespace logging {
+void setUpLogger();
+
 void setLevel(int level);
 }
 void info();

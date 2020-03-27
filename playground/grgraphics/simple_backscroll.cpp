@@ -146,6 +146,7 @@ int main() {
     core::bla();
     //locale();
 
+    core::logging::setUpLogger();
     //spdlog::default_logger()
     spdlog::set_level(spdlog::level::debug);
     //spdlog::set(spdlog::level::debug);
