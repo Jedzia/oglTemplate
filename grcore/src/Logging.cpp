@@ -60,21 +60,51 @@ static std::string LOGGER_NAME = spdlog::default_logger()->name();
  */
 void info() {
     //Use the default logger (stdout, multi-threaded, colored)
-//#if USE_SPDLOG
+    //#if USE_SPDLOG
     spdlog::info("core::info() -> Hello, {}!", "World from core::info()");
-//#endif
+    //#endif
 }
 
-void logging::set_level(int level) {
-    spdlog::set_level(static_cast<spdlog::level::level_enum>(level));
+void logging::set_level(spdlog::level::level_enum level) {
+    //spdlog::set_level(static_cast<spdlog::level::level_enum>(level));
+    spdlog::set_level(level);
 }
 
-void logging::setUpLogger(std::shared_ptr<spdlog::logger> logger) {
+void logging::setUpLogger(std::shared_ptr<spdlog::logger> logger, spdlog::level::level_enum level) {
     // unite the application and library loggers.
-    spdlog::set_default_logger(logger);
     LOGGER_NAME = logger->name();
-    checkConsole();
-}
+    spdlog::set_default_logger(logger);
+    set_level(level);
+    auto sysType = checkConsole();
+
+    switch(sysType) {
+    default:
+        throw new std::runtime_error("Wrong switch case in deciding System Type at logging::setUpLogger.");
+    case Windows:
+        std::cout << " using Windows console system." << std::endl;
+        {
+            auto sink = std::make_shared<spdlog::sinks::wincolor_stdout_sink_mt>();
+            sink->set_color_mode(spdlog::color_mode::always);
+            logger->sinks().clear();
+            logger->sinks().push_back(sink);
+        }
+        break;
+    case None:
+        std::cout << "ERROR in logging::setUpLogger: Cannot detect console system type." << std::endl;
+        break;
+    case MSys:
+        std::cout << " using MSys console system." << std::endl;
+        {
+            auto sink = std::make_shared<spdlog::sinks::ansicolor_stdout_sink_mt>();
+            sink->set_color_mode(spdlog::color_mode::always);
+            logger->sinks().clear();
+            logger->sinks().push_back(sink);
+        }
+        break;
+    }// switch
+
+    logger->warn("You should see spdlog with color.");
+}// logging::setUpLogger
 
 std::shared_ptr<spdlog::logger> setupLoggerInternal(std::vector<spdlog::sink_ptr> sinks) {
     auto logger = spdlog::get(LOGGER_NAME);
@@ -132,5 +162,5 @@ void bla() {
     console2->warn("Testing spdlog::sinks::ansicolor_stdout_sink_mt");
 
     //static_cast<void>(sink);
-} // bla
-}
+}// bla
+}// namespace core

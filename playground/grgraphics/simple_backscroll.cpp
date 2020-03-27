@@ -142,6 +142,12 @@ class MyApplication final : public grg::SimpleApplication {
  *  @return program exit code.
  */
 int main() {
+
+    // use application logger as main logger
+    core::logging::setUpLogger(spdlog::default_logger(), spdlog::level::debug);
+    //core::logging::set_level(spdlog::level::debug);
+    //spdlog::set_level(spdlog::level::debug);
+
     //logSomething();
     core::bla();
     //locale();
@@ -151,9 +157,7 @@ int main() {
     spdlog::debug("{}::{}", __FUNCTION__, "0. spdlog init message");
     core::logging::test("0. spdlog init message, Library");
 
-    // ** Setup Logger in Lib **
-    spdlog::set_level(spdlog::level::debug);
-    core::logging::setUpLogger(spdlog::default_logger());
+    /*// ** Setup Logger in Lib **
 
     // 1. after setup
     spdlog::debug("{}::{}", __FUNCTION__, "1. spdlog init message");
@@ -165,7 +169,7 @@ int main() {
 
     // 2. after manual setup
     spdlog::debug("{}::{}", __FUNCTION__, "2. spdlog init message");
-    core::logging::test("2. spdlog init message, Library");
+    core::logging::test("2. spdlog init message, Library");*/
 
 
     spdlog::info("+++ [{}]  called. +++", __PRETTY_FUNCTION__);

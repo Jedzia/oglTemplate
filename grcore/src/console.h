@@ -20,6 +20,13 @@
 #ifndef OPENGLTEMPLATE_AEE9CED07DB246BA94D682680063898C_CONSOLE_H
 #define OPENGLTEMPLATE_AEE9CED07DB246BA94D682680063898C_CONSOLE_H
 namespace core {
-void checkConsole();
+enum ConsoleCheckResult {
+    Windows = -1,
+    None = 0,
+    MSys = 1,
+    NLevels
+};
+
+[[nodiscard]]  ConsoleCheckResult checkConsole();
 }
 #endif//OPENGLTEMPLATE_AEE9CED07DB246BA94D682680063898C_CONSOLE_H

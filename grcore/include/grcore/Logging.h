@@ -24,9 +24,9 @@
 
 namespace core {
 namespace logging {
-void setUpLogger(std::shared_ptr<spdlog::logger> logger);
+void setUpLogger(std::shared_ptr<spdlog::logger> logger, spdlog::level::level_enum level = spdlog::level::info );
 
-void set_level(int level);
+void set_level(spdlog::level::level_enum level);
 
 void test(std::string message);
 }

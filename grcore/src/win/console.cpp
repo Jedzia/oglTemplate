@@ -19,23 +19,37 @@
 #include <iostream>
 #include <locale>
 
-void core::checkConsole() {
+core::ConsoleCheckResult core::checkConsole() {
     //std::wcout << "User-preferred locale setting is " << std::locale("").name().c_str() << '\n';
 
+    auto consoleResult = ConsoleCheckResult::None;
+    int decide = 0;
     try {
         std::cout << "std::locale(\"\").name(): " << std::locale("").name() << std::endl;
+        decide--;
     }
     catch(std::runtime_error &e) {
         // fires on MSYS
         std::cout << "std::locale(\"\").name(), std::runtime_error: " << e.what() << std::endl;
+        decide++;
+        //return MSys;
     }
 
     if(isatty(STDOUT_FILENO)) {
         /* this is a terminal */
         std::cout << "isatty !" << std::endl;
+        decide--;
     } else {
         // fires on MSYS
+        decide++;
         std::cout << "NO isatty !" << std::endl;
+    }
+
+    std::cout << "core::checkConsole(), decide: " << decide << std::endl;
+    if(decide < 0) {
+        consoleResult = Windows;
+    } else if(decide > 0) {
+        consoleResult = MSys;
     }
 
 /*    std::locale l1;  // l1 is a copy of the classic "C" locale
@@ -48,4 +62,5 @@ void core::checkConsole() {
     std::cout << "Locale names:\nl4: " << l4.name() << std::endl;*/
     /*std::cout << "Locale names:\nl1: " << l1.name() << "\nl2: " << l2.name()
               << "\nl3: " << l3.name() << "\nl4: " << l4.name() << '\n';*/
+    return consoleResult;
 } // core::checkConsole
