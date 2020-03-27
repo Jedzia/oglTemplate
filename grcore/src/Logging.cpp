@@ -70,11 +70,32 @@ void logging::set_level(spdlog::level::level_enum level) {
     spdlog::set_level(level);
 }
 
-void logging::setUpLogger(std::shared_ptr<spdlog::logger> logger, spdlog::level::level_enum level) {
-    // unite the application and library loggers.
-    LOGGER_NAME = logger->name();
-    spdlog::set_default_logger(logger);
-    set_level(level);
+std::shared_ptr<spdlog::logger> setupLoggerInternal(std::vector<spdlog::sink_ptr> sinks) {
+    auto logger = spdlog::get(LOGGER_NAME);
+    if(not logger) {
+        if(sinks.size() > 0) {
+            logger = std::make_shared<spdlog::logger>(LOGGER_NAME,
+              std::begin(sinks),
+              std::end(sinks));
+            spdlog::register_logger(logger);
+        } else {
+            logger = spdlog::stdout_color_mt(LOGGER_NAME);
+        }
+    }
+
+    return logger;
+}
+
+std::shared_ptr<spdlog::logger> setupLoggerInternal(std::string loggerName) {
+    auto logger = spdlog::get(loggerName);
+    if(not logger) {
+             logger = spdlog::stdout_color_mt(loggerName);
+    }
+
+    return logger;
+}
+
+void colorizeLogger(std::shared_ptr<spdlog::logger> logger) {
     auto sysType = checkConsole();
 
     switch(sysType) {
@@ -102,25 +123,53 @@ void logging::setUpLogger(std::shared_ptr<spdlog::logger> logger, spdlog::level:
         }
         break;
     }// switch
+}
+
+std::shared_ptr<spdlog::logger> logging::setUpLogger(std::string loggerName, spdlog::level::level_enum level) {
+    auto logger = setupLoggerInternal(loggerName);
+    set_level(level);
+    colorizeLogger(logger);
+    logger->warn("You should see spdlog with color.");
+    return logger;
+}
+
+void logging::setUpLogger(std::shared_ptr<spdlog::logger> logger, spdlog::level::level_enum level) {
+    // unite the application and library loggers.
+    LOGGER_NAME = logger->name();
+    spdlog::set_default_logger(logger);
+    set_level(level);
+    colorizeLogger(logger);
+
+    /*
+    auto sysType = checkConsole();
+    switch(sysType) {
+    default:
+        throw new std::runtime_error("Wrong switch case in deciding System Type at logging::setUpLogger.");
+    case Windows:
+        std::cout << " using Windows console system." << std::endl;
+        {
+            auto sink = std::make_shared<spdlog::sinks::wincolor_stdout_sink_mt>();
+            sink->set_color_mode(spdlog::color_mode::always);
+            logger->sinks().clear();
+            logger->sinks().push_back(sink);
+        }
+        break;
+    case None:
+        std::cout << "ERROR in logging::setUpLogger: Cannot detect console system type." << std::endl;
+        break;
+    case MSys:
+        std::cout << " using MSys console system." << std::endl;
+        {
+            auto sink = std::make_shared<spdlog::sinks::ansicolor_stdout_sink_mt>();
+            sink->set_color_mode(spdlog::color_mode::always);
+            logger->sinks().clear();
+            logger->sinks().push_back(sink);
+        }
+        break;
+    }// switch*/
 
     logger->warn("You should see spdlog with color.");
 }// logging::setUpLogger
-
-std::shared_ptr<spdlog::logger> setupLoggerInternal(std::vector<spdlog::sink_ptr> sinks) {
-    auto logger = spdlog::get(LOGGER_NAME);
-    if(not logger) {
-        if(sinks.size() > 0) {
-            logger = std::make_shared<spdlog::logger>(LOGGER_NAME,
-                    std::begin(sinks),
-                    std::end(sinks));
-            spdlog::register_logger(logger);
-        } else {
-            logger = spdlog::stdout_color_mt(LOGGER_NAME);
-        }
-    }
-
-    return logger;
-}
 
 void logging::test(std::string message) {
     auto logger = spdlog::get(LOGGER_NAME);

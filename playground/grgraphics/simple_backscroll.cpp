@@ -17,11 +17,10 @@
 #include <memory>
 //#include <grcore/instrumentation.h>
 #include <grgraphics/GrGraphics.h>
-#include <grcore/warning/FMT_format_log.h>
 #include <grcore/Logging.h>
 //#include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/sinks/ansicolor_sink.h>
-#include <grcore/GrCore.h>
+//#include <grcore/GrCore.h>
 //#include <grcore/resource.h>
 
 /** @class MyApplication:
@@ -144,18 +143,23 @@ class MyApplication final : public grg::SimpleApplication {
 int main() {
 
     // use application logger as main logger
-    core::logging::setUpLogger(spdlog::default_logger(), spdlog::level::debug);
+    //core::logging::setUpLogger(spdlog::default_logger(), spdlog::level::debug);
+
+    // easy named logger setup
+    // spdlog::set_default_logger(core::logging::setUpLogger("MyApplication")); // or
+    NAMED_LOGGER("MyApplication");
+
     //core::logging::set_level(spdlog::level::debug);
     //spdlog::set_level(spdlog::level::debug);
 
     //logSomething();
-    core::bla();
+    //core::bla();
     //locale();
 
 
     // 0. before logger setup
-    spdlog::debug("{}::{}", __FUNCTION__, "0. spdlog init message");
-    core::logging::test("0. spdlog init message, Library");
+    //spdlog::debug("{}::{}", __FUNCTION__, "0. spdlog init message");
+    //core::logging::test("0. spdlog init message, Library");
 
     /*// ** Setup Logger in Lib **
 

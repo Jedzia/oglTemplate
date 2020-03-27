@@ -17,14 +17,20 @@
 #ifndef OPENGLTEMPLATE_LOGGING_H
 #define OPENGLTEMPLATE_LOGGING_H
 
-#include <iostream>
-#include <string>
-#include <memory>
 #include "warning/FMT_format_log.h"
+#include <iostream>
+#include <memory>
+#include <string>
 
 namespace core {
 namespace logging {
-void setUpLogger(std::shared_ptr<spdlog::logger> logger, spdlog::level::level_enum level = spdlog::level::info );
+//#define NAMED_LOGGER(name) spdlog::set_default_logger(core::logging::setUpLogger("\"" #name "\""))
+//#define NAMED_LOGGER(name) spdlog::set_default_logger(core::logging::setUpLogger(#name))
+#define NAMED_LOGGER(name) spdlog::set_default_logger(core::logging::setUpLogger(name))
+
+std::shared_ptr<spdlog::logger> setUpLogger(std::string loggerName, spdlog::level::level_enum level = spdlog::level::info);
+
+void setUpLogger(std::shared_ptr<spdlog::logger> logger, spdlog::level::level_enum level = spdlog::level::info);
 
 void set_level(spdlog::level::level_enum level);
 
