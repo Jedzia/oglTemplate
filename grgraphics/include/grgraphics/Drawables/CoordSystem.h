@@ -36,12 +36,11 @@ protected:
 
 private:
 
-    struct impl;
-    std::experimental::propagate_const<std::unique_ptr<impl>> p_impl;
-    //std::unique_ptr<impl> p_impl;
-    //std::experimental::propagate_const<std::shared_ptr<impl>> p_impl;
-    //std::shared_ptr<impl> p_impl;
-    const sf::Font &m_Font;
+    struct Impl;
+    std::experimental::propagate_const<std::unique_ptr<Impl>> m_pImpl;
+    //std::unique_ptr<Impl> m_pImpl;
+    //std::experimental::propagate_const<std::shared_ptr<Impl>> m_pImpl;
+    //std::shared_ptr<Impl> m_pImpl;
 };
 }
 

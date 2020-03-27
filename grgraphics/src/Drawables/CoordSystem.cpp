@@ -19,83 +19,88 @@
 #include <iostream>
 #include <vector>
 
-/*struct grg::CoordSystem::impl {
-    impl() {}
-    ~impl() {
+/*struct grg::CoordSystem::Impl {
+    Impl() {}
+    Impl() {
     }
    };*/
 
-struct grg::CoordSystem::impl {
-    typedef std::unique_ptr<sf::Drawable> draw_ptr;
+struct grg::CoordSystem::Impl {
+    typedef std::unique_ptr<sf::Drawable> DrawPtr;
 
 public:
 
-    impl(const sf::FloatRect &dimensions) : m_dimensions(dimensions) {
-        std::cout << "+++ Constructor grg::CoordSystem::impl called. +++" << std::endl;
+    Impl(const sf::FloatRect &dimensions, const sf::Font &font) : m_dimensions(dimensions), m_font(font) {
+        std::cout << "+++ Constructor grg::CoordSystem::Impl called. +++" << std::endl;
         //std::unique_ptr<sf::Drawable> shape = std::make_unique<sf::RectangleShape>(sf::Vector2f{
         // 60.F, 60.F });
         //m_drawables.push_back(std::make_unique<sf::RectangleShape>(sf::Vector2f{ 60.F, 60.F }));
         //m_drawables.end()->get()->setPosition(400,400);
         //->setPosition(400,400)
-        m_drawables.push_back(draw_ptr(p_rect = new sf::RectangleShape({ 60.F, 60.F })));
-        p_rect->setPosition(400, 400);
+        m_drawables.push_back(DrawPtr(m_pRect = new sf::RectangleShape({ 60.F, 60.F })));
+        m_pRect->setPosition(400, 400);
 
         //auto line = new sf::Lines({ 60.F, 60.F });
-        //m_drawables.push_back(draw_ptr(line));
+        //m_drawables.push_back(DrawPtr(line));
 
-        addLine({70.F, 120.F}, {370.F, 520.F}, sf::Color::Green);
-        addLine({270.F, 620.F}, {70.F, 20.F}, sf::Color::Yellow);
+        AddLine({ 70.F, 120.F }, { 370.F, 520.F }, sf::Color::Green);
+        AddLine({ 270.F, 620.F }, { 70.F, 20.F }, sf::Color::Yellow);
 
-        addLine({dimensions.left, dimensions.top}, {dimensions.width, dimensions.height}, sf::Color::Red);
+        AddLine({ dimensions.left, dimensions.top }, { dimensions.width, dimensions.height }, sf::Color::Red);
 
         float stepWidth = 50.0F;
 
         // X-Axis
         float horizontalOffset = -50.0F;
-        sf::Vector2f x_start({dimensions.left, dimensions.height + horizontalOffset});
-        sf::Vector2f x_end({dimensions.width, dimensions.height + horizontalOffset});
-        addLine(x_start, x_end, sf::Color::White);
+        sf::Vector2f xStart({ dimensions.left, dimensions.height + horizontalOffset });
+        sf::Vector2f xEnd({ dimensions.width, dimensions.height + horizontalOffset });
+        AddLine(xStart, xEnd, sf::Color::White);
 
         // Y-Axis
         float verticalOffset = 50.0F;
-        sf::Vector2f y_start({dimensions.left + verticalOffset, dimensions.top});
-        sf::Vector2f y_end({dimensions.left + verticalOffset, dimensions.height});
-        addLine(y_start, y_end, sf::Color::White);
+        sf::Vector2f yStart({ dimensions.left + verticalOffset, dimensions.top });
+        sf::Vector2f yEnd({ dimensions.left + verticalOffset, dimensions.height });
+        AddLine(yStart, yEnd, sf::Color::White);
 
         // X-Axis die striche<- namen
-        auto x_baseline = dimensions.height + horizontalOffset;
+        auto xBaseline = dimensions.height + horizontalOffset;
 
         for(float x = stepWidth + verticalOffset; x < dimensions.width; x += stepWidth) {
-            addLine({x, x_baseline - 20}, {x, x_baseline + 20}, sf::Color::Blue);
-            //addLine(x_start + 5.F, x_end, sf::Color::White);
+            AddLine({ x, xBaseline - 20 }, { x, xBaseline + 20 }, sf::Color::Blue);
+            //AddLine(xStart + 5.F, xEnd, sf::Color::White);
         }
         // Y-Axis die striche<- namen .. ToDo: invers abarbeiten ... oben ist ja 0
-        auto y_baseline = dimensions.left + verticalOffset;
+        auto yBaseline = dimensions.left + verticalOffset;
 
         for(float y = stepWidth + horizontalOffset; y < dimensions.height; y += stepWidth) {
-            addLine({y_baseline - 20, y}, {y_baseline + 20, y }, sf::Color::Blue);
-            //addLine(x_start + 5.F, x_end, sf::Color::White);
+            AddLine({ yBaseline - 20, y }, { yBaseline + 20, y }, sf::Color::Blue);
+            //AddLine(xStart + 5.F, xEnd, sf::Color::White);
         }
+        static_cast<void>(m_font);
+
+        m_vertz[0].position = sf::Vector2f(100, 0);
+        m_vertz[1].position = sf::Vector2f(200, 0);
+        m_vertz[2].position = sf::Vector2f(300, 50);
+        m_vertz[3].position = sf::Vector2f(400, 20);
     }
 
-    inline
-    void addLine(const sf::Vector2f &start, const sf::Vector2f &end, sf::Color color = sf::Color::White) {
-        //std::cout << "addLine: " << start.x << ", " << start.y << " - " << end.x << ", " << end.y
+    inline void AddLine(const sf::Vector2f &start, const sf::Vector2f &end, sf::Color color = sf::Color::White) {
+        //std::cout << "AddLine: " << start.x << ", " << start.y << " - " << end.x << ", " << end.y
         // << std::endl;
         m_vertices.push_back(sf::Vertex(start, color));
         m_vertices.push_back(sf::Vertex(end, color));
     }
 
-    ~impl() {
-        std::cout << "+++ Destructor  grg::CoordSystem::impl called. +++" << std::endl;
+    ~Impl() {
+        std::cout << "+++ Destructor  grg::CoordSystem::Impl called. +++" << std::endl;
     }
 
     int DoSomething() const {
-        //std::cout << "> grg::CoordSystem::impl::DoSomething()" << std::endl;
-        return n;
+        //std::cout << "> grg::CoordSystem::Impl::DoSomething()" << std::endl;
+        return m_n;
     }
 
-    void draw(sf::RenderTarget &target, sf::RenderStates states) const {
+    void Draw(sf::RenderTarget &target, sf::RenderStates states) const {
         //sf::Drawable::draw(target, states);
         //static_cast<void>(target);
         //static_cast<void>(states);
@@ -111,32 +116,34 @@ public:
 
            target.draw(vertices, 2, sf::Lines, states);*/
         target.draw(m_vertices.data(), m_vertices.size(), sf::Lines, states);
+        target.draw(m_vertz, states);
     }
 
 private:
 
-    int n; // private data
+    int m_n;// private data
     sf::FloatRect m_dimensions;
-    std::vector<draw_ptr> m_drawables;
+    std::vector<DrawPtr> m_drawables;
     //std::array<sf::Vertex> m_vertices;
-    std::vector<sf::Vertex> m_vertices; // alternative is to use sf::VertexArray.
+    std::vector<sf::Vertex> m_vertices;// alternative is to use sf::VertexArray.
     //sf::VertexArray m_vertices;
     // managed by vector
-    sf::RectangleShape* p_rect;
+    sf::RectangleShape* m_pRect;
+    const sf::Font &m_font;
+    sf::VertexArray m_vertz {sf::PrimitiveType::LineStrip, 4};
 };
 
 void grg::CoordSystem::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     //sf::Drawable::draw(target, states);
     //static_cast<void>(target);
     //static_cast<void>(states);
-    p_impl->draw(target, states);
+    m_pImpl->Draw(target, states);
 }
 
 grg::CoordSystem::CoordSystem(const sf::FloatRect &dimensions, const sf::Font &font)
-//: p_impl(std::make_unique<grg::CoordSystem::impl>(sf::FloatRect({0.F, 0.F}, {600.F, 600.F}))) {
-    : p_impl(std::make_unique<grg::CoordSystem::impl>(dimensions)), m_Font(font) {
-    //p_impl.reset(new grg::CoordSystem::impl());
-    static_cast<void>(m_Font);
+//: m_pImpl(std::make_unique<grg::CoordSystem::Impl>(sf::FloatRect({0.F, 0.F}, {600.F, 600.F}))) {
+    : m_pImpl(std::make_unique<grg::CoordSystem::Impl>(dimensions, font)) {
+    //m_pImpl.reset(new grg::CoordSystem::Impl());
 }
 
 grg::CoordSystem::~CoordSystem() {}
