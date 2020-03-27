@@ -21,6 +21,6 @@
 #include "Resource.h"
 
 namespace core {
-void bla();
+void blubb();
 }
 #endif//GRCORE_GRCORE_H

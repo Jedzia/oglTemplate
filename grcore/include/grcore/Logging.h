@@ -19,14 +19,20 @@
 
 #include <iostream>
 #include <string>
+#include <memory>
+#include "warning/FMT_format_log.h"
 
 namespace core {
 namespace logging {
-void setUpLogger();
+void setUpLogger(std::shared_ptr<spdlog::logger> logger);
 
-void setLevel(int level);
+void set_level(int level);
+
+void test(std::string message);
 }
 void info();
+
+void bla();
 
 //using string_view_t = fmt::basic_string_view<char>;
 using string_view_t = std::string;

@@ -146,12 +146,29 @@ int main() {
     core::bla();
     //locale();
 
-    core::logging::setUpLogger();
-    //spdlog::default_logger()
+
+    // 0. before logger setup
+    spdlog::debug("{}::{}", __FUNCTION__, "0. spdlog init message");
+    core::logging::test("0. spdlog init message, Library");
+
+    // ** Setup Logger in Lib **
     spdlog::set_level(spdlog::level::debug);
+    core::logging::setUpLogger(spdlog::default_logger());
+
+    // 1. after setup
+    spdlog::debug("{}::{}", __FUNCTION__, "1. spdlog init message");
+    core::logging::test("1. spdlog init message, Library");
+
+    // set debugging levels
     //spdlog::set(spdlog::level::debug);
-    core::logging::setLevel(spdlog::level::debug);
-    spdlog::debug("+++ [{}]  called. +++", __PRETTY_FUNCTION__);
+    // not needed, because they are now the same core::logging::set_level(spdlog::level::debug);
+
+    // 2. after manual setup
+    spdlog::debug("{}::{}", __FUNCTION__, "2. spdlog init message");
+    core::logging::test("2. spdlog init message, Library");
+
+
+    spdlog::info("+++ [{}]  called. +++", __PRETTY_FUNCTION__);
 
     //auto console = spdlog::stdout_color_mt("console");
     //console.set_color_mode(spdlog::color_mode::always);
