@@ -23,8 +23,7 @@ namespace core {
 enum ConsoleCheckResult {
     Windows = -1,
     None = 0,
-    MSys = 1,
-    NLevels
+    MSys = 1
 };
 
 [[nodiscard]]  ConsoleCheckResult checkConsole();

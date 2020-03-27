@@ -24,13 +24,13 @@
 
 namespace core {
 namespace logging {
-//#define NAMED_LOGGER(name) spdlog::set_default_logger(core::logging::setUpLogger("\"" #name "\""))
-//#define NAMED_LOGGER(name) spdlog::set_default_logger(core::logging::setUpLogger(#name))
-#define NAMED_LOGGER(name) spdlog::set_default_logger(core::logging::setUpLogger(name))
+//#define NAMED_DEFAULT_LOGGER(name) spdlog::set_default_logger(core::logging::setUpLogger("\"" #name "\""))
+//#define NAMED_DEFAULT_LOGGER(name) spdlog::set_default_logger(core::logging::setUpLogger(#name))
+#define NAMED_DEFAULT_LOGGER(name) spdlog::set_default_logger(core::logging::setUpLogger(name))
 
-std::shared_ptr<spdlog::logger> setUpLogger(std::string loggerName, spdlog::level::level_enum level = spdlog::level::info);
+std::shared_ptr<spdlog::logger> setUpLogger(const std::string &loggerName, spdlog::level::level_enum level = spdlog::level::info);
 
-void setUpLogger(std::shared_ptr<spdlog::logger> logger, spdlog::level::level_enum level = spdlog::level::info);
+void setUpDefaultLogger(std::shared_ptr<spdlog::logger> logger, spdlog::level::level_enum level = spdlog::level::info);
 
 void set_level(spdlog::level::level_enum level);
 

@@ -143,11 +143,15 @@ class MyApplication final : public grg::SimpleApplication {
 int main() {
 
     // use application logger as main logger
-    //core::logging::setUpLogger(spdlog::default_logger(), spdlog::level::debug);
+    //core::logging::setUpDefaultLogger(spdlog::default_logger(), spdlog::level::debug);
 
     // easy named logger setup
-    // spdlog::set_default_logger(core::logging::setUpLogger("MyApplication")); // or
-    NAMED_LOGGER("MyApplication");
+    //spdlog::set_default_logger(core::logging::setUpLogger("MyApplication")); // or
+    NAMED_DEFAULT_LOGGER("MyApplication");
+
+
+    auto otherLogger = core::logging::setUpLogger("other");
+    otherLogger->info("This is the 'other' logger.");
 
     //core::logging::set_level(spdlog::level::debug);
     //spdlog::set_level(spdlog::level::debug);
