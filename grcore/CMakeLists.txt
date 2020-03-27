@@ -25,6 +25,7 @@ if (WIN32)
             src/win/wgl_common.cpp
             src/win/Resource.cpp
             src/win/DllEntry.cpp
+            src/win/console.cpp
             )
 endif (WIN32)
 set(INCLUDE_DIRECTORIES

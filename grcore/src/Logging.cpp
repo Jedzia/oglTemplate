@@ -27,6 +27,7 @@
 #include <spdlog/spdlog.h>
 //#endif
 #include <fmt/core.h>
+#include "console.h"
 
 //using string_view_t = fmt::basic_string_view<char>;
 
