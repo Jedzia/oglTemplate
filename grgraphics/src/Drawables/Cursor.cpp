@@ -63,7 +63,7 @@ struct grg::Cursor::Impl {
 
         const sf::Vector2f globalPositionF = m_window.mapPixelToCoords(localPosition);
         const sf::Vector2f localPositionF { static_cast<float>(localPosition.x), static_cast<float>(localPosition.y) };
-        const sf::Vector2f drawPositionF = globalPositionF;
+        const sf::Vector2f drawPositionF = localPositionF;
         auto bounds = m_coordDisplay1.getLocalBounds();
         //m_coordDisplay1.setPosition(localPositionF + sf::Vector2f { -100.F, 50.F});
         auto position = drawPositionF + sf::Vector2f { 00.F, +bounds.getSize().y + m_circle.getRadius() }
@@ -94,10 +94,13 @@ struct grg::Cursor::Impl {
 
     void Draw(sf::RenderTarget &target, sf::RenderStates states) const {
         //target.draw(m_rect, states);
+        auto oldView = target.getView();
+        target.setView(target.getDefaultView());
         target.draw(m_circle, states);
         target.draw(m_cross, states);
         target.draw(m_coordDisplay1, states);
         target.draw(m_coordDisplay2, states);
+        target.setView(oldView);
     }
 
 private:
