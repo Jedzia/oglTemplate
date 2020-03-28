@@ -36,11 +36,15 @@ template<typename TFunctor>
 class Property final : public PropertyBase {
 public:
 
-    typedef return_type_t<TFunctor> storage_type;
+    typedef return_type_t<TFunctor> StorageType;
     Property(TFunctor updater) : m_updater(updater) {
         m_value = updater();
-        std::cout << "+++ Constructor " << __PRETTY_FUNCTION__ << " -> " <<
-            ": " << m_value << " called. +++" << std::endl;
+        /*std::cout << "+++ Constructor " << __PRETTY_FUNCTION__ << " -> " <<
+            ": " << m_value << " called. +++" << std::endl;*/
+    }
+
+    ~Property() {
+        //std::cout << "+++ Destructor  " << __PRETTY_FUNCTION__ << " called. +++" << std::endl;
     }
 
     Property(const Property &) = delete;  // non construction-copyable
@@ -54,13 +58,13 @@ public:
         return result;
     }
 
-    [[nodiscard]] const storage_type &Get() const {
+    [[nodiscard]] const StorageType &Get() const {
         return m_value;
     }
 
 private:
 
-    storage_type m_value;
+    StorageType m_value;
     TFunctor m_updater;
 };
 
@@ -70,21 +74,14 @@ public:
 
     typedef std::shared_ptr<PropertyBase> PropertyType;
     void Add(PropertyType property) {
-        //static_cast<void>(property);
-        std::cout << "Add(Property<T>&) typeid(T): " << typeid(property).name() << std::endl;
+        //std::cout << "Add(Property<T>&) typeid(T): " << typeid(property).name() << std::endl;
         m_storage.push_back(property);
     }
 
     template<typename TFunctor>
     void AddProp(TFunctor func) {
-        //static_cast<void>(property);
-        std::cout << "Add(Property<T>&) typeid(T): " << typeid(func).name() << std::endl;
-        //auto property = std::make_shared(func);
-        //int a = 7;
-        //auto property = std::make_shared<core::util::Property<std::function<int(void)>>>([&a]() {
-        // return a; });
-        auto property = std::make_shared<core::util::Property<std::function<return_type_t<TFunctor>(void)>>>(func);
-        m_storage.push_back(property);
+        //std::cout << "AddProp(TFunctor func) typeid(T): " << typeid(func).name() << std::endl;
+        Add(std::make_shared<core::util::Property<std::function<return_type_t<TFunctor>(void)>>>(func));
     }
 
     [[nodiscard]] bool HasChanged() {
