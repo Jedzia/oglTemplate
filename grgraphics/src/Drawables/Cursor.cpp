@@ -17,9 +17,9 @@
 #include "grgraphics/Drawables/Cursor.h"
 #include "grgraphics/warning/FMT_format.h"
 #include "grgraphics/warning/SFML_Graphics.h"
+#include <grcore/Utility/Property.h>
 #include <grgraphics/Math.h>
 #include <iostream>
-#include <grcore/Utility/Property.h>
 
 struct grg::Cursor::Impl {
     static constexpr int Character_Size = 14;
@@ -43,11 +43,29 @@ struct grg::Cursor::Impl {
 
         int a = 7;
         std::function<int(void)> f = [&a]() { return a; };
+        //auto p1 = core::util::Property<int>(f);
+        //auto p1 = core::util::Property<int>([&a]() { return a; });
+
         auto p = core::util::Property<int>(f);
-        std::cout << "Update: " << p.Update() <<  std::endl;
-        a=8;
-        std::cout << "Update: " << p.Update() <<  std::endl;
-        std::cout << "Update: " << p.Update() <<  std::endl;
+        std::cout << "HasChanged: " << p.HasChanged() << std::endl;
+        a = 8;
+        std::cout << "HasChanged: " << p.HasChanged() << std::endl;
+        std::cout << "HasChanged: " << p.HasChanged() << std::endl;
+
+        std::function<int(void)> fn( [&a]() { return a; });
+        auto l = core::util::PropertyList<int>();
+        //l.Add(std::make_shared<core::util::Property<int>>(fn));
+        //auto lll = std::make_shared<core::util::Property<int>>(fn);
+        //auto lll2 = std::make_shared<core::util::Property<int>>([&a]() { return a; });
+        //l.Add(std::make_shared<core::util::Property<int>>(fn));
+        l.Add(std::make_shared<core::util::Property<int>>([&a]() { return a; }));
+        bool b = l.HasChanged();
+        std::cout << "Loop HasChanged: " << b << std::endl;
+        a = 9;
+        b = l.HasChanged();
+        std::cout << "Loop HasChanged: " << b << std::endl;
+        b = l.HasChanged();
+        std::cout << "Loop HasChanged: " << b << std::endl;
     }
 
     void UpdateCross(const float radius, sf::Vector2f translation) {
