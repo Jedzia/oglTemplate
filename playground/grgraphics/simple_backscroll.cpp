@@ -158,7 +158,7 @@ int main() {
     //window.setFramerateLimit(60 * 4);
     //window.setVerticalSyncEnabled(true);
 
-    grg::Application app(window);
+    grg::Application app(window, false);
     app.Run<MyApplication>();
 
     return 0;

@@ -30,8 +30,7 @@ namespace grg {
  */
 class Application {
 public:
-
-    Application(sf::RenderWindow &window, bool vSyncEnabled = true);
+  Application(sf::RenderWindow &window, bool vSyncEnabled = true, unsigned short frameRateLimit = 4 * 60);
 
     void Run(SimpleApplication &app);
 
@@ -71,6 +70,7 @@ private:
     sf::Font m_mainGameFont;
     sf::Font m_debugFont;
     bool m_vsync;
+    const unsigned short Frame_Rate_Limit;
 };
 }// namespace grg
 

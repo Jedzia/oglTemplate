@@ -210,9 +210,9 @@ int main() {
     locale();
 
     auto window = grg::createRenderWindow(1280, 16, 9);
-    window.setFramerateLimit(60 * 4);
+    //window.setFramerateLimit(60 * 4);
 
-    grg::Application app(window, false);
+    grg::Application app(window, false, 120);
     app.Run<MyApplication>();
 
     return 0;

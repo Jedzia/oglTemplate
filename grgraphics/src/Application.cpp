@@ -22,7 +22,8 @@
 
 //constexpr bool USE_VSYNC = false;
 
-grg::Application::Application(sf::RenderWindow &window, bool vSyncEnabled) : m_window(window) {
+grg::Application::Application(sf::RenderWindow &window, bool vSyncEnabled, unsigned short frameRateLimit) : m_window(window),
+    Frame_Rate_Limit(std::max<unsigned short>(frameRateLimit, 10)) {
     SetVSync(vSyncEnabled);
     m_mainGameFont.loadFromFile("Futura Bk BT Book.ttf");
     m_fpsDisplay = sf::Text("Test, Test", m_mainGameFont);
@@ -122,7 +123,7 @@ void grg::Application::SetVSync(bool enabled) {
         this->m_window.setVerticalSyncEnabled(true);
         this->m_vsync = true;
     } else {
-        this->m_window.setFramerateLimit(60 * 4);
+        this->m_window.setFramerateLimit(Frame_Rate_Limit);
         this->m_window.setVerticalSyncEnabled(false);
         this->m_vsync = false;
     }

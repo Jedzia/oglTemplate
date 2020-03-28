@@ -89,7 +89,7 @@ public:
             window.draw(m_shape);
         }
 
-        sf::sleep(sf::milliseconds(10));
+        //sf::sleep(sf::milliseconds(10));
     }
 
 private:
@@ -105,16 +105,8 @@ private:
  *  @return program exit code.
  */
 int main() {
-    //logSomething();
-    //core::bla();
-    //locale();
-
-    //auto window = grg::createRenderWindow(1280, 16, 9, __FILE_NAME__);
     auto window = grg::createRenderWindow(1280, 16, 9, __FILE__);
-    //window.setFramerateLimit(60 * 4);
-    window.setVerticalSyncEnabled(true);
-
-    grg::Application app(window, false);
+    grg::Application app(window);
     app.Run<MyApplication>();
 
     return 0;
