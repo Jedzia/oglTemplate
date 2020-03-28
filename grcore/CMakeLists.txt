@@ -15,6 +15,7 @@ set(GrCore_INC_FILES
         include/grcore/Instrumentation.h
         include/grcore/Resource.h
         include/grcore/Utility/Property.h
+        include/grcore/Utility/return_type_trait.h
         )
 set(GrCore_SRC_FILES
         src/test.cpp

@@ -44,28 +44,43 @@ struct grg::Cursor::Impl {
         int a = 7;
         std::function<int(void)> f = [&a]() { return a; };
         //auto p1 = core::util::Property<int>(f);
-        //auto p1 = core::util::Property<int>([&a]() { return a; });
+        auto p1 = core::util::Property([&a]() { return a; });
+        //auto p2 = core::util::Property2<int, std::function<int(void)>>( [&a]() { return a; } );
 
-        auto p = core::util::Property<int>(f);
+        //auto p = core::util::Property<int>(f);
+        auto p = core::util::Property(f);
         std::cout << "HasChanged: " << p.HasChanged() << std::endl;
         a = 8;
         std::cout << "HasChanged: " << p.HasChanged() << std::endl;
         std::cout << "HasChanged: " << p.HasChanged() << std::endl;
 
         std::function<int(void)> fn( [&a]() { return a; });
-        auto l = core::util::PropertyList<int>();
+        //auto l = core::util::PropertyList<int>();
+        auto l = core::util::PropertyList();
         //l.Add(std::make_shared<core::util::Property<int>>(fn));
-        //auto lll = std::make_shared<core::util::Property<int>>(fn);
+        ///auto lll = std::make_shared<core::util::Property<std::function<int(void)>>>([&a]() { return a; });
+        ///l.Add(lll);
+
+        //l.AddProp([&a]() { return a; });
+
         //auto lll2 = std::make_shared<core::util::Property<int>>([&a]() { return a; });
-        //l.Add(std::make_shared<core::util::Property<int>>(fn));
-        l.Add(std::make_shared<core::util::Property<int>>([&a]() { return a; }));
-        bool b = l.HasChanged();
-        std::cout << "Loop HasChanged: " << b << std::endl;
+        ///l.AddProp(fn);
+        ///l.AddProp([&a]() { return a; });
+        double b = 42.0;
+        l.AddProp([&a]() { return a; });
+        l.AddProp([&b]() { return b; });
+        bool hasChanged = l.HasChanged();
+        std::cout << "Loop HasChanged: " << hasChanged << std::endl;
         a = 9;
-        b = l.HasChanged();
-        std::cout << "Loop HasChanged: " << b << std::endl;
-        b = l.HasChanged();
-        std::cout << "Loop HasChanged: " << b << std::endl;
+        hasChanged = l.HasChanged();
+        std::cout << "Loop HasChanged: " << hasChanged << std::endl;
+        hasChanged = l.HasChanged();
+        std::cout << "Loop HasChanged: " << hasChanged << std::endl;
+        b = 43.2;
+        hasChanged = l.HasChanged();
+        std::cout << "Loop HasChanged: " << hasChanged << std::endl;
+        hasChanged = l.HasChanged();
+        std::cout << "Loop HasChanged: " << hasChanged << std::endl;
     }
 
     void UpdateCross(const float radius, sf::Vector2f translation) {
