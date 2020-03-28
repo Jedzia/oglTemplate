@@ -27,6 +27,24 @@ struct grg::Cursor::Impl {
         if(m_cursor.loadFromSystem(sf::Cursor::Hand)) {
             window.setMouseCursor(m_cursor);
         }
+
+        const float radius = m_circle.getRadius();
+        m_circle.setOrigin(radius, radius);
+        m_circle.setFillColor(sf::Color::Transparent);
+        m_circle.setOutlineColor(sf::Color::Red);
+        m_circle.setOutlineThickness(4.F);
+
+        UpdateCross(radius, sf::Vector2f());
+    }
+
+    void UpdateCross(const float radius, sf::Vector2f translation) {
+        //auto xxx = translation / 2.0F;
+        // cross is 90 % of outline/radius
+        auto drawRadius = radius * 90.0F / 100.F; //
+        m_cross[0].position = sf::Vector2f(0, -drawRadius) + translation;
+        m_cross[1].position = sf::Vector2f(0, drawRadius) + translation;
+        m_cross[2].position = sf::Vector2f(-drawRadius, 0) + translation;
+        m_cross[3].position = sf::Vector2f(drawRadius, 0) + translation;
     }
 
     ~Impl() {
@@ -37,14 +55,19 @@ struct grg::Cursor::Impl {
         static_cast<void>(elapsed);
 
         // get the local mouse position (relative to a window)
-        sf::Vector2i localPosition = sf::Mouse::getPosition(m_window);
-        m_rect.setPosition(static_cast<float>(localPosition.x), static_cast<float>(localPosition.y));
+        const sf::Vector2i localPosition = sf::Mouse::getPosition(m_window);
+        const sf::Vector2f localPositionF {static_cast<float>(localPosition.x), static_cast<float>(localPosition.y)};
+
+        m_rect.setPosition(localPositionF);
+        //m_circle.center
+        m_circle.setPosition(localPositionF);
+        UpdateCross(m_circle.getRadius(), localPositionF);
     }
 
     void  Draw(sf::RenderTarget &target, sf::RenderStates states) const {
-        target.draw(m_rect, states);
-        //static_cast<void>(target);
-        //static_cast<void>(states);
+        //target.draw(m_rect, states);
+        target.draw(m_circle, states);
+        target.draw(m_cross, states);
     }
 
 private:
@@ -52,6 +75,8 @@ private:
     sf::RenderWindow &m_window;
     sf::Cursor m_cursor;
     sf::RectangleShape m_rect {sf::Vector2f(20, 20)};
+    sf::CircleShape m_circle {40, 24};
+    sf::VertexArray m_cross {sf::PrimitiveType::Lines, 4};
 };
 void grg::Cursor::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     m_pImpl->Draw(target, states);
