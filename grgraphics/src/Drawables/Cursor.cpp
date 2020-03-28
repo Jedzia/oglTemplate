@@ -41,9 +41,13 @@ struct grg::Cursor::Impl {
         m_coordDisplay1 = sf::Text("Coords: ", font, Character_Size);
         m_coordDisplay2 = sf::Text("View  : ", font, Character_Size);
 
-        std::function<int(void)> f = []() { return 7; };
+        int a = 7;
+        std::function<int(void)> f = [&a]() { return a; };
         auto p = core::util::Property<int>(f);
-        p.Update();
+        std::cout << "Update: " << p.Update() <<  std::endl;
+        a=8;
+        std::cout << "Update: " << p.Update() <<  std::endl;
+        std::cout << "Update: " << p.Update() <<  std::endl;
     }
 
     void UpdateCross(const float radius, sf::Vector2f translation) {

@@ -30,21 +30,22 @@ public:
 
 private:
 
-    std::any m_value;
+    T m_value;
     std::function<T(void)> &m_updater;
 };
 
 template<typename T>
 Property<T>::Property(std::function<T(void)> &updater) :  m_updater(updater) {
     m_value = updater();
-    std::cout << "+++ Constructor " << __PRETTY_FUNCTION__ << " -> " << m_value.type().name() << ": " << std::any_cast<T>(m_value) <<
+    std::cout << "+++ Constructor " << __PRETTY_FUNCTION__ << " -> " << ": " << m_value <<
         " called. +++" << std::endl;
 }
 
 template<typename T>
 bool Property<T>::Update() {
     auto newValue = m_updater();
-    bool result = newValue != std::any_cast<T>(m_value);
+    std::cout << "newValue: " << newValue <<  std::endl;
+    bool result = newValue != m_value;
     m_value = newValue;
     return result;
 }
