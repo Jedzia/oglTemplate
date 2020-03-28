@@ -24,12 +24,13 @@
 
 namespace sf {
 class SFML_GRAPHICS_API RenderWindow;
+class SFML_GRAPHICS_API Font;
 }
 namespace grg {
 class Cursor final : public sf::Drawable {
 public:
 
-    Cursor(sf::RenderWindow &window);
+    Cursor(sf::RenderWindow &window, const sf::Font &font);
     ~Cursor();
     void Update(sf::Time elapsed);
 

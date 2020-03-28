@@ -53,7 +53,7 @@ public:
         m_pCoords = std::make_unique<grg::CoordSystem>(
                 sf::FloatRect({0.F, 0.F }, {static_cast<float>(size.x), static_cast<float>(size.y) }),
                 application.GetDebugFont());
-        m_pCursor = std::make_unique<grg::Cursor>(application.GetWindow());
+        m_pCursor = std::make_unique<grg::Cursor>(application.GetWindow(), application.GetDebugFont());
     }
 
     /** Update state.
@@ -121,7 +121,7 @@ public:
             //sf::sleep(sf::milliseconds(1));
         }
 
-        sf::sleep(sf::milliseconds(1));
+        //sf::sleep(sf::milliseconds(1));
     } // OnDraw
 
 private:
