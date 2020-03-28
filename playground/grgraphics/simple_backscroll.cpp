@@ -17,6 +17,7 @@
 #include <SFML/Graphics/Color.hpp>
 #include <grcore/Logging.h>
 #include <grgraphics/GrGraphics.h>
+#include <grgraphics/warning/SFML_Graphics.h>
 #include <memory>
 #include <spdlog/sinks/ansicolor_sink.h>
 
@@ -40,6 +41,7 @@ public:
     }
 
     void OnInit(const grg::Application &application) override {
+        m_window = &application.GetWindow();
         //m_MainGameFont = application.GetMainGameFont();
         //const sf::Font& font = application.GetMainGameFont();
         //static_cast<void>(font);
@@ -54,7 +56,7 @@ public:
                 sf::FloatRect({0.F, 0.F }, {static_cast<float>(size.x), static_cast<float>(size.y) }),
                 application.GetDebugFont());
         m_pCursor = std::make_unique<grg::Cursor>(application.GetWindow(), application.GetDebugFont());
-    }
+    } // OnInit
 
     /** Update state.
      *  Refresh the state of your application here. Not guaranteed to run every frame. But can be
@@ -67,6 +69,21 @@ public:
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::R)) {
             Reset();
+        }
+
+        const float zoomFactor = 1.01F;
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+            sf::View view = m_window->getView();
+            view.zoom(zoomFactor);
+            m_window->setView(view);
+            spdlog::info("View zoom {}, {}.", view.getSize().x, view.getSize().y);
+        } else {
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+                sf::View view = m_window->getView();
+                view.zoom(1.0F / zoomFactor);
+                m_window->setView(view);
+                spdlog::info("View zoom {}, {}.", view.getSize().x, view.getSize().y);
+            }
         }
 
         m_pCursor->Update(elapsed);
@@ -127,6 +144,7 @@ public:
 private:
 
     const float Speed = 250.F;
+    sf::RenderWindow* m_window;
     V2F m_coord {0, 0 };
     MyShape m_shape;
     std::unique_ptr<grg::CoordSystem> m_pCoords;

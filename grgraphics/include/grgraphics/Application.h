@@ -30,7 +30,7 @@ namespace grg {
  */
 class Application {
 public:
-  Application(sf::RenderWindow &window, bool vSyncEnabled = true, unsigned short frameRateLimit = 4 * 60);
+  Application(sf::RenderWindow &window, bool vSyncEnabled = true, unsigned short frameRateLimit = 2 * 60);
 
     void Run(SimpleApplication &app);
 

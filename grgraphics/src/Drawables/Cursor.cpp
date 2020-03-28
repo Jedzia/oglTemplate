@@ -22,7 +22,7 @@
 #include <vector>
 
 struct grg::Cursor::Impl {
-    Impl(sf::RenderWindow &window, const sf::Font &font) : m_window(window) {/*, m_font(font)*/
+    Impl(sf::RenderWindow &window, const sf::Font &font) : m_window(window) { /*, m_font(font)*/
         std::cout << "+++ Constructor " << __PRETTY_FUNCTION__ << " called. +++" << std::endl;
 
         if(m_cursor.loadFromSystem(sf::Cursor::Hand)) {
@@ -37,13 +37,14 @@ struct grg::Cursor::Impl {
 
         UpdateCross(radius, sf::Vector2f());
 
-        m_coordDisplay = sf::Text("Coords: ", font);
+        m_coordDisplay1 = sf::Text("Coords: ", font);
+        m_coordDisplay2 = sf::Text("View  : ", font);
     }
 
     void UpdateCross(const float radius, sf::Vector2f translation) {
         //auto xxx = translation / 2.0F;
         // cross is 90 % of outline/radius
-        auto drawRadius = radius * 90.0F / 100.F; //
+        auto drawRadius = radius * 90.0F / 100.F;//
         m_cross[0].position = sf::Vector2f(0, -drawRadius) + translation;
         m_cross[1].position = sf::Vector2f(0, drawRadius) + translation;
         m_cross[2].position = sf::Vector2f(-drawRadius, 0) + translation;
@@ -60,17 +61,21 @@ struct grg::Cursor::Impl {
         // get the local mouse position (relative to a window)
         const sf::Vector2i localPosition = sf::Mouse::getPosition(m_window);
 
+        const sf::Vector2f globalPositionF = m_window.mapPixelToCoords(localPosition);
+        const sf::Vector2f localPositionF { static_cast<float>(localPosition.x), static_cast<float>(localPosition.y) };
+        const sf::Vector2f drawPositionF = globalPositionF;
+        auto bounds = m_coordDisplay1.getLocalBounds();
+        //m_coordDisplay1.setPosition(localPositionF + sf::Vector2f { -100.F, 50.F});
+        auto position = drawPositionF + sf::Vector2f { 00.F, +bounds.getSize().y + m_circle.getRadius() }
+                        -(bounds.getSize() / 2.0F);
+
         if(m_lastPosition != localPosition) {
-            const sf::Vector2f localPositionF {static_cast<float>(localPosition.x), static_cast<float>(localPosition.y)};
-            m_rect.setPosition(localPositionF);
+            m_rect.setPosition(drawPositionF);
             //m_circle.center
-            m_circle.setPosition(localPositionF);
-            UpdateCross(m_circle.getRadius(), localPositionF);
-            m_coordDisplay.setString(fmt::format("Coords: x({}), y({})", localPosition.x, localPosition.y));
-            auto bounds = m_coordDisplay.getLocalBounds();
-            //m_coordDisplay.setPosition(localPositionF + sf::Vector2f { -100.F, 50.F});
-            m_coordDisplay.setPosition(localPositionF + sf::Vector2f { 00.F, + bounds.getSize().y + m_circle.getRadius()}
-                    -(bounds.getSize() / 2.0F));
+            m_circle.setPosition(drawPositionF);
+            UpdateCross(m_circle.getRadius(), drawPositionF);
+            m_coordDisplay1.setString(fmt::format("Coords: x({}), y({}) - x({:.1f}), y({:.1f})", localPosition.x, localPosition.y, globalPositionF.x, globalPositionF.y));
+            m_coordDisplay1.setPosition(position);
 
             m_circle.setOutlineColor(sf::Color::Red);
             m_redrawn = true;
@@ -79,27 +84,34 @@ struct grg::Cursor::Impl {
             m_redrawn = false;
         }
 
-        m_lastPosition = localPosition;
-    } // Update
+        //auto viewportSize = m_window.getView().getViewport().getSize();
+        auto viewSize = m_window.getView().getSize();
+        m_coordDisplay2.setString(fmt::format("View  : x({:.1f}), y({:.1f})", viewSize.x, viewSize.y));
+        m_coordDisplay2.setPosition(position + sf::Vector2f { 00.F, m_coordDisplay2.getLocalBounds().getSize().y});
 
-    void  Draw(sf::RenderTarget &target, sf::RenderStates states) const {
+        m_lastPosition = localPosition;
+    }// Update
+
+    void Draw(sf::RenderTarget &target, sf::RenderStates states) const {
         //target.draw(m_rect, states);
         target.draw(m_circle, states);
         target.draw(m_cross, states);
-        target.draw(m_coordDisplay, states);
+        target.draw(m_coordDisplay1, states);
+        target.draw(m_coordDisplay2, states);
     }
 
 private:
 
-    sf::RenderWindow &m_window;
-    sf::Cursor m_cursor;
-    sf::RectangleShape m_rect {sf::Vector2f(20, 20)};
-    sf::CircleShape m_circle {40, 24};
-    sf::VertexArray m_cross {sf::PrimitiveType::Lines, 4};
     //const sf::Font &m_font;
-    sf::Text m_coordDisplay;
-    sf::Vector2i m_lastPosition;
     bool m_redrawn = false;
+    sf::CircleShape m_circle { 40, 24 };
+    sf::Cursor m_cursor;
+    sf::RectangleShape m_rect { sf::Vector2f(20, 20) };
+    sf::RenderWindow &m_window;
+    sf::Text m_coordDisplay1;
+    sf::Text m_coordDisplay2;
+    sf::Vector2i m_lastPosition;
+    sf::VertexArray m_cross { sf::PrimitiveType::Lines, 4 };
 };
 void grg::Cursor::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     m_pImpl->Draw(target, states);
