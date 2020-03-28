@@ -14,11 +14,13 @@ set(GrCore_INC_FILES
         include/grcore/wgl_common.h
         include/grcore/Instrumentation.h
         include/grcore/Resource.h
+        include/grcore/Utility/Property.h
         )
 set(GrCore_SRC_FILES
         src/test.cpp
         src/Logging.cpp
         src/Math.cpp
+        src/Utilitly/Property.cpp
         )
 if (WIN32)
     set(GrCore_SRC_FILES ${GrCore_SRC_FILES}

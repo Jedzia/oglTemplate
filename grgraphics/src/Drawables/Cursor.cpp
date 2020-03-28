@@ -19,6 +19,7 @@
 #include "grgraphics/warning/SFML_Graphics.h"
 #include <grgraphics/Math.h>
 #include <iostream>
+#include <grcore/Utility/Property.h>
 
 struct grg::Cursor::Impl {
     static constexpr int Character_Size = 14;
@@ -39,6 +40,10 @@ struct grg::Cursor::Impl {
 
         m_coordDisplay1 = sf::Text("Coords: ", font, Character_Size);
         m_coordDisplay2 = sf::Text("View  : ", font, Character_Size);
+
+        std::function<int(void)> f = []() { return 7; };
+        auto p = core::util::Property<int>(f);
+        p.Update();
     }
 
     void UpdateCross(const float radius, sf::Vector2f translation) {

@@ -19,6 +19,7 @@
 #include "Logging.h"
 #include "Math.h"
 #include "Resource.h"
+#include "Utility/Property.h"
 
 namespace core {
 void blubb();
