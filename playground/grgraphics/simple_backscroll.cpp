@@ -156,7 +156,7 @@ int main() {
     //auto window = grg::createRenderWindow(1280, 16, 9, __FILE_NAME__);
     auto window = grg::createRenderWindow(1280, 16, 9, __FILE__);
     //window.setFramerateLimit(60 * 4);
-    window.setVerticalSyncEnabled(true);
+    //window.setVerticalSyncEnabled(true);
 
     grg::Application app(window);
     app.Run<MyApplication>();

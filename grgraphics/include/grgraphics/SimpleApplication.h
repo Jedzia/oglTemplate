@@ -17,7 +17,10 @@
 #ifndef OPENGLTEMPLATE_61CDCBB50D51466E91769A07F3D44D19_SIMPLEAPPLICATION_H
 #define OPENGLTEMPLATE_61CDCBB50D51466E91769A07F3D44D19_SIMPLEAPPLICATION_H
 
-#include "warning/SFML_Graphics.h"
+#include "warning/SFML_Graphics.h" // ToDo: remove me
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/System/Time.hpp>
+#include <SFML/Window/Event.hpp>
 
 namespace grg {
 class Application;

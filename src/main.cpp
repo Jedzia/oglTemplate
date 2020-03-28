@@ -212,7 +212,7 @@ int main() {
     auto window = grg::createRenderWindow(1280, 16, 9);
     window.setFramerateLimit(60 * 4);
 
-    grg::Application app(window);
+    grg::Application app(window, false);
     app.Run<MyApplication>();
 
     return 0;

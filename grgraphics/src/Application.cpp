@@ -22,10 +22,11 @@
 
 //constexpr bool USE_VSYNC = false;
 
-grg::Application::Application(sf::RenderWindow &window) : m_window(window) {
+grg::Application::Application(sf::RenderWindow &window, bool vSyncEnabled) : m_window(window) {
+    SetVSync(vSyncEnabled);
     m_mainGameFont.loadFromFile("Futura Bk BT Book.ttf");
     m_fpsDisplay = sf::Text("Test, Test", m_mainGameFont);
-    LoadDebugFont();
+    loadDebugFont();
 }
 
 /** Brief description of Application, Run
@@ -72,7 +73,8 @@ void grg::Application::Run(grg::SimpleApplication &app) {
                     m_window.close();
                     continue;
                 } else if(event.key.code == sf::Keyboard::V) {
-                    m_window.setVerticalSyncEnabled(true);
+                    m_vsync = !m_vsync;
+                    SetVSync(m_vsync);
                 }
             }
 
@@ -104,23 +106,33 @@ void grg::Application::Run(grg::SimpleApplication &app) {
         m_window.draw(m_fpsDisplay);
         m_window.display();
 
-        //if(USE_VSYNC) {
-        //   sf::sleep(sf::milliseconds(12));
-        //}
-        //else {
-        sf::sleep(sf::milliseconds(1));
-        // }
+        if(m_vsync) {
+            sf::sleep(sf::milliseconds(16));
+        } else {
+            sf::sleep(sf::milliseconds(1));
+        }
 
         //sf::Thread::wait(1);
         frameCounter++;
     }
-}// grg::Application::Run
+} // grg::Application::Run
+
+void grg::Application::SetVSync(bool enabled) {
+    if(enabled) {
+        this->m_window.setVerticalSyncEnabled(true);
+        this->m_vsync = true;
+    } else {
+        this->m_window.setFramerateLimit(60 * 4);
+        this->m_window.setVerticalSyncEnabled(false);
+        this->m_vsync = false;
+    }
+}
 
 sf::Vector2<unsigned int> grg::Application::GetSize() const {
     return m_window.getSize();
 }
 
-void grg::Application::LoadDebugFont() {
+void grg::Application::loadDebugFont() {
     const int fontId = 129;
     auto fi = m_debugFont.getInfo();
     if(!(fi.family == "")) {return; }
@@ -140,7 +152,7 @@ void grg::Application::LoadDebugFont() {
             spdlog::error("[{}] ERROR loading Font from resource (id={}).", __PRETTY_FUNCTION__, fontId);
         }
     }
-} // grg::Application::LoadDebugFont
+} // grg::Application::loadDebugFont
 
 // grg::Application::GetDebugFont
 
