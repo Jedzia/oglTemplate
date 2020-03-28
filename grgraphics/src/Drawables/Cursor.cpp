@@ -17,11 +17,11 @@
 #include "grgraphics/Drawables/Cursor.h"
 #include "grgraphics/warning/FMT_format.h"
 #include "grgraphics/warning/SFML_Graphics.h"
-#include <array>
+#include <grgraphics/Math.h>
 #include <iostream>
-#include <vector>
 
 struct grg::Cursor::Impl {
+    static constexpr int Character_Size = 14;
     Impl(sf::RenderWindow &window, const sf::Font &font) : m_window(window) { /*, m_font(font)*/
         std::cout << "+++ Constructor " << __PRETTY_FUNCTION__ << " called. +++" << std::endl;
 
@@ -37,8 +37,8 @@ struct grg::Cursor::Impl {
 
         UpdateCross(radius, sf::Vector2f());
 
-        m_coordDisplay1 = sf::Text("Coords: ", font);
-        m_coordDisplay2 = sf::Text("View  : ", font);
+        m_coordDisplay1 = sf::Text("Coords: ", font, Character_Size);
+        m_coordDisplay2 = sf::Text("View  : ", font, Character_Size);
     }
 
     void UpdateCross(const float radius, sf::Vector2f translation) {
@@ -59,23 +59,39 @@ struct grg::Cursor::Impl {
         static_cast<void>(elapsed);
 
         // get the local mouse position (relative to a window)
-        const sf::Vector2i localPosition = sf::Mouse::getPosition(m_window);
+        const auto localPosition = sf::Mouse::getPosition(m_window);
 
-        const sf::Vector2f globalPositionF = m_window.mapPixelToCoords(localPosition);
+        const auto globalPositionF = m_window.mapPixelToCoords(localPosition);
         const sf::Vector2f localPositionF { static_cast<float>(localPosition.x), static_cast<float>(localPosition.y) };
-        const sf::Vector2f drawPositionF = localPositionF;
-        auto bounds = m_coordDisplay1.getLocalBounds();
+        const auto drawPositionF = localPositionF;
+        //const sf::Vector2f drawPositionF = restrict (localPositionF, { 100.F, 100.F, 400.F, 400.F
+        // });
+        const auto bounds = m_coordDisplay1.getLocalBounds();
         //m_coordDisplay1.setPosition(localPositionF + sf::Vector2f { -100.F, 50.F});
-        auto position = drawPositionF + sf::Vector2f { 00.F, +bounds.getSize().y + m_circle.getRadius() }
-                        -(bounds.getSize() / 2.0F);
+        const auto position = drawPositionF + sf::Vector2f { 00.F, +bounds.getSize().y + m_circle.getRadius() }
+        -(bounds.getSize() / 2.0F);
+        //const auto textPositionF = restrict (position, { bounds.getSize().x/2,
+        // bounds.getSize().y/2, 400.F, 400.F });
+        const auto lines = 2;
+        const auto padLeft = 20.0F;
+        const auto padTop = 20.0F;
+        const auto padWidth = 20.0F;
+        const auto padHeight = 20.0F;
+        const auto textPositionF =
+            restrict (position,
+                      { padLeft, padTop,
+                        static_cast<float>(m_window.getSize().x) - padWidth - bounds.getSize().x,
+                        static_cast<float>(m_window.getSize().y) - padHeight - bounds.getSize().y * lines }
+                      );
 
         if(m_lastPosition != localPosition) {
             m_rect.setPosition(drawPositionF);
             //m_circle.center
             m_circle.setPosition(drawPositionF);
             UpdateCross(m_circle.getRadius(), drawPositionF);
-            m_coordDisplay1.setString(fmt::format("Coords: x({}), y({}) - x({:.1f}), y({:.1f})", localPosition.x, localPosition.y, globalPositionF.x, globalPositionF.y));
-            m_coordDisplay1.setPosition(position);
+            m_coordDisplay1.setString(fmt::format("Coords: x({}), y({}) - x({:.1f}), y({:.1f})", localPosition.x, localPosition.y,
+                            globalPositionF.x, globalPositionF.y));
+            m_coordDisplay1.setPosition(textPositionF);
 
             m_circle.setOutlineColor(sf::Color::Red);
             m_redrawn = true;
@@ -87,7 +103,7 @@ struct grg::Cursor::Impl {
         //auto viewportSize = m_window.getView().getViewport().getSize();
         auto viewSize = m_window.getView().getSize();
         m_coordDisplay2.setString(fmt::format("View  : x({:.1f}), y({:.1f})", viewSize.x, viewSize.y));
-        m_coordDisplay2.setPosition(position + sf::Vector2f { 00.F, m_coordDisplay2.getLocalBounds().getSize().y});
+        m_coordDisplay2.setPosition(textPositionF + sf::Vector2f { 00.F, m_coordDisplay2.getLocalBounds().getSize().y });
 
         m_lastPosition = localPosition;
     }// Update

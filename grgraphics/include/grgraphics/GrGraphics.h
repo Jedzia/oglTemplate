@@ -10,7 +10,7 @@
  * \date       2020-01-23
  * \author     Jedzia.
  *
- * modified    2020-01-23, Jedzia
+ * modified    2020-01-28, Jedzia
  */
 /*---------------------------------------------------------*/
 #ifndef GRGRAPHICS_GRGRAPHICS_H
@@ -19,14 +19,14 @@
 #include <SFML/System/Clock.hpp>
 //
 #include "Application.h"
-#include "Setup.h"
 #include "Drawables/CoordSystem.h"
 #include "Drawables/Cursor.h"
-
+#include "Math.h"
+#include "Setup.h"
 namespace grg {
 void bla();
-    void update(sf::Time elapsed);
 
+void update(sf::Time elapsed);
 }
 
 #endif // GRGRAPHICS_GRGRAPHICS_H

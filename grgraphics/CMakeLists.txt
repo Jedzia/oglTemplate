@@ -12,19 +12,22 @@ configure_file(src/win/GrGraphics.rc.in "${RESOURCE_OUT_FILE}" @ONLY)
 set(GrGraphics_INC_FILES
         include/grgraphics/Application.h
         include/grgraphics/Drawables/CoordSystem.h
+        include/grgraphics/Drawables/Cursor.h
+        include/grgraphics/Math.h
         include/grgraphics/Setup.h
         include/grgraphics/SimpleApplication.h
+        include/grgraphics/Utility/VectorUtil.h
         include/grgraphics/warning/FMT_format.h
         include/grgraphics/warning/SFML_Graphics.h
-        include/grgraphics/Drawables/Cursor.h
         )
 set(GrGraphics_SRC_FILES
         src/Application.cpp
         src/Drawables/CoordSystem.cpp
+        src/Drawables/Cursor.cpp
         src/Setup.cpp
         src/SimpleApplication.cpp
+        src/Utility/VectorUtil.cpp
         src/test.cpp
-        src/Drawables/Cursor.cpp
         )
 if (WIN32)
     #    set(GrGraphics_SRC_FILES ${GrGraphics_SRC_FILES}
