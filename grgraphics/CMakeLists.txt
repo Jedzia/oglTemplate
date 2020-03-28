@@ -16,6 +16,7 @@ set(GrGraphics_INC_FILES
         include/grgraphics/SimpleApplication.h
         include/grgraphics/warning/FMT_format.h
         include/grgraphics/warning/SFML_Graphics.h
+        include/grgraphics/Drawables/Cursor.h
         )
 set(GrGraphics_SRC_FILES
         src/Application.cpp
@@ -23,6 +24,7 @@ set(GrGraphics_SRC_FILES
         src/Setup.cpp
         src/SimpleApplication.cpp
         src/test.cpp
+        include/grgraphics/Drawables/Cursor.cpp
         )
 if (WIN32)
     #    set(GrGraphics_SRC_FILES ${GrGraphics_SRC_FILES}
