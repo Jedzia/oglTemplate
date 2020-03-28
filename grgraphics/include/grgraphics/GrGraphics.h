@@ -21,6 +21,7 @@
 #include "Application.h"
 #include "Setup.h"
 #include "Drawables/CoordSystem.h"
+#include "Drawables/Cursor.h"
 
 namespace grg {
 void bla();

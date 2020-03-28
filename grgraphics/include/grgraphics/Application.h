@@ -46,6 +46,10 @@ public:
         Run(app);
     }
 
+    sf::RenderWindow &GetWindow() const {
+        return m_window;
+    }
+
     const sf::Font &GetMainGameFont() const {
         return m_mainGameFont;
     }

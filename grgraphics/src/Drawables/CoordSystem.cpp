@@ -31,7 +31,7 @@ struct grg::CoordSystem::Impl {
 public:
 
     Impl(const sf::FloatRect &dimensions, const sf::Font &font) : m_dimensions(dimensions), m_font(font) {
-        std::cout << "+++ Constructor grg::CoordSystem::Impl called. +++" << std::endl;
+        std::cout << "+++ Constructor " << __PRETTY_FUNCTION__ << " called. +++" << std::endl;
         //std::unique_ptr<sf::Drawable> shape = std::make_unique<sf::RectangleShape>(sf::Vector2f{
         // 60.F, 60.F });
         //m_drawables.push_back(std::make_unique<sf::RectangleShape>(sf::Vector2f{ 60.F, 60.F }));
@@ -92,7 +92,7 @@ public:
     }
 
     ~Impl() {
-        std::cout << "+++ Destructor  grg::CoordSystem::Impl called. +++" << std::endl;
+        std::cout << "+++ Destructor  " << __PRETTY_FUNCTION__ << " called. +++" << std::endl;
     }
 
     int DoSomething() const {

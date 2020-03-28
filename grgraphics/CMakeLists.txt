@@ -24,7 +24,7 @@ set(GrGraphics_SRC_FILES
         src/Setup.cpp
         src/SimpleApplication.cpp
         src/test.cpp
-        include/grgraphics/Drawables/Cursor.cpp
+        src/Drawables/Cursor.cpp
         )
 if (WIN32)
     #    set(GrGraphics_SRC_FILES ${GrGraphics_SRC_FILES}

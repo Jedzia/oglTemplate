@@ -60,6 +60,7 @@ class MyApplication final : public grg::SimpleApplication {
         const auto size = application.GetSize();
         m_pCoords = std::make_unique<grg::CoordSystem>(sf::FloatRect({0.F, 0.F }, {static_cast<float>(size.x), static_cast<float>(size.y) }),
           application.GetDebugFont());
+        m_pCursor = std::make_unique<grg::Cursor>(application.GetWindow());
     }
 
     /** Update state.
@@ -74,6 +75,8 @@ class MyApplication final : public grg::SimpleApplication {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::R)) {
             Reset();
         }
+
+        m_pCursor->Update(elapsed);
 
         m_backGround->setString(fmt::format("elapsed time: {:.2f}s, x: {:.1f}, y: {:.1f}", m_totalTime.asSeconds(), m_coord.x, m_coord.y));
 
@@ -119,6 +122,7 @@ class MyApplication final : public grg::SimpleApplication {
         {
             //InstrumentationTimer timer("draw grg::CoordSystem");
             window.draw(*m_pCoords);
+            window.draw(*m_pCursor);
             //sf::sleep(sf::milliseconds(1));
         }
 
@@ -130,6 +134,7 @@ class MyApplication final : public grg::SimpleApplication {
     V2F m_coord{0, 0 };
     MyShape m_shape;
     std::unique_ptr<grg::CoordSystem> m_pCoords;
+    std::unique_ptr<grg::Cursor> m_pCursor;
     bool m_drawShape = false;
     //const sf::Font * m_MainGameFont = nullptr;
     std::unique_ptr<sf::Text> m_backGround;
