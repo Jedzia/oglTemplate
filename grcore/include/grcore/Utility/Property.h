@@ -31,7 +31,9 @@ struct PropertyBase {
 };
 
 template<typename TFunctor>
-struct Property final : PropertyBase {
+class Property final : public PropertyBase {
+public:
+
     typedef return_type_t<TFunctor> StorageType;
     Property(TFunctor updater) : m_updater(updater) {
         m_value = updater();
@@ -67,7 +69,9 @@ private:
 };
 
 //template<typename T>
-struct PropertyList final {
+class PropertyList final {
+public:
+
     typedef std::shared_ptr<PropertyBase> PropertyType;
     void Add(PropertyType property) {
         //std::cout << "Add(Property<T>&) typeid(T): " << typeid(property).name() << std::endl;
