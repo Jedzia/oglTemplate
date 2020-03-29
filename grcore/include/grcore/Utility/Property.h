@@ -66,6 +66,7 @@ private:
 
     StorageType m_value;
     TFunctor m_updater;
+    //unsigned long long m_counter; // a possible counter to track most uses and sort them on top of the m_storage list.
 };
 
 //template<typename T>

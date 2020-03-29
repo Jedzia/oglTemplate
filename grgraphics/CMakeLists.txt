@@ -13,6 +13,7 @@ set(GrGraphics_INC_FILES
         include/grgraphics/Application.h
         include/grgraphics/Drawables/CoordSystem.h
         include/grgraphics/Drawables/Cursor.h
+        include/grgraphics/Drawables/TileMap.h
         include/grgraphics/Math.h
         include/grgraphics/Setup.h
         include/grgraphics/SimpleApplication.h
@@ -24,6 +25,7 @@ set(GrGraphics_SRC_FILES
         src/Application.cpp
         src/Drawables/CoordSystem.cpp
         src/Drawables/Cursor.cpp
+        src/Drawables/TileMap.cpp
         src/Setup.cpp
         src/SimpleApplication.cpp
         src/Utility/VectorUtil.cpp

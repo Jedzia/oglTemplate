@@ -21,6 +21,7 @@
 #include "Application.h"
 #include "Drawables/CoordSystem.h"
 #include "Drawables/Cursor.h"
+#include "Drawables/TileMap.h"
 #include "Math.h"
 #include "Setup.h"
 namespace grg {
