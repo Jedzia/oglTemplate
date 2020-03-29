@@ -22,7 +22,7 @@
 #include <memory>
 #include <string>
 
-namespace core {
+namespace grcore {
 namespace logging {
 //#define NAMED_DEFAULT_LOGGER(name) spdlog::set_default_logger(core::logging::setUpLogger("\"" #name "\""))
 //#define NAMED_DEFAULT_LOGGER(name) spdlog::set_default_logger(core::logging::setUpLogger(#name))

@@ -164,10 +164,10 @@ int main() {
     //core::logging::setUpDefaultLogger(spdlog::default_logger(), spdlog::level::debug);
 
     // easy named logger setup
-    spdlog::set_default_logger(core::logging::setUpLogger("MyApplication", spdlog::level::debug)); // or
+    spdlog::set_default_logger(grcore::logging::setUpLogger("MyApplication", spdlog::level::debug)); // or
     //NAMED_DEFAULT_LOGGER("MyApplication");
 
-    auto otherLogger = core::logging::setUpLogger("other");
+    auto otherLogger = grcore::logging::setUpLogger("other");
     otherLogger->info("This is the 'other' logger.");
 
     spdlog::info("+++ [{}]  called. +++", __PRETTY_FUNCTION__);

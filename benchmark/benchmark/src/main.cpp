@@ -84,7 +84,7 @@ int main(int argc, char* * argv) {
     //    temp+=temp;
 
     //cout << "Hello, World!" << endl;
-    core::bla();
+    grcore::blubb();
 
     ofstream my_file;
     //my_file.open("C:\\usr\\example.txt");

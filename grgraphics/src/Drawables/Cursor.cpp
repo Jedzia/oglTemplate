@@ -44,11 +44,11 @@ struct grg::Cursor::Impl {
         int a = 7;
         std::function<int(void)> f = [&a]() { return a; };
         //auto p1 = core::util::Property<int>(f);
-        auto p1 = core::util::Property([&a]() { return a; });
+        auto p1 = grcore::util::Property([&a]() { return a; });
         //auto p2 = core::util::Property2<int, std::function<int(void)>>( [&a]() { return a; } );
 
         //auto p = core::util::Property<int>(f);
-        auto p = core::util::Property(f);
+        auto p = grcore::util::Property(f);
         std::cout << "HasChanged: " << p.HasChanged() << std::endl;
         a = 8;
         std::cout << "HasChanged: " << p.HasChanged() << std::endl;
@@ -56,7 +56,7 @@ struct grg::Cursor::Impl {
 
         std::function<int(void)> fn( [&a]() { return a; });
         //auto l = core::util::PropertyList<int>();
-        auto l = core::util::PropertyList();
+        auto l = grcore::util::PropertyList();
         //l.Add(std::make_shared<core::util::Property<int>>(fn));
         ///auto lll = std::make_shared<core::util::Property<std::function<int(void)>>>([&a]() { return a; });
         ///l.Add(lll);

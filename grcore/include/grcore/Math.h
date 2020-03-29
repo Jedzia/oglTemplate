@@ -19,7 +19,7 @@
 
 #include <tuple>
 
-namespace core {
+namespace grcore {
 class WindowCalculator {
 public:
 

@@ -139,7 +139,7 @@ void grg::Application::loadDebugFont() {
     if(!(fi.family == "")) {return; }
 
     spdlog::warn("[{}] Loading Font from resource (id={}).", __PRETTY_FUNCTION__, fontId);
-    core::Resource res(fontId);
+    grcore::Resource res(fontId);
     auto [data, size, error] = res.Get();
     //std::cout << "data:" << data << std::endl;
     //std::cout << "size:" << size << std::endl;

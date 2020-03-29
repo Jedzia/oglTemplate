@@ -19,7 +19,7 @@
 #include <iostream>
 #include <locale>
 
-core::ConsoleCheckResult core::checkConsole() {
+grcore::ConsoleCheckResult grcore::checkConsole() {
     //std::wcout << "User-preferred locale setting is " << std::locale("").name().c_str() << '\n';
 
     auto consoleResult = ConsoleCheckResult::None;

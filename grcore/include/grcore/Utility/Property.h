@@ -22,7 +22,7 @@
 #include <memory>
 #include <vector>
 
-namespace core {
+namespace grcore {
 namespace util {
 struct PropertyBase {
     virtual ~PropertyBase() {}
@@ -81,7 +81,7 @@ public:
     template<typename TFunctor>
     void AddProp(TFunctor func) {
         //std::cout << "AddProp(TFunctor func) typeid(T): " << typeid(func).name() << std::endl;
-        Add(std::make_shared<core::util::Property<std::function<return_type_t<TFunctor>(void)>>>(func));
+        Add(std::make_shared<grcore::util::Property<std::function<return_type_t<TFunctor>(void)>>>(func));
     }
 
     [[nodiscard]] bool HasChanged() {

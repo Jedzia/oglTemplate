@@ -17,8 +17,11 @@
 #include "grgraphics/warning/FMT_format.h"
 #include "grgraphics/warning/SFML_Graphics.h"
 
+//#pragma clang diagnostic warning "-Wconversion"
+
 bool grg::TileMap::Load(const std::string &tileSet, sf::Vector2u tileSize, const unsigned int* tiles, unsigned int width,
         unsigned int height) {
+#if defined(__clang__)
     // load the tileSet texture
     if(!m_tileSet.loadFromFile(tileSet)) {
         return false;
@@ -55,6 +58,13 @@ bool grg::TileMap::Load(const std::string &tileSet, sf::Vector2u tileSize, const
             quad[3].texCoords = sf::Vector2f(tu * tileSize.x, (tv + 1) * tileSize.y);
         }
     }
+#else
+    static_cast<void>(tileSet);
+    static_cast<void>(tileSize);
+    static_cast<void>(tiles);
+    static_cast<void>(width);
+    static_cast<void>(height);
+#endif
     return true;
 } // grg::TileMap::Load
 

@@ -16,7 +16,7 @@
 
 #ifndef OPENGLTEMPLATE_8126C7C5011C4F168C3A0358C2399C79_RETURN_TYPE_TRAIT_H
 #define OPENGLTEMPLATE_8126C7C5011C4F168C3A0358C2399C79_RETURN_TYPE_TRAIT_H
-namespace core {
+namespace grcore {
 namespace util {
 template<typename F>
 struct return_type_impl;

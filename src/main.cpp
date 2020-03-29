@@ -19,7 +19,7 @@
 //#include <boost/locale/info.hpp>
 //#include <boost/locale.hpp>
 #include <ctime>
-//#include <grcore/grcore.h>
+#include <grcore/Logging.h>
 //#include <grgraphics/grgraphics.h>
 #include <iostream>
 //#include <locale>
@@ -82,8 +82,8 @@ void logSomething() {
     //Use the default logger (stdout, multi-threaded, colored)
     spdlog::info("Hello, {}!", "World");
 //#endif
-    core::info();
-    core::log("Erstes", "Zweites", "Drittes");
+    grcore::info();
+    grcore::log("Erstes", "Zweites", "Drittes");
     fmt::print("Hello, from {}\n", "{fmt}");
     grg::bla();
 }
@@ -206,7 +206,7 @@ private:
  */
 int main() {
     logSomething();
-    core::bla();
+    grcore::bla();
     locale();
 
     auto window = grg::createRenderWindow(1280, 16, 9);

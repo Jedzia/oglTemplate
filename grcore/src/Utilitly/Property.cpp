@@ -19,7 +19,7 @@
 
 #include "grcore/Utility/Property.h"
 
-namespace core {
+namespace grcore {
 namespace util {
 }
 }

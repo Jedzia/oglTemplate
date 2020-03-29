@@ -20,7 +20,7 @@
 #include <iostream>
 #include <memory>
 
-namespace core {
+namespace grcore {
 /** Brief description of $(fclass), bla
  *  Detailed description.
  *

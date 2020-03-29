@@ -50,7 +50,7 @@ template class spdlog::sinks::ansicolor_stderr_sink<spdlog::details::console_nul
 #endif
 
 //using string_view_t = fmt::basic_string_view<char>;
-namespace core {
+namespace grcore {
 //static const std::string LOGGER_NAME = "example";
 static std::string LOGGER_NAME = spdlog::default_logger()->name();
 
@@ -61,7 +61,7 @@ static std::string LOGGER_NAME = spdlog::default_logger()->name();
 void info() {
     //Use the default logger (stdout, multi-threaded, colored)
     //#if USE_SPDLOG
-    spdlog::info("core::info() -> Hello, {}!", "World from core::info()");
+    spdlog::info("grcore::info() -> Hello, {}!", "World from core::info()");
     //#endif
 }
 

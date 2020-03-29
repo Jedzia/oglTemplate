@@ -22,19 +22,19 @@
 
 extern void* HINST_DLL;
 
-core::Resource::Resource(int resourceName) : m_id(resourceName) {
+grcore::Resource::Resource(int resourceName) : m_id(resourceName) {
     //std::cout << "+++ Constructor " << __PRETTY_FUNCTION__ << " called. +++" << "\n";
     spdlog::debug(" {1}:{2} +++ Constructor [{0}]  called. +++", __PRETTY_FUNCTION__, __FILE__, __LINE__);
 }
 
-core::Resource::~Resource() {
+grcore::Resource::~Resource() {
     //std::cout << "+++ Destructor  " << __PRETTY_FUNCTION__ << " called. +++" << "\n";
     spdlog::debug(" {1}:{2} +++ Destructor  [{0}]  called. +++", __PRETTY_FUNCTION__, __FILE__, __LINE__);
     // no need to free something, its a embedded resource.
     //if(p_handle)
 }
 
-std::tuple<const void *, size_t, int> core::Resource::Get() {
+std::tuple<const void *, size_t, int> grcore::Resource::Get() {
     static_cast<void>(m_id);
     //int type = 333; //static_cast<int>(RT_FONT);
     int error = 0;
