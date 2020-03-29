@@ -53,6 +53,13 @@ CMake option `-DBUILD_SHARED_LIBS=TRUE` does not work with fmt -> https://github
     $ VERBOSE=1 cmake --build "E:\Projects\C++\GrCore\cmake-build-debug" --target GrCoreBench_unity -- -j 4
 
 
+-----------------------------------------------------------------------------------------------
+###### 29.03.2020 23:55 ToDo 
+
+Utilize Q:\Projects\C++\HumbugGL\projects\Humbug\src\HumbugFileLoader.cpp for the new VFS
+
+ 
+
 ### Devel Links ###
 
 https://github.com/ocornut/imgui

@@ -24,18 +24,14 @@
 
 namespace core {
 namespace util {
-class PropertyBase {
-public:
-
+struct PropertyBase {
     virtual ~PropertyBase() {}
 
     virtual bool HasChanged() = 0;
 };
 
 template<typename TFunctor>
-class Property final : public PropertyBase {
-public:
-
+struct Property final : PropertyBase {
     typedef return_type_t<TFunctor> StorageType;
     Property(TFunctor updater) : m_updater(updater) {
         m_value = updater();
@@ -66,13 +62,12 @@ private:
 
     StorageType m_value;
     TFunctor m_updater;
-    //unsigned long long m_counter; // a possible counter to track most uses and sort them on top of the m_storage list.
+    //unsigned long long m_counter; // a possible counter to track most uses and sort them on top of
+    // the m_storage list.
 };
 
 //template<typename T>
-class PropertyList final {
-public:
-
+struct PropertyList final {
     typedef std::shared_ptr<PropertyBase> PropertyType;
     void Add(PropertyType property) {
         //std::cout << "Add(Property<T>&) typeid(T): " << typeid(property).name() << std::endl;

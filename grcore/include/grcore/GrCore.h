@@ -20,6 +20,7 @@
 #include "Math.h"
 #include "Resource.h"
 #include "Utility/Property.h"
+#include "FileSystem.h"
 
 namespace core {
 void blubb();

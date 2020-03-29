@@ -16,12 +16,14 @@ set(GrCore_INC_FILES
         include/grcore/Resource.h
         include/grcore/Utility/Property.h
         include/grcore/Utility/return_type_trait.h
+        include/grcore/FileSystem.h
         )
 set(GrCore_SRC_FILES
         src/test.cpp
         src/Logging.cpp
         src/Math.cpp
         src/Utilitly/Property.cpp
+        src/FileSystem.cpp
         )
 if (WIN32)
     set(GrCore_SRC_FILES ${GrCore_SRC_FILES}

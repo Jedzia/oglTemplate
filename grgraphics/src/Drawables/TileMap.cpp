@@ -17,10 +17,10 @@
 #include "grgraphics/warning/FMT_format.h"
 #include "grgraphics/warning/SFML_Graphics.h"
 
-bool grg::TileMap::Load(const std::string &tileset, sf::Vector2u tileSize, const unsigned int* tiles, unsigned int width,
+bool grg::TileMap::Load(const std::string &tileSet, sf::Vector2u tileSize, const unsigned int* tiles, unsigned int width,
         unsigned int height) {
-    // load the tileset texture
-    if(!m_tileset.loadFromFile(tileset)) {
+    // load the tileSet texture
+    if(!m_tileSet.loadFromFile(tileSet)) {
         return false;
     }
 
@@ -35,9 +35,9 @@ bool grg::TileMap::Load(const std::string &tileset, sf::Vector2u tileSize, const
             // get the current tile number
             unsigned int tileNumber = tiles[i + j * width];
 
-            // find its position in the tileset texture
-            unsigned int tu = tileNumber % (m_tileset.getSize().x / tileSize.x);
-            unsigned int tv = tileNumber / (m_tileset.getSize().x / tileSize.x);
+            // find its position in the tileSet texture
+            unsigned int tu = tileNumber % (m_tileSet.getSize().x / tileSize.x);
+            unsigned int tv = tileNumber / (m_tileSet.getSize().x / tileSize.x);
 
             // get a pointer to the current tile's quad
             sf::Vertex* quad = &m_vertices[(i + j * width) * 4];
@@ -63,7 +63,7 @@ void grg::TileMap::draw(sf::RenderTarget &target, sf::RenderStates states) const
     states.transform *= getTransform();
 
     // apply the tileset texture
-    states.texture = &m_tileset;
+    states.texture = &m_tileSet;
 
     // draw the vertex array
     target.draw(m_vertices, states);
