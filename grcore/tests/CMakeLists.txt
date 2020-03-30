@@ -17,7 +17,7 @@ set(DbThingsFUCK_tests
 #target_link_libraries(${TestTarget} gtest::main)
 #add_test(NAME ${TestTarget}_test COMMAND ${TestTarget})
 add_gmain_test(SimpleTest SimpleTest.cpp)
-add_gmain_test(Property Utility/Property.cpp)
+add_gmain_test(Property Utility/PropertyTest.cpp oglTemplate::GrCore)
 #add_run_target(TEST_${PROJECT_NAME}_Property ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 
 add_executable(FooTest SimpleTest.cpp)

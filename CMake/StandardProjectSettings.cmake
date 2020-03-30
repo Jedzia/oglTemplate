@@ -28,7 +28,7 @@ if (CCACHE)
   #      SET(CMAKE_CXX_COMPILER "x86_64-w64-mingw32-g++.exe" )
 
 
-        message(WARNING "using ccache with CLION: ${CCACHE}")
+        message(STATUS "using ccache with CLION: ${CCACHE}")
         set(CMAKE_CXX_COMPILER_LAUNCHER ${CCACHE})
         #message(FATAL_ERROR "CMAKE_CXX_COMPILER_LAUNCHER ${CMAKE_CXX_COMPILER_LAUNCHER}")
         #SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_COMPILER} ${CMAKE_CXX_FLAGS} -std=c++14 -O2 -Wall -pedantic ${CCACHE_INCLUDES}")

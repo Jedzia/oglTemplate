@@ -27,6 +27,7 @@ add_list_target(${BenchmarkName} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 #add_custom_command(${BenchmarkName} ${PROJECT_NAME} POST_BUILD
 #        COMMAND arm-none-eabi-size --format=berkeley "rtos_clion.elf")
 
+#[[
 if(NOT DEFINED PROJECT_NAME)
     set(NOT_SUBPROJECT ON)
 endif()
@@ -39,4 +40,4 @@ if (NOT_SUBPROJECT)
 endif ()
 if (SUBPROJECT)
     message(WARNING "SUBPROJECT")
-endif ()
+endif ()]]

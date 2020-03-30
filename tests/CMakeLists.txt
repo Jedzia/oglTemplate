@@ -26,11 +26,12 @@ if (PACKAGE_TESTS)
 
 
     function(add_gmain_test _name _source_files)
-        set(TestTarget "TEST_${PROJECT_NAME}_${_name}")
+        set(TestTarget "TESTS_${PROJECT_NAME}_${_name}")
         source_group(tests FILES ${_source_files})
         add_executable(${TestTarget} ${_source_files})
-        target_link_libraries(${TestTarget} gtest::main)
-        add_test(NAME ${TestTarget}_test COMMAND ${TestTarget})
+        target_link_libraries(${TestTarget} PRIVATE gtest::main ${ARGN})
+        target_link_libraries(${TestTarget} PRIVATE project_options project_warnings)
+        add_test(NAME ${TestTarget} COMMAND ${TestTarget})
     endfunction()
 
 endif ()

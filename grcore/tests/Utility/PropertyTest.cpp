@@ -8,7 +8,8 @@
 #include <iostream>
 #include <memory>
 #include <cstdio>
-
+#include <grcore/Utility/Property.h>
+//
 #include <gtest/gtest.h>
 
 
@@ -26,9 +27,11 @@ TEST(Property, start) {
     //const std::string name("main");
     //EXPECT_THROW(SQLite::Backup backup(srcDB, name, srcDB, name), SQLite::Exception);
     //remove("backup_test.db3");
+    int a = 7;
+    std::function<int(void)> f = [&a]() { return a; };
+    auto p1 = grcore::util::Property([&a]() { return a; });
 
-    int i = 1;
-    ASSERT_EQ(1, i);
+    ASSERT_EQ(a, f());
 }
 
 TEST(Property, no_fail) {
