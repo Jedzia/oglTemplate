@@ -14,6 +14,8 @@
  */
 /*---------------------------------------------------------*/
 
+/// @ref
+
 #ifndef OPENGLTEMPLATE_E43883E2425644289F6B9D667ED895C3_PROPERTY_H
 #define OPENGLTEMPLATE_E43883E2425644289F6B9D667ED895C3_PROPERTY_H
 #include "return_type_trait.h"
@@ -24,19 +26,49 @@
 
 namespace grcore {
 namespace util {
+/** @class PropertyBase
+ *  @brief Basic interface for util::PropertyList to store util::Property instances.
+ */
 struct PropertyBase {
     virtual ~PropertyBase() {}
 
+    /** @brief Check if the monitored property has changed.
+     *
+     *  Calls the stored update-function and compares the new value against the stored backup.
+     *  The new value becomes the stored backup for later comparissons.
+     *  @return <b>true</b> if the property has changed; otherwise <b>false</b>.
+     */
     virtual bool HasChanged() = 0;
 };
 
+/** @class Property
+ *  @brief Stores a property and its update mechanism.
+ *
+ *  The underlying type of the storage item can be retrieved via <tt>Property::StorageType</tt>.
+ *  @tparam TFunctor Specifies the type of the functor object providing the property data.
+ */
 template<typename TFunctor>
 class Property final : public PropertyBase {
 public:
 
+    /** @brief Storage type of the property.
+     *
+     *  Defines the type which is produced by the TFunctor updateFunc.
+     *  @code
+     *  int a = 7;
+     *  auto p1 = grcore::util::Property([&a]() { return a; });
+     *  @endcode
+     *  Here the StorageType becomes <tt>int</tt>.
+     */
     typedef return_type_t<TFunctor> StorageType;
-    Property(TFunctor updater) : m_updater(updater) {
-        m_value = updater();
+
+    /** @brief Construct the Property from an updater.
+     *
+     *  Entangle the watched property via a lambda or function to this instance.
+     *  @param updateFunc Function or lambda to retrieve the value of the monitored property.
+     */
+    Property(TFunctor updateFunc) : m_updater(updateFunc) {
+        m_value = updateFunc();
         /*std::cout << "+++ Constructor " << __PRETTY_FUNCTION__ << " -> " <<
             ": " << m_value << " called. +++" << std::endl;*/
     }
@@ -56,6 +88,9 @@ public:
         return result;
     }
 
+    /** @brief Get the stored property value.
+     *  @return the stored value since construction or the last HasChanged() call.
+     */
     [[nodiscard]] const StorageType &Get() const {
         return m_value;
     }
@@ -68,7 +103,10 @@ private:
     // the m_storage list.
 };
 
-//template<typename T>
+/** @class PropertyList
+ *  @brief A Container for Property items.
+ *  @tparam TFunctor Specifies the type of the functor object providing the property data.
+ */
 class PropertyList final {
 public:
 

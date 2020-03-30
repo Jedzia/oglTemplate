@@ -27,6 +27,8 @@ TEST(Property, start) {
     //const std::string name("main");
     //EXPECT_THROW(SQLite::Backup backup(srcDB, name, srcDB, name), SQLite::Exception);
     //remove("backup_test.db3");
+
+
     int a = 7;
     std::function<int(void)> f = [&a]() { return a; };
     auto p1 = grcore::util::Property([&a]() { return a; });

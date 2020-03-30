@@ -32,25 +32,29 @@ class SimpleApplication {
 public:
 
     /** @brief Setup Routine.
+     *
      *  The place you can initialize your implementation.
      *  @param application Host application providing system and window data.
      */
     virtual void OnInit(const Application & /*application*/) {}
 
     /** @brief Does fire on every event.
+     *
      *  The place you can handle Keyboard, Mouse, etc. events.
      *  @param event The event data.
      */
     virtual void OnEvent(const sf::Event /*&event*/) {}
 
-    /** Update state.
+    /** @brief Update state.
+     *
      *  Refresh the state of your application here. Not guaranteed to run every frame. But can be
      * configured to run more often than in frames to provide a smooth user experience or AI.
      *  @param elapsed The elapsed time between calls to OnUpdate.
      */
     virtual void OnUpdate(sf::Time elapsed) = 0;
 
-    /** Draw content.
+    /** @brief Draw content.
+     *
      *  Draw your content to the window every frame.
      *  @param window Provides the RenderTarget::draw(...) endpoint.
      */

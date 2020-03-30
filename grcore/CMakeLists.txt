@@ -93,3 +93,7 @@ if (${PROJECT_NAME}_BUILD_TESTS AND PACKAGE_TESTS AND BUILD_TESTING)
     enable_testing()
     add_subdirectory(tests)
 endif ()
+
+if (ENABLE_DOXYGEN)
+    add_subdirectory(doc)
+endif ()
