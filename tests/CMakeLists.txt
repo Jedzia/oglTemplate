@@ -1,4 +1,50 @@
-cmake_minimum_required(VERSION 3.2)
+#cmake_minimum_required(VERSION 3.2)
+
+if (PACKAGE_TESTS)
+    enable_testing()
+    #include(googletest)
+    add_subdirectory(googletest)
+
+    set(GTEST_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/googletest/googletest CACHE INTERNAL "" FORCE)
+    include(GoogleTest)
+
+    set(GTEST_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/googletest/googletest/include)
+    set(GMOCK_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/googletest/googlemock/include)
+    set(GTEST_MAIN_LIBRARY ${CMAKE_CURRENT_BINARY_DIR}/lib/libgtest_maind.dll.a)
+
+    #add_library(gtest INTERFACE)
+    #target_include_directories(gtest INTERFACE ${GTEST_INCLUDE_DIR})
+    add_library(gtest::gtest ALIAS gtest)
+
+
+    #target_include_directories(gmock INTERFACE ${GMOCK_INCLUDE_DIR})
+    add_library(gtest::gmock ALIAS gmock)
+
+    add_library(gtest::main ALIAS gtest_main)
+
+    #find_package(GTest )
+
+
+    function(add_gmain_test _name _source_files)
+        set(TestTarget "TEST_${PROJECT_NAME}_${_name}")
+        source_group(tests FILES ${_source_files})
+        add_executable(${TestTarget} ${_source_files})
+        target_link_libraries(${TestTarget} gtest::main)
+        add_test(NAME ${TestTarget}_test COMMAND ${TestTarget})
+    endfunction()
+
+endif ()
+
+
+# ToDo: Clean UP THIS MESS
+return()
+
+# this directory can later hold global tests, integration, fuzzing ... i dont know
+
+
+option(BUILD_GMOCK "Builds the googlemock subproject" OFF)
+#add_subdirectory(googletest)
+#message(FATAL_ERROR "FUCK YOU ${gtest_main_VERSION}")
 
 # list of test files of the library
 set(DBTHINGS_TESTS
@@ -63,7 +109,6 @@ if (DBTHINGS_BUILD_TESTS)
     if (NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/googletest/CMakeLists.txt")
         message(FATAL_ERROR "Missing 'googletest' submodule! Either use 'git init submodule' and 'git update submodule' to get googletest according to the README, or deactivate unit tests with -DDBTHINGS_BUILD_TESTS=OFF")
     endif ()
-    add_subdirectory(googletest)
     include_directories("${CMAKE_CURRENT_SOURCE_DIR}/googletest/googletest/include")
 
     # add the unit test executable

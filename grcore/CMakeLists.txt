@@ -83,3 +83,13 @@ enable_precompiled_headers(GrCore ENABLE_PCH)
 
 # Create namespaced alias
 add_library(oglTemplate::GrCore ALIAS GrCore)
+
+# ------------------------------------------------------------------------- #
+# Tests
+#option(GrCore_BuildTests "Build GrCore unit tests" ON) #-DGrCore_BuildTests:BOOL=ON
+option(${PROJECT_NAME}_BUILD_TESTS "Build and run tests for ${PROJECT_NAME}." ON)
+if (${PROJECT_NAME}_BUILD_TESTS AND PACKAGE_TESTS AND BUILD_TESTING)
+    include(CTest)
+    enable_testing()
+    add_subdirectory(tests)
+endif ()

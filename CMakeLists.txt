@@ -15,7 +15,7 @@ include(StandardProjectSettings)
 include(setup)
 
 # Build options
-option(GrCore_BuildTests "Build GrCore unit tests" ON) #-DGrCore_BuildTests:BOOL=ON
+option(PACKAGE_TESTS "Build all unit tests" ON)
 option(GrCore_BuildBenchmarks "Build GrCore benchmarking" ON) #-DGrCore_BuildBenchmarks:BOOL=ON
 option(BUILD_SHARED_LIBS "Build Shared Libraries" OFF) #-DBUILD_SHARED_LIBS_PCH:BOOL=OFF
 option(ENABLE_PCH "Enable Precompiled Headers" ON) #-DENABLE_PCH:BOOL=ON
@@ -58,6 +58,13 @@ enable_doxygen()
 # CMake/Makefile Debugging
 #set(CMAKE_VERBOSE_MAKEFILE ON) #-DCMAKE_VERBOSE_MAKEFILE:BOOL=ON
 
+# ------------------------------------------------------------------------- #
+# Test setup and global tests
+if (PACKAGE_TESTS)
+    include(CTest)
+    enable_testing()
+    add_subdirectory(tests)
+endif ()
 
 # ************************************************************************* #
 # Include other projects
@@ -70,13 +77,6 @@ use_common_runtime_directory(GrCore)
 add_subdirectory(grgraphics)
 use_common_runtime_directory(GrGraphics)
 
-# ------------------------------------------------------------------------- #
-# Tests
-include(CTest)
-#if(GrCore_BuildTests AND BUILD_TESTING)
-enable_testing()
-add_subdirectory(tests)
-#endif()
 
 # ------------------------------------------------------------------------- #
 # Benchmarks
