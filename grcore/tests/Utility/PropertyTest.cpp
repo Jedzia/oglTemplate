@@ -110,15 +110,110 @@ TEST(Property, released_multiple) {
     ASSERT_FALSE(prop.HasChanged());
 }
 
-TEST(Property, no_fail) {
-    int i = 42;
-    ASSERT_EQ(42, i);
+struct Functor {
+    Functor() {
+        std::cout << "+++ Constructor " << __PRETTY_FUNCTION__ << " -> " << " called. +++" << std::endl;
+    }
+
+    Functor(const Functor &) = delete;  // non construction-copyable
+    Functor &operator=(const Functor &) = delete;  // non copyable
+
+    std::string m_string = "Hello";
+
+    const std::string &operator()() const {
+        return m_string;
+    }
+
+    const std::string &GetString() const {
+        return m_string;
+    }
+};
+
+TEST(Property, Functor_inst) {
+
+    Functor func;
+
+    ASSERT_EQ("Hello", func());
+    func.m_string = "World";
+    ASSERT_EQ("World", func());
+}
+
+TEST(Property, Functor_lambda) {
+
+    Functor func;
+    auto prop1 = grcore::util::Property([&func]() { return func(); });
+
+    ASSERT_FALSE(prop1.HasChanged());
+    ASSERT_EQ("Hello", prop1.Get());
+    func.m_string = "World";
+    ASSERT_TRUE(prop1.HasChanged());
+    ASSERT_FALSE(prop1.HasChanged());
+}
+
+TEST(Property, Functor_bind1) {
+
+    Functor *func2 = new Functor;
+    std::function<std::string(void)> callback;
+    callback = std::bind(&Functor::GetString, func2);//create delegate
+    auto prop = grcore::util::Property(callback);
+    ASSERT_FALSE(prop.HasChanged());
+    ASSERT_EQ("Hello", prop.Get());
+    func2->m_string = "World";
+    ASSERT_EQ("World", func2->GetString()); // instance is updated.
+    ASSERT_EQ("Hello", prop.Get()); // property has the old value without a HasChanged call.
+    ASSERT_TRUE(prop.HasChanged()); // is now changed.
+    ASSERT_EQ("World", prop.Get()); // and has the new value stored.
+    ASSERT_FALSE(prop.HasChanged());
+}
+
+TEST(Property, Functor_ref_wrapper) {
+    {
+        Functor func;
+        auto prop = grcore::util::Property<std::function<std::string(void)>>(std::ref(func));
+        ASSERT_FALSE(prop.HasChanged());
+        ASSERT_EQ("Hello", prop.Get());
+        func.m_string = "World";
+        ASSERT_EQ("World", func.GetString()); // instance is updated.
+        ASSERT_EQ("Hello", prop.Get()); // property has the old value without a HasChanged call.
+        ASSERT_TRUE(prop.HasChanged()); // is now changed.
+        ASSERT_EQ("World", prop.Get()); // and has the new value stored.
+        ASSERT_FALSE(prop.HasChanged());
+    }
+    {
+        // Needs a template specialization
+        /*Functor func;
+        auto prop = grcore::util::Property(std::ref(func));
+        ASSERT_FALSE(prop.HasChanged());
+        ASSERT_EQ("Hello", prop.Get());
+        func.m_string = "World";
+        ASSERT_EQ("World", func.GetString()); // instance is updated.
+        ASSERT_EQ("Hello", prop.Get()); // property has the old value without a HasChanged call.
+        ASSERT_TRUE(prop.HasChanged()); // is now changed.
+        ASSERT_EQ("World", prop.Get()); // and has the new value stored.
+        ASSERT_FALSE(prop.HasChanged());*/
+    }
+}
+
+TEST(Property, Functor_ref) {
+
+    Functor func;
+    const std::reference_wrapper<Functor> &wrapper = std::ref(func);
+    auto prop = grcore::util::Property<std::function<std::string(void)>>(wrapper);
+    ASSERT_FALSE(prop.HasChanged());
+    ASSERT_EQ("Hello", prop.Get());
+    wrapper.get().m_string = "World";
+    ASSERT_EQ("World", func());
+    ASSERT_EQ("Hello", prop.Get());
+    ASSERT_TRUE(prop.HasChanged());
+    ASSERT_EQ("World", prop.Get());
+    ASSERT_FALSE(prop.HasChanged());
 }
 
 class PropertySuite : public ::testing::Test {
 protected:
     double m_x = 6.0;
-    double getX() const {
+
+    double GetX() const {
         return m_x;
     }
 

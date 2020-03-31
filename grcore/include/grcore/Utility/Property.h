@@ -70,7 +70,7 @@ public:
     Property(TFunctor updateFunc) : m_updater(updateFunc) {
         m_value = updateFunc();
         /*std::cout << "+++ Constructor " << __PRETTY_FUNCTION__ << " -> " <<
-            ": " << m_value << " called. +++" << std::endl;*/
+        ": " << m_value <<" type: " << typeid(StorageType).name() << " called. +++" << std::endl;*/
     }
 
     ~Property() {
