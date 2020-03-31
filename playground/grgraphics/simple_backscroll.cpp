@@ -87,24 +87,41 @@ public:
         }
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-            m_view.move(-1.0F * 1000 * elapsedSeconds, 0.0F);
+            // m_view.move(-1.0F * 1000 * elapsedSeconds, 0.0F);
             m_xVelocity -= 1.0F * 1000 * elapsedSeconds;
+            //spdlog::info("m_xVelocity={}.", m_xVelocity);
             viewChanged = true;
         } else {
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-                m_view.move(1.0F * 1000 * elapsedSeconds, 0.0F);
+                //m_view.move(1.0F * 1000 * elapsedSeconds, 0.0F);
                 m_xVelocity += 1.0F * 1000 * elapsedSeconds;
+                //spdlog::info("m_xVelocity={}.", m_xVelocity);
                 viewChanged = true;
             }
         }
 
-        if(viewChanged) {
+        const float hystEdge = 50.0F; // lower edge when friction starts to decrease velocity abrupt.
+        float speedRamp = 1.0F - elapsedSeconds;
+        float absVelocity = std::abs(m_xVelocity);
+        if(absVelocity < hystEdge) {
+            speedRamp = 1.0F - ((1.0F * elapsedSeconds) + (0.02F * ((hystEdge / 10.0F) - (absVelocity / (hystEdge / 5.0F)))));
+            if(absVelocity < (hystEdge / 100.0F)) {
+                m_xVelocity = 0;
+            }
+        }
+
+        m_xVelocity *= speedRamp;
+
+        m_view.move(m_xVelocity * elapsedSeconds, 0.0F);
+        if(viewChanged || m_window->getView().getTransform() != m_view.getTransform()) {
             m_window->setView(m_view);
         }
 
         m_pCursor->Update(elapsed);
 
-        m_backGround->setString(fmt::format("elapsed time: {:.2f}s, x: {:.1f}, y: {:.1f}", m_totalTime.asSeconds(), m_coord.x, m_coord.y));
+        m_backGround->setString(fmt::format("elapsed time: {:.2f}s, x: {:.1f}, y: {:.1f}, xVelocity: {:.1f}, speedRamp: {:.6f}",
+                        m_totalTime.asSeconds(),
+                        m_coord.x, m_coord.y, m_xVelocity, speedRamp));
 
         m_shape.setPosition(m_coord);
         V2F translation {Speed, Speed * 0.5F };
@@ -145,8 +162,6 @@ public:
             window.draw(m_shape);
         }
 
-        window.draw(*m_backGround);
-
         {
             //InstrumentationTimer timer("draw grg::CoordSystem");
             window.draw(*m_pCoords);
@@ -154,6 +169,10 @@ public:
             //sf::sleep(sf::milliseconds(1));
         }
 
+        auto oldView = window.getView();
+        window.setView(window.getDefaultView());
+        window.draw(*m_backGround);
+        window.setView(oldView);
         //sf::sleep(sf::milliseconds(1));
     } // OnDraw
 

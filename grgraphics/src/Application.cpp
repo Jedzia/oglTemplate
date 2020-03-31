@@ -104,7 +104,13 @@ void grg::Application::Run(grg::SimpleApplication &app) {
         m_window.clear();
         // draw user application.
         app.OnDraw(m_window);
+
+        // FPS Display
+        auto oldView = m_window.getView();
+        m_window.setView(m_window.getDefaultView());
         m_window.draw(m_fpsDisplay);
+        m_window.setView(oldView);
+
         m_window.display();
 
         if(m_vsync) {
