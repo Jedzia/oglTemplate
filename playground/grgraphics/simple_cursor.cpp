@@ -42,7 +42,6 @@ public:
 
     void OnInit(const grg::Application &application) override {
         m_window = &application.GetWindow();
-        m_view = application.GetWindow().getView();
         //m_MainGameFont = application.GetMainGameFont();
         //const sf::Font& font = application.GetMainGameFont();
         //static_cast<void>(font);
@@ -72,34 +71,19 @@ public:
             Reset();
         }
 
-        int viewChanged = false;
         const float zoomFactor = 1.01F;
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-            m_view.zoom(zoomFactor);
-            spdlog::info("View zoom {}, {}.", m_view.getSize().x, m_view.getSize().y);
-            viewChanged = true;
+            sf::View view = m_window->getView();
+            view.zoom(zoomFactor);
+            m_window->setView(view);
+            spdlog::info("View zoom {}, {}.", view.getSize().x, view.getSize().y);
         } else {
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-                m_view.zoom(1.0F / zoomFactor);
-                spdlog::info("View zoom {}, {}.", m_view.getSize().x, m_view.getSize().y);
-                viewChanged = true;
+                sf::View view = m_window->getView();
+                view.zoom(1.0F / zoomFactor);
+                m_window->setView(view);
+                spdlog::info("View zoom {}, {}.", view.getSize().x, view.getSize().y);
             }
-        }
-
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-            m_view.move(-1.0F * 1000 * elapsedSeconds, 0.0F);
-            m_xVelocity -= 1.0F * 1000 * elapsedSeconds;
-            viewChanged = true;
-        } else {
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-                m_view.move(1.0F * 1000 * elapsedSeconds, 0.0F);
-                m_xVelocity += 1.0F * 1000 * elapsedSeconds;
-                viewChanged = true;
-            }
-        }
-
-        if(viewChanged) {
-            m_window->setView(m_view);
         }
 
         m_pCursor->Update(elapsed);
@@ -169,8 +153,6 @@ private:
     //const sf::Font * m_MainGameFont = nullptr;
     std::unique_ptr<sf::Text> m_backGround;
     sf::Time m_totalTime;
-    sf::View m_view;
-    float m_xVelocity = 0;
 };
 
 /** Program Entry Function, main

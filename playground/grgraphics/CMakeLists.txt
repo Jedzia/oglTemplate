@@ -55,6 +55,7 @@ endforeach ()
 
 target_link_libraries(Playground_GrGraphics_simple_window PRIVATE spdlog::spdlog)
 target_link_libraries(Playground_GrGraphics_simple_backscroll PRIVATE spdlog::spdlog)
+target_link_libraries(Playground_GrGraphics_simple_cursor PRIVATE spdlog::spdlog)
 #target_link_libraries(Playground_GrGraphics_statemachine02 PRIVATE afsm::afsm)
 #target_include_directories(Playground_GrGraphics_statemachine02 PRIVATE ${AFSM_INCLUDE_DIRS})
 #message(FATAL_ERROR "AFSM_INCLUDE_DIRS ${AFSM_INCLUDE_DIRS}")
