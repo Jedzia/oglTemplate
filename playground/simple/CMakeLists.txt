@@ -32,3 +32,16 @@ FOREACH (f ${playground_sources})
         MESSAGE(STATUS "[GLOB EXAMPLE] Adding Example Project: ${_target_name}")
     ENDIF (${_target_name} STREQUAL "stdafx")
 ENDFOREACH ()
+
+if (CMAKE_CXX_COMPILER MATCHES "clang[+][+]" OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    # Only Clang 9.0.0 has coroutine support
+    target_compile_options(Playground_Simple_coroutine1 PRIVATE -stdlib=libc++ -fcoroutines-ts -orangesCoroutines01)
+    #target_link_options(Playground_Simple_coroutine1 PRIVATE -stdlib=libc++ -fcoroutines-ts -orangesCoroutines01)
+    target_link_libraries(Playground_Simple_coroutine1 PRIVATE c++ c++abi supc++ )
+else ()
+    set_target_properties(Playground_Simple_coroutine1 PROPERTIES EXCLUDE_FROM_ALL 1 EXCLUDE_FROM_DEFAULT_BUILD 1)
+endif ()
+
+
+#target_link_libraries(Playground_Simple_coroutine1 /mingw64/lib/libc++ ) # c++experimental
+#set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -stdlib=libc++ -lc++abi")
