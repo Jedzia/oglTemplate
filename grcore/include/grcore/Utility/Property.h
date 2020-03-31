@@ -82,7 +82,7 @@ public:
 
     [[nodiscard]] bool HasChanged() override {
         auto newValue = m_updater();
-        std::cout << "newValue: " << newValue << std::endl;
+        //std::cout << "newValue: " << newValue << std::endl;
         bool result = newValue != m_value;
         m_value = newValue;
         return result;
