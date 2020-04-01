@@ -92,8 +92,8 @@ void grg::Application::Run(grg::SimpleApplication &app) {
         //        grg::update(elapsed);
 
         if(frameCounter % 60 == 0) {
-            const char* formatStr = "FPS: {:.1f}, Frame Counter: {}";
-            m_fpsDisplay.setString(fmt::format(formatStr, 60 / fpsTime, frameCounter));
+            const char* formatStr = "FPS: {:.1f}, elapsed: {:.1f}ms, Frame Counter: {}";
+            m_fpsDisplay.setString(fmt::format(formatStr, 60 / fpsTime, elapsedSeconds * 1000.0F, frameCounter));
 
             fpsTime = 0;
         }
@@ -127,9 +127,11 @@ void grg::Application::Run(grg::SimpleApplication &app) {
 void grg::Application::SetVSync(bool enabled) {
     if(enabled) {
         this->m_window.setVerticalSyncEnabled(true);
+        G_FRAME_RATE_LIMIT = 60;
         this->m_vsync = true;
     } else {
         this->m_window.setFramerateLimit(Frame_Rate_Limit);
+        G_FRAME_RATE_LIMIT = Frame_Rate_Limit;
         this->m_window.setVerticalSyncEnabled(false);
         this->m_vsync = false;
     }

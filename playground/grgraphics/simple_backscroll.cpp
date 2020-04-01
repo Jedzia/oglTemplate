@@ -65,8 +65,9 @@ public:
      *  @param elapsed The elapsed time between calls to OnUpdate.
      */
     void OnUpdate(sf::Time elapsed) override {
+        m_pCoords->OnUpdate(elapsed);
         m_totalTime += elapsed;
-        float elapsedSeconds = elapsed.asSeconds();
+        const float elapsedSeconds = elapsed.asSeconds();
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::R)) {
             Reset();
@@ -129,6 +130,9 @@ public:
         lastAbsVelocity = absVelocity;
 
         m_xVelocity *= speedRamp;
+
+        auto middle = grg::CoordGraph::G_Display_Height / 2;
+        m_pCoords->SetGraphValue(middle + m_xVelocity / 10.0F);
 
         m_view.move(m_xVelocity * elapsedSeconds, 0.0F);
         if(viewChanged || m_window->getView().getTransform() != m_view.getTransform()) {
@@ -220,13 +224,17 @@ int main() {
     //core::logging::setUpDefaultLogger(spdlog::default_logger(), spdlog::level::debug);
 
     // easy named logger setup
-    spdlog::set_default_logger(grcore::logging::setUpLogger("MyApplication", spdlog::level::debug)); // or
+    spdlog::set_default_logger(grcore::logging::setUpLogger("MyApplication", spdlog::level::trace)); // or
     //NAMED_DEFAULT_LOGGER("MyApplication");
 
     auto otherLogger = grcore::logging::setUpLogger("other");
     otherLogger->info("This is the 'other' logger.");
 
     spdlog::info("+++ [{}]  called. +++", __PRETTY_FUNCTION__);
+    spdlog::warn("LogLevel: WARN");
+    spdlog::info("LogLevel: INFO");
+    spdlog::debug("LogLevel: DEBUG");
+    spdlog::trace("LogLevel: TRACE");
     //auto window = grg::createRenderWindow(1280, 16, 9, __FILE_NAME__);
     auto window = grg::createRenderWindow(1280, 16, 9, __FILE__);
     //window.setFramerateLimit(60 * 4);

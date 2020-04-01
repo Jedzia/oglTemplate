@@ -10,7 +10,9 @@ configure_file(src/win/GrGraphics.rc.in "${RESOURCE_OUT_FILE}" @ONLY)
 
 ### list of source files of the GrGraphics library
 set(GrGraphics_INC_FILES
+        include/Constants.h
         include/grgraphics/Application.h
+        include/grgraphics/Drawables/CoordGraph.h
         include/grgraphics/Drawables/CoordSystem.h
         include/grgraphics/Drawables/Cursor.h
         include/grgraphics/Drawables/TileMap.h
@@ -20,10 +22,11 @@ set(GrGraphics_INC_FILES
         include/grgraphics/Utility/VectorUtil.h
         include/grgraphics/warning/FMT_format.h
         include/grgraphics/warning/SFML_Graphics.h
-        include/grgraphics/Drawables/CoordGraph.h
         )
 set(GrGraphics_SRC_FILES
         src/Application.cpp
+        src/Constants.cpp
+        src/Drawables/CoordGraph.cpp
         src/Drawables/CoordSystem.cpp
         src/Drawables/Cursor.cpp
         src/Drawables/TileMap.cpp
@@ -31,7 +34,6 @@ set(GrGraphics_SRC_FILES
         src/SimpleApplication.cpp
         src/Utility/VectorUtil.cpp
         src/test.cpp
-        src/Drawables/CoordGraph.cpp
         )
 if (WIN32)
     #    set(GrGraphics_SRC_FILES ${GrGraphics_SRC_FILES}

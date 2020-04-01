@@ -17,6 +17,7 @@
 #define OPENGLTEMPLATE_9E8EADFBCB3D404C8029D83491885AF6_COORDSYSTEM_H
 
 #include <SFML/Graphics/Drawable.hpp>
+#include <SFML/System/Time.hpp>
 #include <experimental/propagate_const>
 #include <memory>
 
@@ -29,6 +30,14 @@ public:
 
     CoordSystem(const sf::FloatRect &dimensions, const sf::Font &font);
     virtual ~CoordSystem();
+
+    /** @brief Update state.
+     *
+     *  Refresh the state of your application here. Not guaranteed to run every frame. But can be
+     * configured to run more often than in frames to provide a smooth user experience or AI.
+     *  @param elapsed The elapsed time between calls to OnUpdate.
+     */
+    virtual void OnUpdate(sf::Time /*elapsed*/) { }
 
 protected:
 

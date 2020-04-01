@@ -22,8 +22,10 @@
 #include <SFML/System/Clock.hpp>
 #include <SFML/System/Thread.hpp>
 #include <type_traits>
+#include "Constants.h"
 
 namespace grg {
+
 /** @class Application:
  *  Detailed description.
  *
@@ -31,7 +33,7 @@ namespace grg {
 class Application {
 public:
 
-    Application(sf::RenderWindow &window, bool vSyncEnabled = true, unsigned short frameRateLimit = 2 * 60);
+    Application(sf::RenderWindow &window, bool vSyncEnabled = true, unsigned short frameRateLimit = grg::G_FRAME_RATE_LIMIT);
 
     void Run(SimpleApplication &app);
 
