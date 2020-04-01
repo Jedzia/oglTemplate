@@ -65,7 +65,7 @@ void info() {
     //#endif
 }
 
-void logging::set_level(spdlog::level::level_enum level) {
+void logging::libSetDefaultLoggerLevel(spdlog::level::level_enum level) {
     //spdlog::set_level(static_cast<spdlog::level::level_enum>(level));
     spdlog::set_level(level);
 }
@@ -125,10 +125,21 @@ void colorizeLogger(std::shared_ptr<spdlog::logger> logger) {
     }// switch
 } // colorizeLogger
 
-std::shared_ptr<spdlog::logger> logging::setUpLogger(const std::string &loggerName, spdlog::level::level_enum level) {
+std::shared_ptr<spdlog::logger> logging::setUpDefaultLogger(const std::string &loggerName, spdlog::level::level_enum level) {
     auto logger = setupLoggerInternal(loggerName);
-    set_level(level);
     colorizeLogger(logger);
+    logger->set_level(level);
+    libSetDefaultLoggerLevel(level);
+    logger->warn("You should now see spdlog with color.");
+    return logger;
+}
+
+std::shared_ptr<spdlog::logger> logging::setUpLogger(const std::string &loggerName, spdlog::level::level_enum level) {
+    // ToDo: maybe set the named logger for the library, too here
+    auto logger = setupLoggerInternal(loggerName);
+    colorizeLogger(logger);
+    logger->set_level(level);
+    //libSetDefaultLoggerLevel(level);
     logger->warn("You should now see spdlog with color.");
     return logger;
 }
@@ -137,7 +148,7 @@ void logging::setUpDefaultLogger(std::shared_ptr<spdlog::logger> logger, spdlog:
     // unite the application and library loggers.
     LOGGER_NAME = logger->name();
     spdlog::set_default_logger(logger);
-    set_level(level);
+    libSetDefaultLoggerLevel(level);
     colorizeLogger(logger);
     logger->warn("You should see spdlog with color.");
 }

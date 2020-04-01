@@ -28,11 +28,12 @@ namespace logging {
 //#define NAMED_DEFAULT_LOGGER(name) spdlog::set_default_logger(core::logging::setUpLogger(#name))
 #define NAMED_DEFAULT_LOGGER(name) spdlog::set_default_logger(core::logging::setUpLogger(name))
 
+std::shared_ptr<spdlog::logger> setUpDefaultLogger(const std::string &loggerName, spdlog::level::level_enum level = spdlog::level::info);
 std::shared_ptr<spdlog::logger> setUpLogger(const std::string &loggerName, spdlog::level::level_enum level = spdlog::level::info);
 
 void setUpDefaultLogger(std::shared_ptr<spdlog::logger> logger, spdlog::level::level_enum level = spdlog::level::info);
 
-void set_level(spdlog::level::level_enum level);
+void libSetDefaultLoggerLevel(spdlog::level::level_enum level);
 
 void test(std::string message);
 }
