@@ -72,7 +72,7 @@ public:
             Reset();
         }
 
-        int viewChanged = false;
+        bool viewChanged = false;
         const float zoomFactor = 1.01F;
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
             m_view.zoom(zoomFactor);
@@ -86,29 +86,47 @@ public:
             }
         }
 
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+        constexpr float speedUp = 2.0F;
+        constexpr float keyAcceleration = 500.0F * speedUp;
+        bool moveKeyPressed = false;
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
             // m_view.move(-1.0F * 1000 * elapsedSeconds, 0.0F);
-            m_xVelocity -= 1.0F * 1000 * elapsedSeconds;
+            m_xVelocity -= speedUp * keyAcceleration * elapsedSeconds;
             //spdlog::info("m_xVelocity={}.", m_xVelocity);
             viewChanged = true;
+            moveKeyPressed = true;
         } else {
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
                 //m_view.move(1.0F * 1000 * elapsedSeconds, 0.0F);
-                m_xVelocity += 1.0F * 1000 * elapsedSeconds;
+                m_xVelocity += speedUp * keyAcceleration * elapsedSeconds;
                 //spdlog::info("m_xVelocity={}.", m_xVelocity);
                 viewChanged = true;
+                moveKeyPressed = true;
             }
         }
 
-        const float hystEdge = 50.0F; // lower edge when friction starts to decrease velocity abrupt.
-        float speedRamp = 1.0F - elapsedSeconds;
-        float absVelocity = std::abs(m_xVelocity);
-        if(absVelocity < hystEdge) {
-            speedRamp = 1.0F - ((1.0F * elapsedSeconds) + (0.02F * ((hystEdge / 10.0F) - (absVelocity / (hystEdge / 5.0F)))));
-            if(absVelocity < (hystEdge / 100.0F)) {
-                m_xVelocity = 0;
+        const float absVelocity = std::abs(m_xVelocity);
+        float speedRamp = 1.0F - elapsedSeconds * speedUp;
+        //if(absVelocity + 1.0F < lastAbsVelocity) {
+        if(!moveKeyPressed) {
+            //} else {
+            constexpr float slowDown = 1.4F * speedUp;
+            speedRamp = 1.0F - elapsedSeconds * slowDown;
+            constexpr float hysteresisEdge = 50.0F * slowDown; // lower edge when friction starts to
+                                                               // decrease velocity abrupt.
+            if(absVelocity < hysteresisEdge) {
+                speedRamp = 1.0F -
+                            ((elapsedSeconds * slowDown * 1.0F) +
+                             (0.01F * ((hysteresisEdge / 10.0F) - (absVelocity / (hysteresisEdge / 5.0F)))));
+                //if(absVelocity < (hysteresisEdge / 100.0F)) {
+                if(absVelocity < (0.5F)) {
+                    // stop all movement at 1% of the hysteresis low point.
+                    m_xVelocity = 0;
+                }
             }
         }
+
+        lastAbsVelocity = absVelocity;
 
         m_xVelocity *= speedRamp;
 
@@ -119,7 +137,7 @@ public:
 
         m_pCursor->Update(elapsed);
 
-        m_backGround->setString(fmt::format("elapsed time: {:.2f}s, x: {:.1f}, y: {:.1f}, xVelocity: {:.1f}, speedRamp: {:.6f}",
+        m_backGround->setString(fmt::format("elapsed time: {:.2f}s, x: {:.1f}, y: {:.1f}, xVelocity: {:.1f}, speedRamp: {:.3f}",
                         m_totalTime.asSeconds(),
                         m_coord.x, m_coord.y, m_xVelocity, speedRamp));
 
@@ -190,6 +208,7 @@ private:
     sf::Time m_totalTime;
     sf::View m_view;
     float m_xVelocity = 0;
+    float lastAbsVelocity = 0;
 };
 
 /** Program Entry Function, main
