@@ -30,7 +30,7 @@ public:
     using MyShape = sf::RectangleShape;
     using V2F = sf::Vector2f;
 
-    MyApplication() : grg::SimpleApplication(), m_shape(MyShape({ 100.F, 50.F })) {
+    MyApplication() : grg::SimpleApplication(), m_shape(MyShape({100.F, 50.F})) {
         m_shape.setFillColor(sf::Color::Magenta);
         //Instrumentor::Instance().beginSession(__PRETTY_FUNCTION__);
     }
@@ -49,12 +49,12 @@ public:
         //static_cast<void>(m_MainGameFont);
         //m_MainGameFont = &application.GetMainGameFont();
         m_backGround = std::make_unique<sf::Text>(__PRETTY_FUNCTION__, application.GetMainGameFont(), 24);
-        m_backGround->setPosition({ 100, 100 });
+        m_backGround->setPosition({100, 100});
         //std::make_unique<grg::CoordSystem>(sf::FloatRect({0.F, 0.F}, {600.F, 600.F}));
         //m_pCoords = std::make_unique<grg::CoordSystem>(sf::FloatRect({0.F, 0.F}, {600.F, 600.F}));
         const auto size = application.GetSize();
         m_pCoords = std::make_unique<grg::CoordGraph>(
-                sf::FloatRect({0.F, 0.F }, {static_cast<float>(size.x), static_cast<float>(size.y) }),
+                sf::FloatRect({0.F, 0.F}, {static_cast<float>(size.x), static_cast<float>(size.y)}),
                 application.GetDebugFont());
         m_pCursor = std::make_unique<grg::Cursor>(application.GetWindow(), application.GetDebugFont());
     } // OnInit
@@ -87,69 +87,82 @@ public:
             }
         }
 
-        constexpr float speedUp = 2.0F;
-        constexpr float keyAcceleration = 500.0F * speedUp;
-        bool moveKeyPressed = false;
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-            // m_view.move(-1.0F * 1000 * elapsedSeconds, 0.0F);
-            m_xVelocity -= speedUp * keyAcceleration * elapsedSeconds;
-            //spdlog::info("m_xVelocity={}.", m_xVelocity);
-            viewChanged = true;
-            moveKeyPressed = true;
-        } else {
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-                //m_view.move(1.0F * 1000 * elapsedSeconds, 0.0F);
-                m_xVelocity += speedUp * keyAcceleration * elapsedSeconds;
+        // scrolling calculations
+        {
+            constexpr float speedUp = 2.0F;
+            constexpr float keyAcceleration = 500.0F * speedUp;
+            bool moveKeyPressed = false;
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+                // m_view.move(-1.0F * 1000 * elapsedSeconds, 0.0F);
+                m_xVelocity -= speedUp * keyAcceleration * elapsedSeconds;
                 //spdlog::info("m_xVelocity={}.", m_xVelocity);
                 viewChanged = true;
                 moveKeyPressed = true;
-            }
-        }
-
-        const float absVelocity = std::abs(m_xVelocity);
-        float speedRamp = 1.0F - elapsedSeconds * speedUp;
-        //if(absVelocity + 1.0F < lastAbsVelocity) {
-        if(!moveKeyPressed) {
-            //} else {
-            constexpr float slowDown = 1.4F * speedUp;
-            speedRamp = 1.0F - elapsedSeconds * slowDown;
-            constexpr float hysteresisEdge = 50.0F * slowDown; // lower edge when friction starts to
-                                                               // decrease velocity abrupt.
-            if(absVelocity < hysteresisEdge) {
-                speedRamp = 1.0F -
-                            ((elapsedSeconds * slowDown * 1.0F) +
-                             (0.01F * ((hysteresisEdge / 10.0F) - (absVelocity / (hysteresisEdge / 5.0F)))));
-                //if(absVelocity < (hysteresisEdge / 100.0F)) {
-                if(absVelocity < (0.5F)) {
-                    // stop all movement at 1% of the hysteresis low point.
-                    m_xVelocity = 0;
+            } else {
+                if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+                    //m_view.move(1.0F * 1000 * elapsedSeconds, 0.0F);
+                    m_xVelocity += speedUp * keyAcceleration * elapsedSeconds;
+                    //spdlog::info("m_xVelocity={}.", m_xVelocity);
+                    viewChanged = true;
+                    moveKeyPressed = true;
                 }
             }
-        }
 
-        lastAbsVelocity = absVelocity;
+            const float absVelocity = std::abs(m_xVelocity);
+            float speedRamp = 1.0F - elapsedSeconds * speedUp;
+            //if(absVelocity + 1.0F < lastAbsVelocity) {
+            if(!moveKeyPressed) {
+                //} else {
+                constexpr float slowDown = 1.4F * speedUp;
+                speedRamp = 1.0F - elapsedSeconds * slowDown;
+                constexpr float hysteresisEdge = 50.0F * slowDown; // lower edge when friction
+                // starts to
+                // decrease velocity abrupt.
+                if(absVelocity < hysteresisEdge) {
+                    speedRamp = 1.0F -
+                                ((elapsedSeconds * slowDown * 1.0F) +
+                                 (0.01F * ((hysteresisEdge / 10.0F) - (absVelocity / (hysteresisEdge / 5.0F)))));
+                    //if(absVelocity < (hysteresisEdge / 100.0F)) {
+                    if(absVelocity < (0.5F)) {
+                        // stop all movement at 1% of the hysteresis low point.
+                        m_xVelocity = 0;
+                    }
+                }
+            }
 
-        m_xVelocity *= speedRamp;
+            lastAbsVelocity = absVelocity;
+            m_xVelocity *= speedRamp;
 
-        auto middle = grg::CoordGraph::G_Display_Height / 2;
-        m_pCoords->SetGraphValue(middle + m_xVelocity / 10.0F);
+            { // handle Graph
+                static bool firstTimeMoveKeyPressed = false;
+                if(moveKeyPressed) {
+                    firstTimeMoveKeyPressed = true;
+                }
 
-        m_view.move(m_xVelocity * elapsedSeconds, 0.0F);
-        if(viewChanged || m_window->getView().getTransform() != m_view.getTransform()) {
-            m_window->setView(m_view);
+                if(firstTimeMoveKeyPressed) {
+                    auto middle = grg::CoordGraph::G_Display_Height / 2;
+                    m_pCoords->SetGraphValue(middle + m_xVelocity / 10.0F);
+                }
+
+                m_view.move(m_xVelocity * elapsedSeconds, 0.0F);
+                if(viewChanged || m_window->getView().getTransform() != m_view.getTransform()) {
+                    m_window->setView(m_view);
+                }
+            }
+
+            m_backGround->setString(
+                    fmt::format("elapsed time: {:.2f}s, x: {:.1f}, y: {:.1f}, xVelocity: {:.1f}, speedRamp: {:.3f}",
+                            m_totalTime.asSeconds(),
+                            m_coord.x, m_coord.y, m_xVelocity, speedRamp));
         }
 
         m_pCursor->Update(elapsed);
-
-        m_backGround->setString(fmt::format("elapsed time: {:.2f}s, x: {:.1f}, y: {:.1f}, xVelocity: {:.1f}, speedRamp: {:.3f}",
-                        m_totalTime.asSeconds(),
-                        m_coord.x, m_coord.y, m_xVelocity, speedRamp));
-
         m_shape.setPosition(m_coord);
-        V2F translation {Speed, Speed * 0.5F };
+        V2F translation {Speed, Speed * 0.5F};
         m_coord += translation * elapsedSeconds;
         m_drawShape = (
-            CheckBounds(m_coord, 500, 500, static_cast<int>(-m_shape.getSize().x), static_cast<int>(-m_shape.getSize().y)) == 0);
+            CheckBounds(m_coord, 500, 500, static_cast<int>(-m_shape.getSize().x),
+                    static_cast<int>(-m_shape.getSize().y)) == 0);
     } // OnUpdate
 
     static int CheckBounds(V2F &v, int xMax, int yMax, int xMin = 0, int yMin = 0) {
@@ -202,7 +215,7 @@ private:
 
     const float Speed = 250.F;
     sf::RenderWindow* m_window;
-    V2F m_coord {0, 0 };
+    V2F m_coord {0, 0};
     MyShape m_shape;
     std::unique_ptr<grg::CoordGraph> m_pCoords;
     std::unique_ptr<grg::Cursor> m_pCursor;
@@ -224,11 +237,14 @@ int main() {
     //core::logging::setUpDefaultLogger(spdlog::default_logger(), spdlog::level::debug);
 
     // easy named logger setup
-    spdlog::set_default_logger(grcore::logging::setUpLogger("MyApplication", spdlog::level::trace)); // or
+    spdlog::set_default_logger(grcore::logging::setUpDefaultLogger("MyApplication", spdlog::level::debug)); // or
     //NAMED_DEFAULT_LOGGER("MyApplication");
 
+    // shit, this affects the loglevel of the main logger
     auto otherLogger = grcore::logging::setUpLogger("other");
     otherLogger->info("This is the 'other' logger.");
+
+    //spdlog::set_level(spdlog::level::trace);
 
     spdlog::info("+++ [{}]  called. +++", __PRETTY_FUNCTION__);
     spdlog::warn("LogLevel: WARN");
