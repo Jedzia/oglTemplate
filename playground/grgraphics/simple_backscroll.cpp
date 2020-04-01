@@ -130,16 +130,15 @@ public:
                 }
             }
 
-            lastAbsVelocity = absVelocity;
+            m_lastAbsVelocity = absVelocity;
             m_xVelocity *= speedRamp;
 
             { // handle Graph
-                static bool firstTimeMoveKeyPressed = false;
                 if(moveKeyPressed) {
-                    firstTimeMoveKeyPressed = true;
+                    m_firstTimeMoveKeyPressed = true;
                 }
 
-                if(firstTimeMoveKeyPressed) {
+                if(m_firstTimeMoveKeyPressed) {
                     auto middle = grg::CoordGraph::G_Display_Height / 2;
                     m_pCoords->SetGraphValue(middle + m_xVelocity / 10.0F);
                 }
@@ -225,7 +224,8 @@ private:
     sf::Time m_totalTime;
     sf::View m_view;
     float m_xVelocity = 0;
-    float lastAbsVelocity = 0;
+    float m_lastAbsVelocity = 0;
+    bool m_firstTimeMoveKeyPressed = false;
 };
 
 /** Program Entry Function, main
