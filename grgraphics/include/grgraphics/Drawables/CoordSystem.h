@@ -24,11 +24,11 @@ namespace sf {
 class SFML_GRAPHICS_API Font;
 }
 namespace grg {
-class CoordSystem final : public sf::Drawable {
+class CoordSystem : public sf::Drawable {
 public:
 
     CoordSystem(const sf::FloatRect &dimensions, const sf::Font &font);
-    ~CoordSystem();
+    virtual ~CoordSystem();
 
 protected:
 

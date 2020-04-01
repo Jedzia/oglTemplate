@@ -20,6 +20,7 @@ set(GrGraphics_INC_FILES
         include/grgraphics/Utility/VectorUtil.h
         include/grgraphics/warning/FMT_format.h
         include/grgraphics/warning/SFML_Graphics.h
+        include/grgraphics/Drawables/CoordGraph.h
         )
 set(GrGraphics_SRC_FILES
         src/Application.cpp
@@ -30,6 +31,7 @@ set(GrGraphics_SRC_FILES
         src/SimpleApplication.cpp
         src/Utility/VectorUtil.cpp
         src/test.cpp
+        src/Drawables/CoordGraph.cpp
         )
 if (WIN32)
     #    set(GrGraphics_SRC_FILES ${GrGraphics_SRC_FILES}
