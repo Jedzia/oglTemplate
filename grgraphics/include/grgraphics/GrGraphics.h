@@ -23,6 +23,7 @@
 #include "Drawables/CoordGraph.h"
 #include "Drawables/Cursor.h"
 #include "Drawables/TileMap.h"
+#include "Utility/Collision.h"
 #include "Math.h"
 #include "Setup.h"
 namespace grg {

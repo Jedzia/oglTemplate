@@ -53,7 +53,7 @@ public:
         //std::make_unique<grg::CoordSystem>(sf::FloatRect({0.F, 0.F}, {600.F, 600.F}));
         //m_pCoords = std::make_unique<grg::CoordSystem>(sf::FloatRect({0.F, 0.F}, {600.F, 600.F}));
         const auto size = application.GetSize();
-        m_pCoords = std::make_unique<grg::CoordGraph>(
+        m_pCoords = std::make_unique<grg::CoordSystem>(
                 sf::FloatRect({0.F, 0.F}, {static_cast<float>(size.x), static_cast<float>(size.y)}),
                 application.GetDebugFont());
         m_pCursor = std::make_unique<grg::Cursor>(application.GetWindow(), application.GetDebugFont());
@@ -134,15 +134,6 @@ public:
             m_xVelocity *= speedRamp;
 
             { // handle Graph
-                if(moveKeyPressed) {
-                    m_firstTimeMoveKeyPressed = true;
-                }
-
-                if(m_firstTimeMoveKeyPressed) {
-                    auto middle = grg::CoordGraph::G_Display_Height / 2;
-                    m_pCoords->SetGraphValue(middle + m_xVelocity / 10.0F);
-                }
-
                 m_view.move(m_xVelocity * elapsedSeconds, 0.0F);
                 if(viewChanged || m_window->getView().getTransform() != m_view.getTransform()) {
                     m_window->setView(m_view);
@@ -216,7 +207,7 @@ private:
     sf::RenderWindow* m_window;
     V2F m_coord {0, 0};
     MyShape m_shape;
-    std::unique_ptr<grg::CoordGraph> m_pCoords;
+    std::unique_ptr<grg::CoordSystem> m_pCoords;
     std::unique_ptr<grg::Cursor> m_pCursor;
     bool m_drawShape = false;
     //const sf::Font * m_MainGameFont = nullptr;
@@ -225,7 +216,6 @@ private:
     sf::View m_view;
     float m_xVelocity = 0;
     float m_lastAbsVelocity = 0;
-    bool m_firstTimeMoveKeyPressed = false;
 };
 
 /** Program Entry Function, main
