@@ -21,6 +21,7 @@
 #include <string>
 
 namespace grcore {
+template<const char TDelimiter>
 class CsvFile {
 public:
 
@@ -36,7 +37,7 @@ public:
 #endif
         auto dataTimepoint = Clock::now();
         auto dataTime = std::chrono::time_point_cast<std::chrono::microseconds>(dataTimepoint).time_since_epoch().count();
-        m_outputStream << dataTime << ",";
+        m_outputStream << dataTime << TDelimiter;
         m_outputStream << data;
         m_outputStream << "\n";
         return true;

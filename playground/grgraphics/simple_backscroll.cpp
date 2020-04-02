@@ -205,7 +205,7 @@ public:
 
 private:
 
-    grcore::CsvFile m_csvFile{"data.csv"};
+    grcore::CsvFile<';'> m_csvFile{"data.csv"};
     const float Speed = 250.F;
     sf::RenderWindow* m_window;
     V2F m_coord {0, 0};
