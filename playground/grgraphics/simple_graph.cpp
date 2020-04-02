@@ -32,7 +32,7 @@ public:
 
     MyApplication() : grg::SimpleApplication(), m_shape(MyShape({100.F, 50.F})) {
         m_shape.setFillColor(sf::Color::Magenta);
-        //Instrumentor::Instance().beginSession(__PRETTY_FUNCTION__);
+        //Instrumentor::Instance().BeginSession(__PRETTY_FUNCTION__);
     }
 
     void Reset() {

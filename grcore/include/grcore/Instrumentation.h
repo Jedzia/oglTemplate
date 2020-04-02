@@ -49,12 +49,12 @@
 #endif
 
 struct ProfileResult {
-    const std::string name;
-    long long start, end;
+    const std::string Name;
+    long long m_start, m_end;
 #if 1// M64_Bit
-    std::thread::id threadID;
+    std::thread::id m_threadId;
 #else
-    uint32_t threadID;
+    uint32_t m_threadId;
 #endif
 };
 
@@ -75,64 +75,64 @@ public:
     }
 
     ~Instrumentor() {
-        endSession();
+        EndSession();
     }
 
-    void beginSession(const std::string &name, const std::string &filepath = "results.json") {
-        if(m_activeSession) { endSession(); }
+    void BeginSession(const std::string &name, const std::string &filepath = "results.json") {
+        if(m_activeSession) { EndSession(); }
 
         m_activeSession = true;
         m_outputStream.open(filepath);
-        writeHeader();
+        WriteHeader();
         m_sessionName = name;
     }
 
-    void endSession() {
+    void EndSession() {
         if(!m_activeSession) { return; }
 
         m_activeSession = false;
-        writeFooter();
+        WriteFooter();
         m_outputStream.close();
         m_profileCount = 0;
     }
 
-    void writeProfile(const ProfileResult &result) {
+    void WriteProfile(const ProfileResult &result) {
         std::lock_guard<std::mutex> lock(m_lock);
 
         if(m_profileCount++ > 0) { m_outputStream << ","; }
 
-        std::string name = result.name;
+        std::string name = result.Name;
         std::replace(name.begin(), name.end(), '"', '\'');
 
         m_outputStream << "{";
         m_outputStream << "\"cat\":\"function\",";
-        m_outputStream << "\"dur\":" << (result.end - result.start) << ',';
+        m_outputStream << "\"dur\":" << (result.m_end - result.m_start) << ',';
         m_outputStream << "\"name\":\"" << name << "\",";
         m_outputStream << "\"ph\":\"X\",";
         m_outputStream << "\"pid\":0,";
-        m_outputStream << "\"tid\":" << result.threadID << ",";
-        m_outputStream << "\"ts\":" << result.start;
+        m_outputStream << "\"tid\":" << result.m_threadId << ",";
+        m_outputStream << "\"ts\":" << result.m_start;
         m_outputStream << "}";
-    }// writeProfile
+    }// WriteProfile
 
-    void writeHeader() {
+    void WriteHeader() {
         m_outputStream << "{\"otherData\": {},\"traceEvents\":[";
     }
 
-    void writeFooter() {
+    void WriteFooter() {
         m_outputStream << "]}";
     }
 };
 
 class InstrumentationTimer {
 #if 1// MinGW, see https://github.com/msys2/MINGW-packages/issues/5086#issuecomment-476499828
-    typedef std::chrono::steady_clock clock;
+    typedef std::chrono::steady_clock Clock;
 #else
     typedef std::chrono::high_resolution_clock clock;
 #endif
     ProfileResult m_result;
 
-    std::chrono::time_point<clock> m_startTimepoint;
+    std::chrono::time_point<Clock> m_startTimepoint;
     bool m_stopped;
 
 public:
@@ -141,27 +141,27 @@ public:
         name, 0, 0, {}
     }),
         m_stopped(false) {
-        m_startTimepoint = clock::now();
+        m_startTimepoint = Clock::now();
     }
 
     ~InstrumentationTimer() {
-        if(!m_stopped) { stop(); }
+        if(!m_stopped) { Stop(); }
     }
 
-    void stop() {
-        auto endTimepoint = clock::now();
+    void Stop() {
+        auto endTimepoint = Clock::now();
 
-        m_result.start = std::chrono::time_point_cast<std::chrono::microseconds>(m_startTimepoint).time_since_epoch().count();
-        m_result.end = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch().count();
+        m_result.m_start = std::chrono::time_point_cast<std::chrono::microseconds>(m_startTimepoint).time_since_epoch().count();
+        m_result.m_end = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch().count();
         /*#pragma clang diagnostic push
            #pragma clang diagnostic ignored "-Wunused-variable"
-           auto timeS = std::chrono::time_point_cast<std::chrono::microseconds>(m_startTimepoint);
+           auto timeS = std::chrono::time_point_cast<std::chrono::microseconds>(m_m_startTimepoint);
            auto timeE = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint);
            auto diff = timeE - timeS;
          #pragma clang diagnostic pop*/
         //m_result.threadID = std::hash<std::thread::id>{}(std::this_thread::get_id());
-        m_result.threadID = std::this_thread::get_id();// is typedef unsigned __int64 uintptr_t
-        Instrumentor::Instance().writeProfile(m_result);
+        m_result.m_threadId = std::this_thread::get_id();// is typedef unsigned __int64 uintptr_t
+        Instrumentor::Instance().WriteProfile(m_result);
 
         m_stopped = true;
     }
