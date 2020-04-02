@@ -99,21 +99,21 @@ bool pixelPerfectTest(const sf::Sprite &object1, const sf::Sprite &object2, sf::
         sf::Uint8* mask2 = G_BITMASKS.GetMask(object2.getTexture());
 
         // Loop through our pixels
-        for(int i = static_cast<int>(intersection.left); i < intersection.left + intersection.width; i++) {
-            for(int j = static_cast<int>(intersection.top); j < intersection.top + intersection.height; j++) {
+        for(float i = intersection.left; i < intersection.left + intersection.width; i++) {
+            for(float j = intersection.top; j < intersection.top + intersection.height; j++) {
                 sf::Vector2f o1V = object1.getInverseTransform().transformPoint(i, j);
                 sf::Vector2f o2V = object2.getInverseTransform().transformPoint(i, j);
 
                 // Make sure pixels fall within the sprite's subrect
                 if(o1V.x > 0 && o1V.y > 0 && o2V.x > 0 && o2V.y > 0 &&
-                   o1V.x < o1SubRect.width && o1V.y < o1SubRect.height &&
-                   o2V.x < o2SubRect.width && o2V.y < o2SubRect.height) {
+                   o1V.x < static_cast<float>(o1SubRect.width) && o1V.y < static_cast<float>(o1SubRect.height) &&
+                   o2V.x < static_cast<float>(o2SubRect.width) && o2V.y < static_cast<float>(o2SubRect.height)) {
                     if(G_BITMASKS.GetPixel(mask1, object1.getTexture(),
-                               static_cast<unsigned int>(o1V.x + o1SubRect.left),
-                               static_cast<unsigned int>(o1V.y + o1SubRect.top)) > alphaLimit &&
+                               static_cast<unsigned int>(static_cast<int>(o1V.x) + o1SubRect.left),
+                               static_cast<unsigned int>(static_cast<int>(o1V.y) + o1SubRect.top)) > alphaLimit &&
                        G_BITMASKS.GetPixel(mask2, object2.getTexture(),
-                               static_cast<unsigned int>(o2V.x + o2SubRect.left),
-                               static_cast<unsigned int>(o2V.y + o2SubRect.top)) > alphaLimit) {
+                               static_cast<unsigned int>(static_cast<int>(o2V.x) + o2SubRect.left),
+                               static_cast<unsigned int>(static_cast<int>(o2V.y) + o2SubRect.top)) > alphaLimit) {
                         return true;
                     }
                 }
@@ -156,7 +156,7 @@ sf::Vector2f getSpriteCenter (const sf::Sprite &object) {
 sf::Vector2f getSpriteSize (const sf::Sprite &object) {
     sf::IntRect originalSize = object.getTextureRect();
     sf::Vector2f scale = object.getScale();
-    return sf::Vector2f(originalSize.width * scale.x, originalSize.height * scale.y);
+    return sf::Vector2f(static_cast<float>(originalSize.width) * scale.x, static_cast<float>(originalSize.height) * scale.y);
 }
 
 bool circleTest(const sf::Sprite &object1, const sf::Sprite &object2) {
@@ -184,9 +184,9 @@ public:
         sf::Transform trans = object.getTransform();
         sf::IntRect local = object.getTextureRect();
         m_points[0] = trans.transformPoint(0.f, 0.f);
-        m_points[1] = trans.transformPoint(local.width, 0.f);
-        m_points[2] = trans.transformPoint(local.width, local.height);
-        m_points[3] = trans.transformPoint(0.f, local.height);
+        m_points[1] = trans.transformPoint(static_cast<float>(local.width), 0.f);
+        m_points[2] = trans.transformPoint(static_cast<float>(local.width), static_cast<float>(local.height));
+        m_points[3] = trans.transformPoint(0.f, static_cast<float>(local.height));
     }
 
     sf::Vector2f m_points[4];

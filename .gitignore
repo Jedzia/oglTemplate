@@ -70,3 +70,4 @@ fabric.properties
 /build
 *.unc-backup~
 *.unc-backup.md5~
+/doc/data-test/

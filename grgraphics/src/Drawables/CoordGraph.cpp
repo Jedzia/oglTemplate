@@ -22,7 +22,7 @@ grg::CoordGraph::CoordGraph(const sf::FloatRect &dimensions, const sf::Font &fon
     float horizontalOffset = -50.0F;
 
     for(std::size_t x = 0; x < Graph_Size; ++x) {
-        m_vertices[x].position.x = x + 50.0F - horizontalOffset;
+        m_vertices[x].position.x = static_cast<float>(x) + 50.0F - horizontalOffset;
         m_vertices[x].position.y = G_Display_Height / 2;
     }
 }
