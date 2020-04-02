@@ -15,6 +15,7 @@
 /*---------------------------------------------------------*/
 //#include <grcore/instrumentation.h>
 #include <SFML/Graphics/Color.hpp>
+#include <grcore/DataAcquisition.h>
 #include <grcore/Logging.h>
 #include <grgraphics/GrGraphics.h>
 #include <grgraphics/warning/SFML_Graphics.h>
@@ -132,6 +133,7 @@ public:
 
             m_lastAbsVelocity = absVelocity;
             m_xVelocity *= speedRamp;
+            m_csvFile.WriteData(m_xVelocity);
 
             { // handle Graph
                 m_view.move(m_xVelocity * elapsedSeconds, 0.0F);
@@ -203,6 +205,7 @@ public:
 
 private:
 
+    grcore::CsvFile m_csvFile{"data.csv"};
     const float Speed = 250.F;
     sf::RenderWindow* m_window;
     V2F m_coord {0, 0};
