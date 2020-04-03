@@ -32,7 +32,7 @@ public:
 
     void SendPicture(const std::string &filename);
 
-    std::size_t  GetSize(const std::string &filename);
+    static std::size_t  GetSize(const std::string &filename);
 
 private:
 

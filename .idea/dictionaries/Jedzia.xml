@@ -12,6 +12,7 @@
       <w>flatline</w>
       <w>freetype</w>
       <w>futura</w>
+      <w>getaddrinfo</w>
       <w>glbinding</w>
       <w>grcore</w>
       <w>grgraphics</w>
@@ -28,6 +29,7 @@
       <w>uncrustified</w>
       <w>versioning</w>
       <w>vsync</w>
+      <w>winsock</w>
     </words>
   </dictionary>
 </component>
