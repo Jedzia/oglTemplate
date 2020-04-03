@@ -33,6 +33,11 @@ struct grcore::util::TcpClient::Impl {
     SOCKET m_connectSocket = INVALID_SOCKET;
 
     int Init() {
+        if(m_wsaInitialized) {
+            return 0;
+        }
+        spdlog::info("[{}]  called. +++", __PRETTY_FUNCTION__);
+
         std::string address {
             "localhost"
         };
@@ -86,10 +91,15 @@ struct grcore::util::TcpClient::Impl {
             throw std::runtime_error("Unable to connect to server!");
         }
 
+        m_wsaInitialized = true;
         return iResult;
     } // Init
 
     void Shutdown() {
+        if(!m_wsaInitialized) {
+            return;
+        }
+
         // shutdown the connection since no more data will be sent
         int iResult = ::shutdown(m_connectSocket, SD_SEND);
         if(iResult == SOCKET_ERROR) {
@@ -102,7 +112,11 @@ struct grcore::util::TcpClient::Impl {
         // cleanup
         closesocket(m_connectSocket);
         WSACleanup();
-    }
+        m_wsaInitialized = false;
+        spdlog::info("[{}]  called. +++", __PRETTY_FUNCTION__);
+    } // Shutdown
+
+    bool m_wsaInitialized = false;
 };
 
 std::size_t grcore::util::TcpClient::GetFileSize(const std::string &filename) {
@@ -112,6 +126,7 @@ std::size_t grcore::util::TcpClient::GetFileSize(const std::string &filename) {
 
 void grcore::util::TcpClient::SendFile(const std::string &filename) {
     m_pImpl->Init();
+
     HANDLE hFile = CreateFile(
             filename.c_str(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OVERLAPPED, NULL);
     //Send file size
@@ -133,8 +148,16 @@ void grcore::util::TcpClient::SendFile(const std::string &filename) {
     m_pImpl->Shutdown();
 } // grcore::util::TcpClient::SendFile
 
-grcore::util::TcpClient::~TcpClient() {}
+grcore::util::TcpClient::~TcpClient() {
+    m_pImpl->Shutdown();
+}
 
-grcore::util::TcpClient::TcpClient() : m_pImpl(std::make_unique<grcore::util::TcpClient::Impl>()) {}
+grcore::util::TcpClient::TcpClient() : m_pImpl(std::make_unique<grcore::util::TcpClient::Impl>())/*, m_openConnection(false)*/ {}
+
+grcore::util::TcpClient::TcpClient(bool openConnection) : m_pImpl(std::make_unique<grcore::util::TcpClient::Impl>())/*: m_openConnection(openConnection)*/ {
+    if(openConnection) {
+            m_pImpl->Init();
+    }
+}
 
 // grcore::util::TcpClient::init

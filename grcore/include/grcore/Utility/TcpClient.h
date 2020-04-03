@@ -27,6 +27,7 @@ class TcpClient {
 public:
 
     TcpClient();
+    TcpClient(bool openConnection);
 
     virtual ~TcpClient();
 
@@ -38,6 +39,7 @@ private:
 
     struct Impl;
     std::experimental::propagate_const<std::unique_ptr<Impl>> m_pImpl;
+    //bool m_openConnection;
 };
 }
 }
