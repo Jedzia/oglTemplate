@@ -100,7 +100,7 @@ void colorizeLogger(std::shared_ptr<spdlog::logger> logger) {
 
     switch(sysType) {
     default:
-        throw new std::runtime_error("Wrong switch case in deciding System Type at logging::colorizeLogger.");
+        throw std::runtime_error("Wrong switch case in deciding System Type at logging::colorizeLogger.");
     case Windows:
         std::cout << " using Windows console system." << std::endl;
         {

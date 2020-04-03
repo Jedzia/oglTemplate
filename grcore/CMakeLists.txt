@@ -18,13 +18,14 @@ set(GrCore_INC_FILES
         include/grcore/Utility/return_type_trait.h
         include/grcore/FileSystem.h
         include/grcore/DataAcquisition.h
-        )
+        include/grcore/Utility/TcpClient.h        )
 set(GrCore_SRC_FILES
         src/test.cpp
         src/Logging.cpp
         src/Math.cpp
         src/Utilitly/Property.cpp
         src/FileSystem.cpp
+        src/Utilitly/TcpClient.cpp
         )
 if (WIN32)
     set(GrCore_SRC_FILES ${GrCore_SRC_FILES}
@@ -73,6 +74,8 @@ target_link_libraries(GrCore
         PUBLIC ${GrCore_PlatformLinkLibs}
         PRIVATE project_options project_warnings
         PRIVATE spdlog::spdlog
+        PRIVATE ws2_32
+        PRIVATE Mswsock
         #INTERFACE spdlog::spdlog
         #INTERFACE fmt::fmt
         #        CONAN_PKG::docopt.cpp

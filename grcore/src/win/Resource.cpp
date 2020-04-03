@@ -44,7 +44,7 @@ std::tuple<const void *, size_t, int> grcore::Resource::Get() {
     }
 
     if(!HINST_DLL) {
-        throw new std::runtime_error("Missing DLL Handle");
+        throw std::runtime_error("Missing DLL Handle");
     }
 
     HMODULE handle = static_cast<HMODULE>(HINST_DLL);
