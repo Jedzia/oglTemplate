@@ -25,7 +25,7 @@ set(GrCore_SRC_FILES
         src/Math.cpp
         src/Utilitly/Property.cpp
         src/FileSystem.cpp
-        src/Utilitly/TcpClient.cpp
+        src/win/TcpClient.cpp
         )
 if (WIN32)
     set(GrCore_SRC_FILES ${GrCore_SRC_FILES}

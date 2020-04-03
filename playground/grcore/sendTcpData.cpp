@@ -14,39 +14,24 @@
  */
 /*---------------------------------------------------------*/
 
-#include <fmt/printf.h>
 #include <grcore/Utility/TcpClient.h>
 #include <iostream>
-//
-//#include <winuser.h>
-
-using namespace std;
-
-/** Code called during window event loop
- *  @param hdc window device context
- *  @return forwarded to program exit code
- */
-/*static int test_function(HDC hdc) {
-    fmt::printf("HDC: '%p'\r\n", hdc); // printf format string syntax
-    //MessageBoxA(0,(char*)glGetString(GL_VERSION), "OPENGL VERSION",0);
-    MessageBoxA(0, "Dreck !", "OPENGL VERSION", 0);
-    return true;
-   }*/
 
 /** Program Entry Function, main
  *  The designated start of the program.
  *  @return program exit code.
  */
 int main() { // the main code portion of a C++ program
-    cout << "Hello cheesy World" << endl;  //print Hello World on the screen
+    std::cout << "Hello cheesy World" << "\n";  //print Hello World on the screen
     //makeWindowAndTest(test_function);
 
     grcore::util::TcpClient tcpClient;
     try {
-        tcpClient.SendPicture("graphics-vertex-array-tilemap-tileset.png");
+        tcpClient.SendFile("graphics-vertex-array-tilemap-tileset.png");
     }
     catch(std::exception& ex) {
-        std::cout << ex.what() << std::endl;
+        std::cout << ex.what() << "\n";
+        return EXIT_FAILURE;
     }
 
     return 0;

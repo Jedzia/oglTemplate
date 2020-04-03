@@ -30,16 +30,14 @@ public:
 
     virtual ~TcpClient();
 
-    void SendPicture(const std::string &filename);
+    void SendFile(const std::string &filename);
 
-    static std::size_t  GetSize(const std::string &filename);
+    static std::size_t GetFileSize(const std::string &filename);
 
 private:
 
     struct Impl;
     std::experimental::propagate_const<std::unique_ptr<Impl>> m_pImpl;
-
-    void init();
 };
 }
 }
