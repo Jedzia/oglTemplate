@@ -58,7 +58,41 @@ public:
                 sf::FloatRect({0.F, 0.F}, {static_cast<float>(size.x), static_cast<float>(size.y)}),
                 application.GetDebugFont());
         m_pCursor = std::make_unique<grg::Cursor>(application.GetWindow(), application.GetDebugFont());
+
+        // define the level with an array of tile indices
+        const unsigned int level[] =
+        {
+            0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+            0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 2, 0, 0, 0, 0,
+            1, 1, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3,
+            0, 1, 0, 0, 2, 0, 3, 3, 3, 0, 1, 1, 1, 0, 0, 0,
+            0, 1, 1, 0, 3, 3, 3, 0, 0, 0, 1, 1, 1, 2, 0, 0,
+            0, 0, 1, 0, 3, 0, 2, 2, 0, 0, 1, 1, 1, 1, 2, 0,
+            2, 0, 1, 0, 3, 0, 2, 2, 2, 0, 1, 1, 1, 1, 1, 1,
+            0, 0, 1, 0, 3, 2, 2, 2, 0, 0, 0, 0, 1, 1, 1, 1,
+        };
+
+        // create the tilemap from the level definition
+        if(!m_tileMap.Load("graphics-vertex-array-tilemap-tileset.png", sf::Vector2u(32, 32), level, 16, 8, 4.0F)) {
+            //exit(-1);
+        }
+
+        //m_tileMap.Load()
     } // OnInit
+
+    void OnEvent(sf::Event event) override {
+        // Only switch when pressed down. A key release is necessary to fire again.
+        if(event.key.code == sf::Keyboard::Num1) {
+            if(m_keyNum1Released && event.type == sf::Event::KeyPressed) {
+                m_drawTiles = !m_drawTiles;
+                m_keyNum1Released = false;
+            } else {
+                if(event.type == sf::Event::KeyReleased) {
+                    m_keyNum1Released = true;
+                }
+            }
+        }
+    }
 
     /** Update state.
      *  Refresh the state of your application here. Not guaranteed to run every frame. But can be
@@ -69,6 +103,15 @@ public:
         m_pCoords->OnUpdate(elapsed);
         m_totalTime += elapsed;
         const float elapsedSeconds = elapsed.asSeconds();
+
+        /*if(m_keyNum1Released && sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {
+            m_drawTiles = !m_drawTiles;
+            m_keyNum1Released = false;
+            spdlog::info("Num1 pressed");
+           } else {
+            m_keyNum1Released = true;
+            spdlog::info("Num1 released");
+           }*/
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::R)) {
             Reset();
@@ -184,6 +227,9 @@ public:
      */
     void OnDraw(sf::RenderWindow &window) final {
         // m_pCursor->Update(m_totalTime);
+        if(m_drawTiles) {
+            window.draw(m_tileMap);
+        }
 
         if(m_drawShape) {
             window.draw(m_shape);
@@ -205,7 +251,7 @@ public:
 
 private:
 
-    grcore::CsvFile<';'> m_csvFile{"data.csv"};
+    grcore::CsvFile<';'> m_csvFile {"data.csv"};
     const float Speed = 250.F;
     sf::RenderWindow* m_window;
     V2F m_coord {0, 0};
@@ -213,12 +259,15 @@ private:
     std::unique_ptr<grg::CoordSystem> m_pCoords;
     std::unique_ptr<grg::Cursor> m_pCursor;
     bool m_drawShape = false;
+    bool m_drawTiles = true;
     //const sf::Font * m_MainGameFont = nullptr;
     std::unique_ptr<sf::Text> m_backGround;
     sf::Time m_totalTime;
     sf::View m_view;
     float m_xVelocity = 0;
     float m_lastAbsVelocity = 0;
+    grg::TileMap m_tileMap;
+    bool m_keyNum1Released = true;
 };
 
 /** Program Entry Function, main
