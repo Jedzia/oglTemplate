@@ -39,6 +39,16 @@ Jedzia@pubsiX MSYS ~
 $ gcc --version
 gcc.exe (Rev3, Built by MSYS2 project) 8.2.0
 ```
+## Evolution ##
+
+    playground/grgraphics/simple_window.cpp -> playground/grgraphics/simple_cursor.cpp
+     |
+     |-> playground/grgraphics/simple_graph.cpp
+     |
+     v
+     |-> playground/grgraphics/simple_tilemap.cpp
+     v
+    playground/grgraphics/simple_backscroll.cpp
 
 ## Notes ##
 
