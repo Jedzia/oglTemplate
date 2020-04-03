@@ -60,7 +60,7 @@ public:
         m_pCursor = std::make_unique<grg::Cursor>(application.GetWindow(), application.GetDebugFont());
 
         // define the level with an array of tile indices
-        const int level[] =
+        const unsigned int level[] =
         {
             0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
             0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 2, 0, 0, 0, 0,
@@ -73,7 +73,7 @@ public:
         };
 
         // create the tilemap from the level definition
-        if(!m_tileMap.Load("tileset.png", sf::Vector2u(32, 32), level, 16, 8)) {
+        if(!m_tileMap.Load("graphics-vertex-array-tilemap-tileset.png", sf::Vector2u(32, 32), level, 16, 8, 4.0F)) {
             //exit(-1);
         }
 

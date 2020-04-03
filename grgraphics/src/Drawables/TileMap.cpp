@@ -19,8 +19,9 @@
 
 //#pragma clang diagnostic warning "-Wconversion"
 
-bool grg::TileMap::Load(const std::string &tileSet, sf::Vector2u tileSize, const unsigned int* tiles, unsigned int width,
-        unsigned int height) {
+bool
+grg::TileMap::Load(const std::string &tileSet, sf::Vector2u tileSize, const unsigned int *tiles, unsigned int width,
+                   unsigned int height, float uniformScale) {
 #if defined(__clang__)
     // load the tileSet texture
     if(!m_tileSet.loadFromFile(tileSet)) {
@@ -58,6 +59,9 @@ bool grg::TileMap::Load(const std::string &tileSet, sf::Vector2u tileSize, const
             quad[3].texCoords = sf::Vector2f(tu * tileSize.x, (tv + 1) * tileSize.y);
         }
     }
+
+    this->scale(uniformScale, uniformScale);
+
 #else
     static_cast<void>(tileSet);
     static_cast<void>(tileSize);
