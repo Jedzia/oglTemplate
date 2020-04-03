@@ -14,10 +14,10 @@
  */
 /*---------------------------------------------------------*/
 
+#include <chrono>
 #include <grcore/Utility/TcpClient.h>
 #include <iostream>
 #include  <thread>
-#include <chrono>
 
 /** Program Entry Function, main
  *  The designated start of the program.
@@ -27,17 +27,16 @@ int main() { // the main code portion of a C++ program
     std::cout << "Hello cheesy World" << "\n";  //print Hello World on the screen
     //makeWindowAndTest(test_function);
 
-    grcore::util::TcpClient tcpClient(true);
-    using namespace std::chrono_literals;
-    std::this_thread::sleep_for(2s);
-
     try {
+        grcore::util::TcpClient tcpClient(true);
+        using namespace std::chrono_literals;
+        std::this_thread::sleep_for(2s);
         tcpClient.SendFile("graphics-vertex-array-tilemap-tileset.png");
     }
-    catch(std::exception& ex) {
+    catch(std::exception &ex) {
         std::cout << ex.what() << "\n";
         return EXIT_FAILURE;
     }
 
     return 0;
-}
+} // main

@@ -36,6 +36,7 @@ struct grcore::util::TcpClient::Impl {
         if(m_wsaInitialized) {
             return 0;
         }
+
         spdlog::info("[{}]  called. +++", __PRETTY_FUNCTION__);
 
         std::string address {
@@ -51,6 +52,9 @@ struct grcore::util::TcpClient::Impl {
             throw std::runtime_error(fmt::format("WSAStartup failed with error: {}", iResult));
         }
 
+        m_wsaInitialized = true;
+        spdlog::info("wsaInitialized = true");
+
         ZeroMemory(&hints, sizeof(hints));
         hints.ai_family = AF_UNSPEC;
         hints.ai_socktype = SOCK_STREAM;
@@ -60,7 +64,8 @@ struct grcore::util::TcpClient::Impl {
         iResult = getaddrinfo(address.c_str(), DEFAULT_PORT, &hints, &result);
         if(iResult != 0) {
             WSACleanup();
-            throw std::runtime_error(fmt::format("getaddrinfo failed with error: {}", iResult));
+            m_wsaInitialized = false;
+            throw std::runtime_error(fmt::format("WSACleanup, getaddrinfo failed with error: {}", iResult));
         }
 
         // Attempt to connect to an address until one succeeds
@@ -70,7 +75,8 @@ struct grcore::util::TcpClient::Impl {
                     ptr->ai_protocol);
             if(m_connectSocket == INVALID_SOCKET) {
                 WSACleanup();
-                throw std::runtime_error(fmt::format("socket failed with error: {}", WSAGetLastError()));
+                m_wsaInitialized = false;
+                throw std::runtime_error(fmt::format("WSACleanup, socket failed with error: {}", WSAGetLastError()));
             }
 
             // Connect to server.
@@ -88,10 +94,10 @@ struct grcore::util::TcpClient::Impl {
         if(m_connectSocket == INVALID_SOCKET) {
             //printf("Unable to connect to server!\n");
             WSACleanup();
-            throw std::runtime_error("Unable to connect to server!");
+            m_wsaInitialized = false;
+            throw std::runtime_error("WSACleanup, Unable to connect to server!");
         }
 
-        m_wsaInitialized = true;
         return iResult;
     } // Init
 
@@ -100,20 +106,23 @@ struct grcore::util::TcpClient::Impl {
             return;
         }
 
-        // shutdown the connection since no more data will be sent
-        int iResult = ::shutdown(m_connectSocket, SD_SEND);
-        if(iResult == SOCKET_ERROR) {
-            //printf("shutdown failed with error: %d\n", WSAGetLastError());
+        if(m_connectSocket != INVALID_SOCKET) {
+            // shutdown the connection since no more data will be sent
+            int iResult = ::shutdown(m_connectSocket, SD_SEND);
+            if(iResult == SOCKET_ERROR) {
+                //printf("shutdown failed with error: %d\n", WSAGetLastError());
+                closesocket(m_connectSocket);
+                WSACleanup();
+                spdlog::info("shutdown failed with error: {}", WSAGetLastError());
+            }
+
+            // cleanup
             closesocket(m_connectSocket);
-            WSACleanup();
-            spdlog::info("shutdown failed with error: {}", WSAGetLastError());
         }
 
-        // cleanup
-        closesocket(m_connectSocket);
         WSACleanup();
         m_wsaInitialized = false;
-        spdlog::info("[{}]  called. +++", __PRETTY_FUNCTION__);
+        spdlog::info("WSACleanup, [{}]  called. +++", __PRETTY_FUNCTION__);
     } // Shutdown
 
     bool m_wsaInitialized = false;
@@ -152,11 +161,13 @@ grcore::util::TcpClient::~TcpClient() {
     m_pImpl->Shutdown();
 }
 
-grcore::util::TcpClient::TcpClient() : m_pImpl(std::make_unique<grcore::util::TcpClient::Impl>())/*, m_openConnection(false)*/ {}
+grcore::util::TcpClient::TcpClient() : m_pImpl(std::make_unique<grcore::util::TcpClient::Impl>()) /*,
+                                                                                                     m_openConnection(false)*/  {}
 
-grcore::util::TcpClient::TcpClient(bool openConnection) : m_pImpl(std::make_unique<grcore::util::TcpClient::Impl>())/*: m_openConnection(openConnection)*/ {
+grcore::util::TcpClient::TcpClient(bool openConnection) : m_pImpl(std::make_unique<grcore::util::TcpClient::Impl>()) {/*:
+                                                                                                                         m_openConnection(openConnection)*/
     if(openConnection) {
-            m_pImpl->Init();
+        m_pImpl->Init();
     }
 }
 
