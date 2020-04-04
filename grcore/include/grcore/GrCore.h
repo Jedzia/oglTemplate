@@ -17,10 +17,10 @@
 #define GRCORE_GRCORE_H
 
 //#include "Logging.h"
+#include "FileSystem.h"
 #include "Math.h"
 #include "Resource.h"
 #include "Utility/Property.h"
-#include "FileSystem.h"
 
 namespace grcore {
 void blubb();

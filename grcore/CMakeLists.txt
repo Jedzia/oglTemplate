@@ -8,27 +8,28 @@ configure_file(src/win/GrCore.rc.in "${RESOURCE_OUT_FILE}" @ONLY)
 
 ### list of source files of the GrCore library
 set(GrCore_INC_FILES
+        include/grcore/Common.h
+        include/grcore/DataAcquisition.h
+        include/grcore/FileSystem.h
         include/grcore/GrCore.h
+        include/grcore/Instrumentation.h
         include/grcore/Logging.h
         include/grcore/Math.h
-        include/grcore/wgl_common.h
-        include/grcore/Instrumentation.h
         include/grcore/Resource.h
-        include/grcore/Utility/Property.h
-        include/grcore/Utility/return_type_trait.h
-        include/grcore/FileSystem.h
-        include/grcore/DataAcquisition.h
-        include/grcore/Utility/TcpClient.h
         include/grcore/Telemetry.h
+        include/grcore/Utility/Property.h
+        include/grcore/Utility/TcpClient.h
+        include/grcore/Utility/return_type_trait.h
+        include/grcore/wgl_common.h
         )
 set(GrCore_SRC_FILES
-        src/test.cpp
+        src/FileSystem.cpp
         src/Logging.cpp
         src/Math.cpp
-        src/Utilitly/Property.cpp
-        src/FileSystem.cpp
-        src/win/TcpClient.cpp
         src/Telemetry.cpp
+        src/Utility/Property.cpp
+        src/test.cpp
+        src/win/TcpClient.cpp
         )
 if (WIN32)
     set(GrCore_SRC_FILES ${GrCore_SRC_FILES}

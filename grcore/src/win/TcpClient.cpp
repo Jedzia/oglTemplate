@@ -32,10 +32,19 @@ struct grcore::util::TcpClient::Impl {
     WSADATA m_wsaData;
     SOCKET m_connectSocket = INVALID_SOCKET;
 
+    /** Check if this instance is already connected.
+     *  @return <b>true</b> if the socket is connected; otherwise <b>false</b>.
+     */
     bool IsConnected() {
         return m_connectSocket != INVALID_SOCKET;
     }
 
+    /** Initialize WSA and the connection.
+     *
+     *  First the Winsock Stack is initialized. Then a connection to G_TELEMETRY_DEFAULT_ADDRESS and
+     *  G_TELEMETRY_DEFAULT_PORT is established.
+     *  @return <b>zero</b> if initialized correctly; otherwise an error number.
+     */
     int Init() {
         if(m_wsaInitialized) {
             return 0;
@@ -102,6 +111,12 @@ struct grcore::util::TcpClient::Impl {
         return iResult;
     } // Init
 
+    /** Disconnect the socket and shutdown Winsock.
+     *
+     *  When Winsock wasn't initialized this simply does nothing.
+     *  Otherwise it is checked if there is a existing connection and the socket connection is closed.
+     *  After that Winsock is cleaned up and shut down.
+     */
     void Shutdown() {
         if(!m_wsaInitialized) {
             return;

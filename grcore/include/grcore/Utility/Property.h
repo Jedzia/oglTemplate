@@ -18,6 +18,7 @@
 
 #ifndef OPENGLTEMPLATE_E43883E2425644289F6B9D667ED895C3_PROPERTY_H
 #define OPENGLTEMPLATE_E43883E2425644289F6B9D667ED895C3_PROPERTY_H
+#include "../Common.h"
 #include "return_type_trait.h"
 #include <functional>
 #include <iostream>
@@ -48,7 +49,8 @@ struct PropertyBase {
  *  @tparam TFunctor Specifies the type of the functor object providing the property data.
  */
 template<typename TFunctor>
-class Property final : public PropertyBase {
+class Property final : public PropertyBase,
+                       public NonCopyable {
 public:
 
     /** @brief Storage type of the property.
@@ -70,15 +72,13 @@ public:
     Property(TFunctor updateFunc) : m_updater(updateFunc) {
         m_value = updateFunc();
         /*std::cout << "+++ Constructor " << __PRETTY_FUNCTION__ << " -> " <<
-        ": " << m_value <<" type: " << typeid(StorageType).name() << " called. +++" << std::endl;*/
+           ": " << m_value <<" type: " << typeid(StorageType).name() << " called. +++" <<
+              std::endl;*/
     }
 
     ~Property() {
         //std::cout << "+++ Destructor  " << __PRETTY_FUNCTION__ << " called. +++" << std::endl;
     }
-
-    Property(const Property &) = delete;  // non construction-copyable
-    Property &operator=(const Property &) = delete;  // non copyable
 
     [[nodiscard]] bool HasChanged() override {
         auto newValue = m_updater();
