@@ -23,15 +23,19 @@
 
 namespace grcore {
 namespace util {
+const std::string G_TELEMETRY_DEFAULT_ADDRESS = "localhost";
+const std::string G_TELEMETRY_DEFAULT_PORT = "27015";
+
 class TcpClient {
 public:
 
     TcpClient();
-    TcpClient(bool openConnection);
+    explicit TcpClient(bool openConnection);
 
     virtual ~TcpClient();
 
     void SendFile(const std::string &filename);
+
     void SendData(const double &data);
 
     static std::size_t GetFileSize(const std::string &filename);

@@ -28,8 +28,6 @@
 
 namespace fs = std::filesystem;
 
-#define DEFAULT_PORT "27015"
-
 struct grcore::util::TcpClient::Impl {
     WSADATA m_wsaData;
     SOCKET m_connectSocket = INVALID_SOCKET;
@@ -45,11 +43,8 @@ struct grcore::util::TcpClient::Impl {
 
         spdlog::info("[{}]  called. +++", __PRETTY_FUNCTION__);
 
-        std::string address{
-                "localhost"
-        };
         int iResult;
-        struct ::addrinfo *result = NULL, *ptr = NULL, hints;
+        struct ::addrinfo* result = NULL, * ptr = NULL, hints;
 
         // Initialize Winsock
         iResult = WSAStartup(MAKEWORD(2, 2), &m_wsaData);
@@ -67,7 +62,7 @@ struct grcore::util::TcpClient::Impl {
         hints.ai_protocol = IPPROTO_TCP;
 
         // Resolve the server address and port
-        iResult = getaddrinfo(address.c_str(), DEFAULT_PORT, &hints, &result);
+        iResult = getaddrinfo(G_TELEMETRY_DEFAULT_ADDRESS.c_str(), G_TELEMETRY_DEFAULT_PORT.c_str(), &hints, &result);
         if(iResult != 0) {
             WSACleanup();
             m_wsaInitialized = false;
@@ -203,7 +198,9 @@ void grcore::util::TcpClient::SendData(const double &data) {
     const auto dataTime = std::chrono::time_point_cast<std::chrono::milliseconds>(
             Clock::now()).time_since_epoch().count();
 
-    const TelemetryData telemetryData{dataTime, data};
+    const TelemetryData telemetryData {
+        dataTime, data
+    };
 
     //Send file size
     //const std::size_t size = GetFileSize(filename);
