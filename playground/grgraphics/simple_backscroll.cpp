@@ -74,8 +74,10 @@ public:
         };
 
         // create the tilemap from the level definition
-        if(!m_tileMap.Load("graphics-vertex-array-tilemap-tileset.png", sf::Vector2u(32, 32), level, 16, 8, 4.0F)) {
-            //exit(-1);
+        const char *tileSetFilename = "graphics-vertex-array-tilemap-tileset.png";
+        if(!m_tileMap.Load(tileSetFilename, sf::Vector2u(32, 32), level, 16, 8, 4.0F)) {
+            spdlog::error("[{}] ERROR loading tile-map resource (id={}).", __PRETTY_FUNCTION__, tileSetFilename);
+            //throw std::runtime_error("FUCK YOU");
         }
 
         //m_tileMap.Load()

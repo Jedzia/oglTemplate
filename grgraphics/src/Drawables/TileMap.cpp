@@ -13,15 +13,14 @@
  * modified    2020-03-29, Jedzia
  */
 /*---------------------------------------------------------*/
+#include "grcore/warning/FMT_format_log.h"
 #include "grgraphics/Drawables/TileMap.h"
-#include "grgraphics/warning/FMT_format.h"
 #include "grgraphics/warning/SFML_Graphics.h"
 
 //#pragma clang diagnostic warning "-Wconversion"
 
-bool
-grg::TileMap::Load(const std::string &tileSet, sf::Vector2u tileSize, const unsigned int *tiles, unsigned int width,
-                   unsigned int height, float uniformScale) {
+bool grg::TileMap::Load(const std::string &tileSet, sf::Vector2u tileSize, const unsigned int* tiles, unsigned int width,
+        unsigned int height, float uniformScale) {
 #if defined(__clang__)
     // load the tileSet texture
     if(!m_tileSet.loadFromFile(tileSet)) {
@@ -59,17 +58,17 @@ grg::TileMap::Load(const std::string &tileSet, sf::Vector2u tileSize, const unsi
             quad[3].texCoords = sf::Vector2f(tu * tileSize.x, (tv + 1) * tileSize.y);
         }
     }
-
     this->scale(uniformScale, uniformScale);
 
-#else
+#else // if defined(__clang__)
     static_cast<void>(tileSet);
     static_cast<void>(tileSize);
     static_cast<void>(tiles);
     static_cast<void>(width);
     static_cast<void>(height);
     static_cast<void>(uniformScale);
-#endif
+    spdlog::error("[{}] ERROR loading tile-map resource (id={}). Functionality not implemented for GCC.", __PRETTY_FUNCTION__, tileSet);
+#endif // if defined(__clang__)
     return true;
 } // grg::TileMap::Load
 
