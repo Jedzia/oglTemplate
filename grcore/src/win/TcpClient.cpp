@@ -165,19 +165,19 @@ void grcore::util::TcpClient::SendFile(const std::string &filename) {
     const auto size = GetFileSize(filename);
     //send(sock, static_cast<const int*>(&size), sizeof(std::size_t), 0);
 
-#if defined(__clang__) && defined(WARNINGS_SKIP_TEMPORARY)
+/*#if defined(__clang__) && defined(WARNINGS_SKIP_TEMPORARY)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wold-style-cast"
 #elif defined(__GNUC__) && defined(WARNINGS_SKIP_TEMPORARY)
     #  pragma GCC diagnostic push
 #  pragma GCC diagnostic ignored "-Wold-style-cast"
-#endif
-    send(m_pImpl->m_connectSocket, (const char *) &size, sizeof(size), 0);
-#if defined(__clang__) && defined(WARNINGS_SKIP_TEMPORARY)
+#endif*/
+    send(m_pImpl->m_connectSocket, reinterpret_cast<const char *>( &size), sizeof(size), 0);
+/*#if defined(__clang__) && defined(WARNINGS_SKIP_TEMPORARY)
 #  pragma clang diagnostic pop
 #elif defined(__GNUC__) && defined(WARNINGS_SKIP_TEMPORARY)
 #  pragma GCC diagnostic pop
-#endif
+#endif*/
     //LogManager::log(std::to_string(GetFileSize(filename_str)));
     spdlog::info("[{}]  called. +++", __PRETTY_FUNCTION__, GetFileSize(filename));
 
@@ -233,6 +233,7 @@ void grcore::util::TcpClient::SendData(const double &data) {
     //const std::size_t size = GetFileSize(filename);
     //const int size = sizeof(data);
     //send(sock, static_cast<const int*>(&size), sizeof(std::size_t), 0);
+/*
 #if defined(__clang__) && defined(WARNINGS_SKIP_TEMPORARY)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wold-style-cast"
@@ -240,14 +241,17 @@ void grcore::util::TcpClient::SendData(const double &data) {
 #  pragma GCC diagnostic push
 #  pragma GCC diagnostic ignored "-Wold-style-cast"
 #endif
+*/
     //send(m_pImpl->m_connectSocket, (const char *)&size, sizeof(std::size_t), 0);
     //send(m_pImpl->m_connectSocket, (const char *)&data, sizeof(data), 0);
-    send(m_pImpl->m_connectSocket, (const char *) &telemetryData, sizeof(telemetryData), 0);
+    send(m_pImpl->m_connectSocket, reinterpret_cast<const char *>(&telemetryData), sizeof(telemetryData), 0);
+/*
 #if defined(__clang__) && defined(WARNINGS_SKIP_TEMPORARY)
 #  pragma clang diagnostic pop
 #elif defined(__GNUC__) && defined(WARNINGS_SKIP_TEMPORARY)
 #  pragma GCC diagnostic pop
 #endif
+*/
     //LogManager::log(std::to_string(GetFileSize(filename_str)));
     //spdlog::info("[{}]  called. +++", __PRETTY_FUNCTION__);
 
