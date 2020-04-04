@@ -20,12 +20,23 @@ the appropriate toolchain or tweak the existing ones. Where
   `-G"CodeBlocks - MinGW Makefiles"`, 
 - **shell-msys2.bat:** starts a native windows cmd prompt with adjusted paths for use with 
   `-G"CodeBlocks - MinGW Makefiles"`,
-- and **shell-msys2win.bat:** invokes a terminal MSys session for use with `-G"MSYS Makefiles"`.
+- and **shell-msys2win.bat:** invokes a native terminal MSys session for use with `-G"MSYS Makefiles"`.
 
-### Build documentation under MSys/Clang/Clion Terminal. Config is for mingw32-make
+### Building under Windows command prompt
+
+* Build documentation under MSys/Clang/Clion Terminal. Config is for mingw32-make.
+  Here the CMake-Option `-DENABLE_DOXYGEN:BOOL=ON` is used to switch doc generation on.
 
         E:\Projects\C++\oglTemplate\cmake-build-debug>
         "C:\Program Files\JetBrains\CLion\bin\cmake\win\bin\cmake.exe" --build E:\Projects\C++\oglTemplate\cmake-build-debug --target GrCore_doxygen-docs -- -j4
+
+### Building under MSys2 native terminal
+
+* Build documentation
+
+        cmake .. -G"MSYS Makefiles" -DENABLE_DOXYGEN:BOOL=ON
+        make GrCore_doxygen-docs    
+
 
 ### Obsolete?:
 Obsolete:
