@@ -68,6 +68,7 @@ grg::TileMap::Load(const std::string &tileSet, sf::Vector2u tileSize, const unsi
     static_cast<void>(tiles);
     static_cast<void>(width);
     static_cast<void>(height);
+    static_cast<void>(uniformScale);
 #endif
     return true;
 } // grg::TileMap::Load

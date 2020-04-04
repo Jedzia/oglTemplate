@@ -114,7 +114,8 @@ struct grcore::util::TcpClient::Impl {
     /** Disconnect the socket and shutdown Winsock.
      *
      *  When Winsock wasn't initialized this simply does nothing.
-     *  Otherwise it is checked if there is a existing connection and the socket connection is closed.
+     *  Otherwise it is checked if there is a existing connection and the socket connection is
+     * closed.
      *  After that Winsock is cleaned up and shut down.
      */
     void Shutdown() {
@@ -160,12 +161,23 @@ void grcore::util::TcpClient::SendFile(const std::string &filename) {
             FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OVERLAPPED, NULL);
     //Send file size
     //const std::size_t size = GetFileSize(filename);
-    const int size = static_cast<const int>(GetFileSize(filename));
+    //const int size = static_cast<const int>(GetFileSize(filename));
+    const auto size = GetFileSize(filename);
     //send(sock, static_cast<const int*>(&size), sizeof(std::size_t), 0);
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wold-style-cast"
-    send(m_pImpl->m_connectSocket, (const char *) &size, sizeof(std::size_t), 0);
-#pragma clang diagnostic pop
+
+#if defined(__clang__) && defined(WARNINGS_SKIP_TEMPORARY)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wold-style-cast"
+#elif defined(__GNUC__) && defined(WARNINGS_SKIP_TEMPORARY)
+    #  pragma GCC diagnostic push
+#  pragma GCC diagnostic ignored "-Wold-style-cast"
+#endif
+    send(m_pImpl->m_connectSocket, (const char *) &size, sizeof(size), 0);
+#if defined(__clang__) && defined(WARNINGS_SKIP_TEMPORARY)
+#  pragma clang diagnostic pop
+#elif defined(__GNUC__) && defined(WARNINGS_SKIP_TEMPORARY)
+#  pragma GCC diagnostic pop
+#endif
     //LogManager::log(std::to_string(GetFileSize(filename_str)));
     spdlog::info("[{}]  called. +++", __PRETTY_FUNCTION__, GetFileSize(filename));
 
@@ -221,12 +233,21 @@ void grcore::util::TcpClient::SendData(const double &data) {
     //const std::size_t size = GetFileSize(filename);
     //const int size = sizeof(data);
     //send(sock, static_cast<const int*>(&size), sizeof(std::size_t), 0);
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wold-style-cast"
+#if defined(__clang__) && defined(WARNINGS_SKIP_TEMPORARY)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wold-style-cast"
+#elif defined(__GNUC__) && defined(WARNINGS_SKIP_TEMPORARY)
+#  pragma GCC diagnostic push
+#  pragma GCC diagnostic ignored "-Wold-style-cast"
+#endif
     //send(m_pImpl->m_connectSocket, (const char *)&size, sizeof(std::size_t), 0);
     //send(m_pImpl->m_connectSocket, (const char *)&data, sizeof(data), 0);
     send(m_pImpl->m_connectSocket, (const char *) &telemetryData, sizeof(telemetryData), 0);
-#pragma clang diagnostic pop
+#if defined(__clang__) && defined(WARNINGS_SKIP_TEMPORARY)
+#  pragma clang diagnostic pop
+#elif defined(__GNUC__) && defined(WARNINGS_SKIP_TEMPORARY)
+#  pragma GCC diagnostic pop
+#endif
     //LogManager::log(std::to_string(GetFileSize(filename_str)));
     //spdlog::info("[{}]  called. +++", __PRETTY_FUNCTION__);
 

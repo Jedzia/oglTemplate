@@ -15,12 +15,12 @@
 /*---------------------------------------------------------*/
 
 #include "grcore/Resource.h"
+#include "grcore/warning/FMT_format_log.h"
 #include <iostream>
 #include <stdexcept>
 #include <windows.h>
-#include "grcore/warning/FMT_format_log.h"
 
-extern void* HINST_DLL;
+extern void* G_HINST_DLL;
 
 grcore::Resource::Resource(int resourceName) : m_id(resourceName) {
     //std::cout << "+++ Constructor " << __PRETTY_FUNCTION__ << " called. +++" << "\n";
@@ -38,16 +38,16 @@ std::tuple<const void *, size_t, int> grcore::Resource::Get() {
     static_cast<void>(m_id);
     //int type = 333; //static_cast<int>(RT_FONT);
     int error = 0;
-    if(!HINST_DLL) {
-        HINST_DLL = ::GetModuleHandleW(L"libGrCore.dll");
+    if(!G_HINST_DLL) {
+        G_HINST_DLL = ::GetModuleHandleW(L"libGrCore.dll");
         std::cout << __PRETTY_FUNCTION__ << ": Handle via GetModuleHandleW(L\"libGrCore.dll\")" << "\n";
     }
 
-    if(!HINST_DLL) {
+    if(!G_HINST_DLL) {
         throw std::runtime_error("Missing DLL Handle");
     }
 
-    HMODULE handle = static_cast<HMODULE>(HINST_DLL);
+    HMODULE handle = static_cast<HMODULE>(G_HINST_DLL);
     HRSRC rc = ::FindResourceW(handle, MAKEINTRESOURCEW(m_id), L"BINARY");
     HGLOBAL rcData = ::LoadResource(handle, rc);
     auto size = ::SizeofResource(handle, rc);
@@ -58,5 +58,3 @@ std::tuple<const void *, size_t, int> grcore::Resource::Get() {
                data, size, error
     };
 } // core::Resource::Get
-
-//void * core::Resource::p_handle = nullptr;

@@ -16,7 +16,7 @@
 #include <grcore/Resource.h>
 #include <windows.h>
 
-void* HINST_DLL = nullptr;
+void* G_HINST_DLL = nullptr;
 
 BOOL WINAPI DllMain(
         HINSTANCE hinstDLL,// handle to DLL module
@@ -28,7 +28,7 @@ BOOL WINAPI DllMain(
         // Initialize once for each new process.
         // Return FALSE to fail DLL load.
         //core::Resource::SetHandle(hinstDLL);
-        HINST_DLL = hinstDLL;
+        G_HINST_DLL = hinstDLL;
         break;
 
     case DLL_THREAD_ATTACH:

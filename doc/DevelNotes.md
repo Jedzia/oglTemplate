@@ -2,6 +2,12 @@
 
 This project requires a C++20 conform compiler.
 
+## Workflow ##
+
+* Make sure the build works on GCC and CLang.
+* Write Documentation
+* Commit Changes  
+
 ## Build Options
 option(DbThings_BuildTests "Build DbThings unit tests" ON) #-DDbThings_BuildTests:BOOL=ON
 option(ENABLE_PCRE "Enable Precompiled Headers" ON) #-DENABLE_PCRE:BOOL=ON
