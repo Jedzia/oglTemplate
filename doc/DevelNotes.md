@@ -14,31 +14,49 @@ _Todo: describe the options_
 ```
 
 ## Building under Windows/MSYS2
-Use `MSYS2 MSYS` to start the shell. `The MSYS2 MinGW 32-bit` or `MSYS2 MinGW 64-bit` 
-links will not work and produce 
-```
-System is unknown to cmake 
-Platform/MINGW64_NT-6.1
-```
-errors when configuring with **CMake**.
+Use the provided `start-clion-msys2.bat`, `shell-msys2.bat` and `shell-msys2win.bat` scripts to start a shell with
+the appropriate toolchain or tweak the existing ones. Where
+- **start-clion-msys2.bat:** is the startup script to call the IDE and the generator is 
+  `-G"CodeBlocks - MinGW Makefiles"`, 
+- **shell-msys2.bat:** starts a native windows cmd prompt with adjusted paths for use with 
+  `-G"CodeBlocks - MinGW Makefiles"`,
+- and **shell-msys2win.bat:** invokes a terminal MSys session for use with `-G"MSYS Makefiles"`.
 
-### Does not work with MSYS2
-std gcc 7 works fine
-```
-Jedzia@pubsiX MSYS ~
-$ gcc --version
-gcc (GCC) 7.3.0
-```
-, but `export PATH=/d/Users/Jedzia.pubsiX/.cargo/bin:/mingw64/bin:${PATH}` in `.bash_profile`
-for using a different toolset has problems with **cotire**.
-```
-Jedzia@pubsiX MSYS ~
-$ export PATH=/mingw64/bin:${PATH}
+### Build documentation under MSys/Clang/Clion Terminal. Config is for mingw32-make
 
-Jedzia@pubsiX MSYS ~
-$ gcc --version
-gcc.exe (Rev3, Built by MSYS2 project) 8.2.0
-```
+        E:\Projects\C++\oglTemplate\cmake-build-debug>
+        "C:\Program Files\JetBrains\CLion\bin\cmake\win\bin\cmake.exe" --build E:\Projects\C++\oglTemplate\cmake-build-debug --target GrCore_doxygen-docs -- -j4
+
+### Obsolete?:
+Obsolete:
+> Use `MSYS2 MSYS` to start the shell. `The MSYS2 MinGW 32-bit` or `MSYS2 MinGW 64-bit` 
+> links will not work and produce 
+> ```
+> System is unknown to cmake 
+> Platform/MINGW64_NT-6.1
+> ```
+> errors when configuring with **CMake**.
+------------------------------------------------------------------------------------------------------
+
+> ##### Does not work with MSYS2 (Obsolete? use the right tools. cmake from mingw for -G"UNIX MAKEFILES"...)
+> std gcc 7 works fine
+> ```
+> Jedzia@pubsiX MSYS ~
+> $ gcc --version
+> gcc (GCC) 7.3.0
+> ```
+> , but `export PATH=/d/Users/Jedzia.pubsiX/.cargo/bin:/mingw64/bin:${PATH}` in `.bash_profile`
+> for using a different toolset has problems with **cotire**.
+> ```
+> Jedzia@pubsiX MSYS ~
+> $ export PATH=/mingw64/bin:${PATH}
+> 
+> Jedzia@pubsiX MSYS ~
+> $ gcc --version
+> gcc.exe (Rev3, Built by MSYS2 project) 8.2.0
+> ```
+------------------------------------------------------------------------------------------------------
+
 ## Evolution ##
 
     playground/grgraphics/simple_window.cpp -> playground/grgraphics/simple_cursor.cpp

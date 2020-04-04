@@ -50,7 +50,7 @@ public:
      *
      *  The 8 byte of double precission floating point data is prefixed with 8 byte specifying the
      *  unix time since epoch in milliseconds.
-     *  @param data Double precission floating point data to transmit.
+     *  @param data Double precision floating point data to transmit.
      */
     void SendData(const double &data);
 

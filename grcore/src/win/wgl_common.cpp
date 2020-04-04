@@ -26,10 +26,11 @@
 static int (* TEST_CALLBACK)(HDC hdc);
 
 /** Brief description of $(fclass), setupPixelFormat
+ *
  *  Detailed description.
  *  @param hdc TODO
  */
-static void setupPixelFormat(HDC hdc)             {
+static void setupPixelFormat(HDC hdc) {
     PIXELFORMATDESCRIPTOR pfd = {
         sizeof(PIXELFORMATDESCRIPTOR),
         1,
@@ -65,6 +66,7 @@ static void setupPixelFormat(HDC hdc)             {
 } // setupPixelFormat
 
 /** Brief description of $(fclass), window_proc
+ *
  *  Detailed description.
  *  @param hwnd TODO
  *  @param message TODO
@@ -72,7 +74,7 @@ static void setupPixelFormat(HDC hdc)             {
  *  @param lparam TODO
  *  @return TODO
  */
-static LRESULT CALLBACK window_proc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)                         {
+static LRESULT CALLBACK window_proc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
     HDC hdc = GetDC(hwnd);
     int ret;
 
@@ -90,10 +92,11 @@ static LRESULT CALLBACK window_proc(HWND hwnd, UINT message, WPARAM wparam, LPAR
 }
 
 /** Brief description of $(fclass), makeWindowAndTest
+ *
  *  Detailed description.
  *  @param hdc TODO
  */
-void makeWindowAndTest(int (* callback)(HDC hdc))       {
+void makeWindowAndTest(int (* callback)(HDC hdc)) {
     const char* className = "epoxy";
     const char* windowName = "epoxy";
     int width = 150;

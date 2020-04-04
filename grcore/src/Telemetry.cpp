@@ -21,13 +21,16 @@
 //grcore::util::TcpClient G_CLIENT{true};
 
 bool grcore::writeData(const double &data) {
+    // Used as a blocker. Once an error occurred, we shutdown the whole story.
     static bool skipMe = false;
     if(skipMe) {
         return false;
     }
 
     try {
-        static grcore::util::TcpClient client{true};
+        static grcore::util::TcpClient client {
+            true
+        };
         client.SendData(data);
     }
     catch(std::exception &ex) {

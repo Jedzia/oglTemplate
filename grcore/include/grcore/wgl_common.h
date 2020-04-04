@@ -14,15 +14,16 @@
  */
 /*---------------------------------------------------------*/
 
-#ifndef OPENGLTEMPLATE_WGL_COMMON_H
-#define OPENGLTEMPLATE_WGL_COMMON_H
+#ifndef OPENGLTEMPLATE_019DC44D962B4EE993A8802847A9A0C3_WGL_COMMON_H
+#define OPENGLTEMPLATE_019DC44D962B4EE993A8802847A9A0C3_WGL_COMMON_H
 
 #include <windef.h>
 
-/** Brief description of $(fclass), makeWindowAndTest
- *  Detailed description.
- *  @param hdc TODO
+/** Setup a GUI window.
+ *
+ *  A wrapper to quickly setup a GUI window.
+ *  @param hdc Callback routine for the window loop.
  */
 void makeWindowAndTest(int (* callback)(HDC hdc));
 
-#endif //OPENGLTEMPLATE_WGL_COMMON_H
+#endif //OPENGLTEMPLATE_019DC44D962B4EE993A8802847A9A0C3_WGL_COMMON_H
