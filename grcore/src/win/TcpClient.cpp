@@ -195,15 +195,27 @@ void grcore::util::TcpClient::SendData(const double &data) {
     }
 
 #if 1// MinGW, see https://github.com/msys2/MINGW-packages/issues/5086#issuecomment-476499828
-    typedef std::chrono::steady_clock Clock;
+    typedef std::chrono::system_clock Clock;
 #else
     typedef std::chrono::high_resolution_clock clock;
 #endif
-    auto dataTimepoint = Clock::now();
-    long long int dataTime = std::chrono::time_point_cast<std::chrono::microseconds>(dataTimepoint).time_since_epoch().count();
+    const auto p0 = std::chrono::time_point<std::chrono::system_clock>{};
+    const auto p1 = std::chrono::system_clock::now();
+    //const auto p2 = p1 - std::chrono::hours(24);
+    const auto p2 = p1 - p0;
+    //auto p3 = std::chrono::duration_cast<std::chrono::milliseconds>(p2.time_since_epoch()).count();
+    auto p3 = p2.count();
+    static_cast<void>(p3);
+    const auto dataTime = std::chrono::time_point_cast<std::chrono::milliseconds>(Clock::now()).time_since_epoch().count();
+
+
+    //auto dataTimepoint = Clock::now();
+    //auto dataTime2 = std::chrono::time_point_cast<std::chrono::milliseconds>(dataTimepoint).time_since_epoch().count();
+    //static_cast<void>(dataTime2);
+    //long long int dataTime = std::chrono::time_point_cast<std::chrono::microseconds>(dataTimepoint).time_since_epoch().count();
 
     TelemetryData telemetryData {
-        dataTime, data
+            dataTime, data
     };
 
     //Send file size
