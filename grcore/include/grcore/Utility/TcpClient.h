@@ -32,7 +32,7 @@ public:
     virtual ~TcpClient();
 
     void SendFile(const std::string &filename);
-    void SendData(const float &data);
+    void SendData(const double &data);
 
     static std::size_t GetFileSize(const std::string &filename);
 

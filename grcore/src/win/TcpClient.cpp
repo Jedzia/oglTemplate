@@ -19,8 +19,10 @@
 //
 #include "grcore/Utility/TcpClient.h"
 #include "grcore/warning/FMT_format_log.h"
+#include <chrono>
 #include <filesystem>
 #include <iostream>
+#include <string>
 #include <windows.h>
 #include <ws2tcpip.h>
 
@@ -180,28 +182,42 @@ grcore::util::TcpClient::TcpClient(bool openConnection) : m_pImpl(std::make_uniq
     }
 }
 
-struct TeleData
+struct TelemetryData
 {
-    const std::size_t time;
-    const float data;
+    const long long int time;
+    const double data;
 };
-void grcore::util::TcpClient::SendData(const float &data) {
+
+void grcore::util::TcpClient::SendData(const double &data) {
     m_pImpl->Init();
     if(!m_pImpl->IsConnected()) {
         return;
     }
 
+#if 1// MinGW, see https://github.com/msys2/MINGW-packages/issues/5086#issuecomment-476499828
+    typedef std::chrono::steady_clock Clock;
+#else
+    typedef std::chrono::high_resolution_clock clock;
+#endif
+    auto dataTimepoint = Clock::now();
+    long long int dataTime = std::chrono::time_point_cast<std::chrono::microseconds>(dataTimepoint).time_since_epoch().count();
+
+    TelemetryData telemetryData {
+        dataTime, data
+    };
+
     //Send file size
     //const std::size_t size = GetFileSize(filename);
-    const int size = sizeof(data);
+    //const int size = sizeof(data);
     //send(sock, static_cast<const int*>(&size), sizeof(std::size_t), 0);
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wold-style-cast"
-    send(m_pImpl->m_connectSocket, (const char *)&size, sizeof(std::size_t), 0);
-    send(m_pImpl->m_connectSocket, (const char *)&data, sizeof(data), 0);
+    //send(m_pImpl->m_connectSocket, (const char *)&size, sizeof(std::size_t), 0);
+    //send(m_pImpl->m_connectSocket, (const char *)&data, sizeof(data), 0);
+    send(m_pImpl->m_connectSocket, (const char *)&telemetryData, sizeof(telemetryData), 0);
 #pragma clang diagnostic pop
     //LogManager::log(std::to_string(GetFileSize(filename_str)));
-    spdlog::info("[{}]  called. +++", __PRETTY_FUNCTION__);
+    //spdlog::info("[{}]  called. +++", __PRETTY_FUNCTION__);
 
     //Send file
     //TransmitFile(m_pImpl->m_connectSocket, hFile, ::GetFileSize(hFile, NULL), 1024, NULL, NULL,

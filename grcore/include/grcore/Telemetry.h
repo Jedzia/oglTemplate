@@ -17,7 +17,7 @@
 #define OPENGLTEMPLATE_387669B53EBE4EF893F0720652096DB8_TELEMETRY_H
 
 namespace grcore {
-bool writeData(const float &data);
+bool writeData(const double &data);
 
 class Telemetry {};
 }

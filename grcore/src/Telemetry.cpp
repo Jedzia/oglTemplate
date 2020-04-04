@@ -20,7 +20,7 @@
 
 //grcore::util::TcpClient G_CLIENT{true};
 
-bool grcore::writeData(const float &data) {
+bool grcore::writeData(const double &data) {
     static bool skipMe = false;
     if(skipMe) {
         return false;
