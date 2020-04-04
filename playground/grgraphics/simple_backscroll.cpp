@@ -21,6 +21,7 @@
 #include <grgraphics/warning/SFML_Graphics.h>
 #include <memory>
 #include <spdlog/sinks/ansicolor_sink.h>
+#include <grcore/Telemetry.h>
 
 /** @class MyApplication:
  *  Represents the handler for all window actions.
@@ -176,7 +177,8 @@ public:
 
             m_lastAbsVelocity = absVelocity;
             m_xVelocity *= speedRamp;
-            m_csvFile.WriteData(m_xVelocity);
+            //m_csvFile.WriteData(m_xVelocity);
+            grcore::writeData(m_xVelocity);
 
             { // handle Graph
                 m_view.move(m_xVelocity * elapsedSeconds, 0.0F);

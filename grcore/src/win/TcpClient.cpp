@@ -32,6 +32,10 @@ struct grcore::util::TcpClient::Impl {
     WSADATA m_wsaData;
     SOCKET m_connectSocket = INVALID_SOCKET;
 
+    bool IsConnected() {
+        return m_connectSocket != INVALID_SOCKET;
+    }
+
     int Init() {
         if(m_wsaInitialized) {
             return 0;
@@ -135,6 +139,9 @@ std::size_t grcore::util::TcpClient::GetFileSize(const std::string &filename) {
 
 void grcore::util::TcpClient::SendFile(const std::string &filename) {
     m_pImpl->Init();
+    if(!m_pImpl->IsConnected()) {
+        return;
+    }
 
     HANDLE hFile = CreateFile(
             filename.c_str(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OVERLAPPED, NULL);
@@ -162,13 +169,47 @@ grcore::util::TcpClient::~TcpClient() {
 }
 
 grcore::util::TcpClient::TcpClient() : m_pImpl(std::make_unique<grcore::util::TcpClient::Impl>()) /*,
-                                                                                                     m_openConnection(false)*/  {}
+                                                                                                     m_openConnection(false)*/
+{}
 
-grcore::util::TcpClient::TcpClient(bool openConnection) : m_pImpl(std::make_unique<grcore::util::TcpClient::Impl>()) {/*:
-                                                                                                                         m_openConnection(openConnection)*/
+grcore::util::TcpClient::TcpClient(bool openConnection) : m_pImpl(std::make_unique<grcore::util::TcpClient::Impl>()) {
+    /*:
+       m_openConnection(openConnection)*/
     if(openConnection) {
         m_pImpl->Init();
     }
 }
+
+struct TeleData
+{
+    const std::size_t time;
+    const float data;
+};
+void grcore::util::TcpClient::SendData(const float &data) {
+    m_pImpl->Init();
+    if(!m_pImpl->IsConnected()) {
+        return;
+    }
+
+    //Send file size
+    //const std::size_t size = GetFileSize(filename);
+    const int size = sizeof(data);
+    //send(sock, static_cast<const int*>(&size), sizeof(std::size_t), 0);
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wold-style-cast"
+    send(m_pImpl->m_connectSocket, (const char *)&size, sizeof(std::size_t), 0);
+    send(m_pImpl->m_connectSocket, (const char *)&data, sizeof(data), 0);
+#pragma clang diagnostic pop
+    //LogManager::log(std::to_string(GetFileSize(filename_str)));
+    spdlog::info("[{}]  called. +++", __PRETTY_FUNCTION__);
+
+    //Send file
+    //TransmitFile(m_pImpl->m_connectSocket, hFile, ::GetFileSize(hFile, NULL), 1024, NULL, NULL,
+    // TF_USE_KERNEL_APC | TF_WRITE_BEHIND);
+    //CloseHandle(hFile);
+
+    //printf("Bytes Sent: %ld\n", iResult);
+    //m_pImpl->Shutdown();
+} // grcore::util::TcpClient::SendData
 
 // grcore::util::TcpClient::init
