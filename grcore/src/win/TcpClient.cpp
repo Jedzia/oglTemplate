@@ -45,11 +45,11 @@ struct grcore::util::TcpClient::Impl {
 
         spdlog::info("[{}]  called. +++", __PRETTY_FUNCTION__);
 
-        std::string address {
-            "localhost"
+        std::string address{
+                "localhost"
         };
         int iResult;
-        struct ::addrinfo* result = NULL, * ptr = NULL, hints;
+        struct ::addrinfo *result = NULL, *ptr = NULL, hints;
 
         // Initialize Winsock
         iResult = WSAStartup(MAKEWORD(2, 2), &m_wsaData);
@@ -146,20 +146,22 @@ void grcore::util::TcpClient::SendFile(const std::string &filename) {
     }
 
     HANDLE hFile = CreateFile(
-            filename.c_str(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OVERLAPPED, NULL);
+            filename.c_str(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING,
+            FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OVERLAPPED, NULL);
     //Send file size
     //const std::size_t size = GetFileSize(filename);
     const int size = static_cast<const int>(GetFileSize(filename));
     //send(sock, static_cast<const int*>(&size), sizeof(std::size_t), 0);
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wold-style-cast"
-    send(m_pImpl->m_connectSocket, (const char *)&size, sizeof(std::size_t), 0);
+    send(m_pImpl->m_connectSocket, (const char *) &size, sizeof(std::size_t), 0);
 #pragma clang diagnostic pop
     //LogManager::log(std::to_string(GetFileSize(filename_str)));
     spdlog::info("[{}]  called. +++", __PRETTY_FUNCTION__, GetFileSize(filename));
 
     //Send file
-    TransmitFile(m_pImpl->m_connectSocket, hFile, ::GetFileSize(hFile, NULL), 1024, NULL, NULL, TF_USE_KERNEL_APC | TF_WRITE_BEHIND);
+    TransmitFile(m_pImpl->m_connectSocket, hFile, ::GetFileSize(hFile, NULL), 1024, NULL, NULL,
+            TF_USE_KERNEL_APC | TF_WRITE_BEHIND);
     CloseHandle(hFile);
 
     //printf("Bytes Sent: %ld\n", iResult);
@@ -182,10 +184,9 @@ grcore::util::TcpClient::TcpClient(bool openConnection) : m_pImpl(std::make_uniq
     }
 }
 
-struct TelemetryData
-{
-    const long long int time;
-    const double data;
+struct TelemetryData {
+    const long long int Time;
+    const double Data;
 };
 
 void grcore::util::TcpClient::SendData(const double &data) {
@@ -199,24 +200,10 @@ void grcore::util::TcpClient::SendData(const double &data) {
 #else
     typedef std::chrono::high_resolution_clock clock;
 #endif
-    const auto p0 = std::chrono::time_point<std::chrono::system_clock>{};
-    const auto p1 = std::chrono::system_clock::now();
-    //const auto p2 = p1 - std::chrono::hours(24);
-    const auto p2 = p1 - p0;
-    //auto p3 = std::chrono::duration_cast<std::chrono::milliseconds>(p2.time_since_epoch()).count();
-    auto p3 = p2.count();
-    static_cast<void>(p3);
-    const auto dataTime = std::chrono::time_point_cast<std::chrono::milliseconds>(Clock::now()).time_since_epoch().count();
+    const auto dataTime = std::chrono::time_point_cast<std::chrono::milliseconds>(
+            Clock::now()).time_since_epoch().count();
 
-
-    //auto dataTimepoint = Clock::now();
-    //auto dataTime2 = std::chrono::time_point_cast<std::chrono::milliseconds>(dataTimepoint).time_since_epoch().count();
-    //static_cast<void>(dataTime2);
-    //long long int dataTime = std::chrono::time_point_cast<std::chrono::microseconds>(dataTimepoint).time_since_epoch().count();
-
-    TelemetryData telemetryData {
-            dataTime, data
-    };
+    const TelemetryData telemetryData{dataTime, data};
 
     //Send file size
     //const std::size_t size = GetFileSize(filename);
@@ -226,7 +213,7 @@ void grcore::util::TcpClient::SendData(const double &data) {
 #pragma clang diagnostic ignored "-Wold-style-cast"
     //send(m_pImpl->m_connectSocket, (const char *)&size, sizeof(std::size_t), 0);
     //send(m_pImpl->m_connectSocket, (const char *)&data, sizeof(data), 0);
-    send(m_pImpl->m_connectSocket, (const char *)&telemetryData, sizeof(telemetryData), 0);
+    send(m_pImpl->m_connectSocket, (const char *) &telemetryData, sizeof(telemetryData), 0);
 #pragma clang diagnostic pop
     //LogManager::log(std::to_string(GetFileSize(filename_str)));
     //spdlog::info("[{}]  called. +++", __PRETTY_FUNCTION__);
