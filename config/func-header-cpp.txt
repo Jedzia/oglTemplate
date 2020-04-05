@@ -1,4 +1,4 @@
-/** Brief description of $(fclass), $(function)
+/** @brief Brief description of $(fclass), $(function)
  *
  *  Detailed description. 
  *  $(javaparam)
