@@ -22,13 +22,9 @@
 #  pragma GCC diagnostic ignored "-Wsign-conversion"
 #  pragma GCC diagnostic ignored "-Wdouble-promotion"
 #endif
-#include <grcore/Logging.h>
-//#if USE_SPDLOG
-#include <spdlog/spdlog.h>
-//#endif
 #include "console.h"
 #include "grcore/warning/FMT_format_log.h"
-#include <fmt/core.h>
+#include <grcore/Logging.h>
 #include <iostream>
 #include <memory>
 #include <spdlog/logger.h>
@@ -36,8 +32,6 @@
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/sinks/wincolor_sink.h>
 #include <vector>
-
-//#include "spdlog/sinks/rotating_file_sink.h"
 
 #ifdef _WIN32
 #  include "spdlog/sinks/ansicolor_sink-inl.h"
@@ -52,12 +46,8 @@ template class spdlog::sinks::ansicolor_stderr_sink<spdlog::details::console_nul
 //using string_view_t = fmt::basic_string_view<char>;
 namespace grcore {
 //static const std::string LOGGER_NAME = "example";
-static std::string LOGGER_NAME = spdlog::default_logger()->name();
+static std::string G_LOGGER_NAME = spdlog::default_logger()->name();
 
-/** Brief description of core, info
- *  Detailed description.
- *  @return TODO
- */
 void info() {
     //Use the default logger (stdout, multi-threaded, colored)
     //#if USE_SPDLOG
@@ -71,15 +61,15 @@ void logging::libSetDefaultLoggerLevel(spdlog::level::level_enum level) {
 }
 
 std::shared_ptr<spdlog::logger> setupDefaultLoggerInternal(std::vector<spdlog::sink_ptr> sinks) {
-    auto logger = spdlog::get(LOGGER_NAME);
+    auto logger = spdlog::get(G_LOGGER_NAME);
     if(not logger) {
         if(sinks.size() > 0) {
-            logger = std::make_shared<spdlog::logger>(LOGGER_NAME,
+            logger = std::make_shared<spdlog::logger>(G_LOGGER_NAME,
                     std::begin(sinks),
                     std::end(sinks));
             spdlog::register_logger(logger);
         } else {
-            logger = spdlog::stdout_color_mt(LOGGER_NAME);
+            logger = spdlog::stdout_color_mt(G_LOGGER_NAME);
         }
     }
 
@@ -127,11 +117,18 @@ void colorizeLogger(std::shared_ptr<spdlog::logger> logger) {
 
 std::shared_ptr<spdlog::logger> logging::setUpDefaultLogger(const std::string &loggerName, spdlog::level::level_enum level) {
     auto logger = setupLoggerInternal(loggerName);
+    setUpDefaultLogger(logger, level);
+    return logger;
+}
+
+void logging::setUpDefaultLogger(std::shared_ptr<spdlog::logger> logger, spdlog::level::level_enum level) {
+    // unite the application and library loggers.
+    G_LOGGER_NAME = logger->name();
     colorizeLogger(logger);
     logger->set_level(level);
+    spdlog::set_default_logger(logger);
     libSetDefaultLoggerLevel(level);
-    logger->warn("You should now see spdlog with color.");
-    return logger;
+    logger->warn("You should see spdlog with color.");
 }
 
 std::shared_ptr<spdlog::logger> logging::setUpLogger(const std::string &loggerName, spdlog::level::level_enum level) {
@@ -144,17 +141,8 @@ std::shared_ptr<spdlog::logger> logging::setUpLogger(const std::string &loggerNa
     return logger;
 }
 
-void logging::setUpDefaultLogger(std::shared_ptr<spdlog::logger> logger, spdlog::level::level_enum level) {
-    // unite the application and library loggers.
-    LOGGER_NAME = logger->name();
-    spdlog::set_default_logger(logger);
-    libSetDefaultLoggerLevel(level);
-    colorizeLogger(logger);
-    logger->warn("You should see spdlog with color.");
-}
-
 void logging::test(std::string message) {
-    auto logger = spdlog::get(LOGGER_NAME);
+    auto logger = spdlog::get(G_LOGGER_NAME);
     //auto logger = spdlog::default_logger();
     if(logger) {
         logger->debug("{}::{}", __FUNCTION__, message);

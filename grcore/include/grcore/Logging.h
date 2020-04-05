@@ -14,8 +14,8 @@
  */
 /*---------------------------------------------------------*/
 
-#ifndef OPENGLTEMPLATE_LOGGING_H
-#define OPENGLTEMPLATE_LOGGING_H
+#ifndef OPENGLTEMPLATE_D9DE905FD50845E5B4199AA409BE0950_LOGGING_H
+#define OPENGLTEMPLATE_D9DE905FD50845E5B4199AA409BE0950_LOGGING_H
 
 #include "warning/FMT_format_log.h"
 #include <iostream>
@@ -24,32 +24,102 @@
 
 namespace grcore {
 namespace logging {
-//#define NAMED_DEFAULT_LOGGER(name) spdlog::set_default_logger(core::logging::setUpLogger("\"" #name "\""))
+//#define NAMED_DEFAULT_LOGGER(name) spdlog::set_default_logger(core::logging::setUpLogger("\""
+// #name "\""))
 //#define NAMED_DEFAULT_LOGGER(name) spdlog::set_default_logger(core::logging::setUpLogger(#name))
 #define NAMED_DEFAULT_LOGGER(name) spdlog::set_default_logger(core::logging::setUpLogger(name))
 
+/** @brief Create and configure default logger
+ *
+ * To keep the setup of the default logger in application and library in sync.
+ * @param loggerName Name of the logger.
+ * @param level Minimal threshold level.
+ * @return a shared pointer to a new instance of a logger that is used by the library, ready to be
+ *         used by the application.
+ * @example
+ * @code
+ * spdlog::set_default_logger(grcore::logging::setUpDefaultLogger("MyApplication",
+ * spdlog::level::debug));
+ * or
+ * NAMED_DEFAULT_LOGGER("MyApplication");
+ *
+ * spdlog::info("+++ [{}]  called. +++", __PRETTY_FUNCTION__);
+ * spdlog::warn("LogLevel: WARN");
+ * spdlog::info("LogLevel: INFO");
+ * spdlog::debug("LogLevel: DEBUG");
+ * spdlog::trace("LogLevel: TRACE");
+ * @endcode
+ */
 std::shared_ptr<spdlog::logger> setUpDefaultLogger(const std::string &loggerName, spdlog::level::level_enum level = spdlog::level::info);
-std::shared_ptr<spdlog::logger> setUpLogger(const std::string &loggerName, spdlog::level::level_enum level = spdlog::level::info);
 
+/** @brief Configure default logger
+ *
+ * To keep the setup of the default logger in application and library in sync.
+ * @param logger The logger used as the new default logger for the library.
+ * @param level Minimal threshold level.
+ * @example
+ * @code
+ * auto otherLogger = spdlog::stdout_color_mt("other");
+ * setUpDefaultLogger(otherLogger, spdlog::level::info);
+ * otherLogger->info("This is the 'other' logger.");
+ * spdlog::warn("LogLevel: WARN"); // also 'other' logger, used as default logger.
+ * @endcode
+ */
 void setUpDefaultLogger(std::shared_ptr<spdlog::logger> logger, spdlog::level::level_enum level = spdlog::level::info);
 
+/** @brief Create and configure named logger [incomplete]
+ *
+ * To keep the setup of a named logger in application and library in sync.
+ * ToDo: The sync of the library logger(named) part is not implemented.
+ * @param loggerName Name of the logger.
+ * @param level Minimal threshold level.
+ * @return a shared pointer to a new instance of a logger that is used by the library, ready to be
+ *         used by the application.
+ * @example
+ * @code
+ * auto otherLogger = grcore::logging::setUpLogger("other");
+ * otherLogger->info("This is the 'other' logger.");
+ * @endcode
+ */
+std::shared_ptr<spdlog::logger> setUpLogger(const std::string &loggerName, spdlog::level::level_enum level = spdlog::level::info);
+
+/** @brief Set the threshold level for the libraries default logger.
+ *
+ * @param level global logging level.
+ */
 void libSetDefaultLoggerLevel(spdlog::level::level_enum level);
 
+/**
+ * Try to send a message to (internal) 'LOGGER_NAME'.
+ * @param message The log message content.
+ */
 void test(std::string message);
 }
+
+/** Log Hello World.
+ *
+ *  Logs a hello world message. For testing
+ *  @code
+ *  spdlog::info("grcore::info() -> Hello, {}!", "World from core::info()");
+ *  @endcode
+ */
 void info();
 
+/** For R&D, removed later.  */
 void bla();
 
 //using string_view_t = fmt::basic_string_view<char>;
+/** For R&D, removed later.  */
 using string_view_t = std::string;
 
+/** For R&D, removed later.  */
 template<typename ... Args>
 void depp(/*source_loc loc, level::level_enum lvl,`*/ string_view_t fmt, const Args & ... /*args*/) {
     static_cast<void>(fmt);
     //static_cast<void>(args)...;
 }
 
+/** For R&D, removed later.  */
 template<typename ... Args>
 void log(/*source_loc loc, level::level_enum lvl,`*/ string_view_t fmt, const Args & ... args) {
     std::cout << "core::log::fmt: " << fmt << "\n";
@@ -71,10 +141,11 @@ void log(/*source_loc loc, level::level_enum lvl,`*/ string_view_t fmt, const Ar
     (std::cout << ... << args) << "<- core::log::args" << '\n';
 }
 
+/** For R&D, removed later.  */
 template<typename ... Args>
 inline void info(string_view_t fmt, const Args & ... args) {
     //default_logger_raw()->info(fmt, args...);
     log(fmt, args ...);
 }
 }
-#endif //OPENGLTEMPLATE_LOGGING_H
+#endif //OPENGLTEMPLATE_D9DE905FD50845E5B4199AA409BE0950_LOGGING_H

@@ -293,8 +293,8 @@ int main() {
     //spdlog::set_level(spdlog::level::trace);
 
     spdlog::info("+++ [{}]  called. +++", __PRETTY_FUNCTION__);
-    spdlog::warn("LogLevel: WARN");
     spdlog::info("LogLevel: INFO");
+    spdlog::warn("LogLevel: WARN");
     spdlog::debug("LogLevel: DEBUG");
     spdlog::trace("LogLevel: TRACE");
     //auto window = grg::createRenderWindow(1280, 16, 9, __FILE_NAME__);
