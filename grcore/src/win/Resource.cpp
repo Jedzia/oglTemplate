@@ -24,7 +24,7 @@ extern void* G_HINST_DLL;
 
 grcore::Resource::Resource(int resourceName) : m_id(resourceName) {
     //std::cout << "+++ Constructor " << __PRETTY_FUNCTION__ << " called. +++" << "\n";
-    spdlog::debug(" {1}:{2} +++ Constructor [{0}]  called. +++", __PRETTY_FUNCTION__, __FILE__, __LINE__);
+    spdlog::debug(" {1}:{2} +++ Constructor [{0}] (resourceName={0}) called. +++", __PRETTY_FUNCTION__, __FILE__, __LINE__, resourceName);
 }
 
 grcore::Resource::~Resource() {

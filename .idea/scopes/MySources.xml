@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="MySources" pattern="file[OpenGLTemplate]:benchmark/benchmark//*||file[OpenGLTemplate]:benchmark/Playground//*||file[OpenGLTemplate]:CMake//*||file[OpenGLTemplate]:config//*||file[OpenGLTemplate]:doc//*||file[OpenGLTemplate]:grcore//*||file[OpenGLTemplate]:grgraphics//*||file[OpenGLTemplate]:playground//*||file[OpenGLTemplate]:src//*||file[OpenGLTemplate]:*||file[OpenGLTemplate]:tests/*" />
+</component>
