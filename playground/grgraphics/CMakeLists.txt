@@ -54,7 +54,7 @@ foreach (f ${playground_sources})
     endif (${_target_name} STREQUAL "stdafx")
 endforeach ()
 
-copy_file(Playground_GrGraphics_simple_tilemap  "${CMAKE_CURRENT_SOURCE_DIR}/../../Artwork/root/graphics-vertex-array-tilemap-tileset.png" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/graphics-vertex-array-tilemap-tileset.png")
+copy_file(Playground_GrGraphics_simple_tilemap  "${CMAKE_CURRENT_SOURCE_DIR}/../../Artwork/data/graphics-vertex-array-tilemap-tileset.png" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/graphics-vertex-array-tilemap-tileset.png")
 
 #target_link_libraries(Playground_GrGraphics_simple_window PRIVATE spdlog::spdlog)
 #target_link_libraries(Playground_GrGraphics_statemachine02 PRIVATE afsm::afsm)
