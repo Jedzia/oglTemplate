@@ -24,21 +24,25 @@ set(GrCore_INC_FILES
         )
 set(GrCore_SRC_FILES
         src/FileSystem.cpp
-        src/Logging.cpp
         src/Math.cpp
         src/Telemetry.cpp
         src/Utility/Property.cpp
         src/test.cpp
-        src/win/TcpClient.cpp
         )
 if (WIN32)
     set(GrCore_SRC_FILES ${GrCore_SRC_FILES}
+            src/win/Logging.cpp
             src/win/wgl_common.cpp
             src/win/Resource.cpp
             src/win/DllEntry.cpp
             src/win/console.cpp
+            src/win/TcpClient.cpp
             )
-endif (WIN32)
+elseif(UNIX)
+    set(GrCore_SRC_FILES ${GrCore_SRC_FILES}
+            src/linux/Logging.cpp
+            )
+endif ()
 set(INCLUDE_DIRECTORIES
         #         include
         ${CMAKE_CURRENT_SOURCE_DIR}/include

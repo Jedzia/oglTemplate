@@ -30,10 +30,10 @@
 #include <spdlog/logger.h>
 #include <spdlog/sinks/ansicolor_sink.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
-#include <spdlog/sinks/wincolor_sink.h>
 #include <vector>
 
 #ifdef _WIN32
+#  include <spdlog/sinks/wincolor_sink.h>
 #  include "spdlog/sinks/ansicolor_sink-inl.h"
 template class spdlog::sinks::ansicolor_sink<spdlog::details::console_mutex>;
 template class spdlog::sinks::ansicolor_sink<spdlog::details::console_nullmutex>;
