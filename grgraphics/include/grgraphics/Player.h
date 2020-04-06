@@ -23,8 +23,10 @@
 namespace grg {
 class Player : public sf::Drawable,
                public sf::Transformable {
-    bool Load(const std::string &tileSet, sf::Vector2u tileSize, const unsigned int* tiles, unsigned int width,
-            unsigned int height, float uniformScale = 1.0F);
+public:
+
+    bool Load(const std::string &filename, sf::Vector2u tileSize, const unsigned int* tiles, unsigned int width,
+              unsigned int height, float uniformScale = 1.0F);
 
 private:
 

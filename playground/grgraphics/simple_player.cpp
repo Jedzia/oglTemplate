@@ -17,11 +17,11 @@
 #include <SFML/Graphics/Color.hpp>
 #include <grcore/DataAcquisition.h>
 #include <grcore/Logging.h>
+#include <grcore/Telemetry.h>
 #include <grgraphics/GrGraphics.h>
 #include <grgraphics/warning/SFML_Graphics.h>
 #include <memory>
 #include <spdlog/sinks/ansicolor_sink.h>
-#include <grcore/Telemetry.h>
 
 /** @class MyApplication:
  *  Represents the handler for all window actions.
@@ -73,11 +73,17 @@ public:
             0, 0, 1, 0, 3, 2, 2, 2, 0, 0, 0, 0, 1, 1, 1, 1,
         };
 
+        const char* tileSetFilename = "graphics-vertex-array-tilemap-tileset.png";
+        const char* playerFilename = "Esquire.png";
+
         // create the tilemap from the level definition
-        const char *tileSetFilename = "graphics-vertex-array-tilemap-tileset.png";
         if(!m_tileMap.Load(tileSetFilename, sf::Vector2u(32, 32), level, 16, 8, 4.0F)) {
             spdlog::error("[{}] ERROR loading tile-map resource (id={}).", __PRETTY_FUNCTION__, tileSetFilename);
             //throw std::runtime_error("FUCK YOU");
+        }
+
+        if(!m_player.Load(playerFilename, sf::Vector2u(32, 32), level, 16, 8, 4.0F)) {
+            spdlog::error("[{}] ERROR loading player resource (id={}).", __PRETTY_FUNCTION__, tileSetFilename);
         }
 
         //m_tileMap.Load()
@@ -182,6 +188,7 @@ public:
             //m_csvFile.WriteData(m_xVelocity);
             grcore::writeData(static_cast<double>(m_xVelocity));
 
+
             { // handle Graph
                 m_view.move(m_xVelocity * elapsedSeconds, 0.0F);
                 if(viewChanged || m_window->getView().getTransform() != m_view.getTransform()) {
@@ -239,6 +246,10 @@ public:
             window.draw(m_shape);
         }
 
+        if(m_drawPlayer) {
+            window.draw(m_player);
+        }
+
         {
             //InstrumentationTimer timer("draw grg::CoordSystem");
             window.draw(*m_pCoords);
@@ -264,6 +275,7 @@ private:
     std::unique_ptr<grg::Cursor> m_pCursor;
     bool m_drawShape = false;
     bool m_drawTiles = true;
+    bool m_drawPlayer = true;
     //const sf::Font * m_MainGameFont = nullptr;
     std::unique_ptr<sf::Text> m_backGround;
     sf::Time m_totalTime;
@@ -272,6 +284,7 @@ private:
     float m_lastAbsVelocity = 0;
     grg::TileMap m_tileMap;
     bool m_keyNum1Released = true;
+    grg::Player m_player;
 };
 
 /** Program Entry Function, main
