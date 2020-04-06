@@ -43,14 +43,14 @@ include(config/CompilerWarnings.cmake)
 set_project_warnings(project_warnings)
 
 # sanitizer options if supported by compiler
-include(cmake/Sanitizers.cmake)
+include(CMake/Sanitizers.cmake)
 enable_sanitizers(project_options)
 
 # allow for static analysis options
-include(cmake/StaticAnalyzers.cmake)
+include(CMake/StaticAnalyzers.cmake)
 
 # enable doxygen
-include(cmake/Doxygen.cmake)
+include(CMake/Doxygen.cmake)
 enable_doxygen()
 
 
