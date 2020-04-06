@@ -44,7 +44,7 @@ public:
 
     void OnInit(const grg::Application &application) override {
         m_window = &application.GetWindow();
-        m_view = m_window->getView();
+        //m_view = m_window->getView();
         m_camera = std::make_unique<grg::Camera>(m_player, *m_window);
         //m_MainGameFont = application.GetMainGameFont();
         //const sf::Font& font = application.GetMainGameFont();
@@ -129,22 +129,9 @@ public:
             Reset();
         }
 
-        bool viewChanged = false;
-        const float zoomFactor = 1.01F;
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-            m_view.zoom(zoomFactor);
-            spdlog::info("View zoom {}, {}.", m_view.getSize().x, m_view.getSize().y);
-            viewChanged = true;
-        } else {
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-                m_view.zoom(1.0F / zoomFactor);
-                spdlog::info("View zoom {}, {}.", m_view.getSize().x, m_view.getSize().y);
-                viewChanged = true;
-            }
-        }
-
         // scrolling calculations
         {
+            bool viewChanged = false;
             constexpr float speedUp = 2.0F;
             constexpr float keyAcceleration = 500.0F * speedUp;
             bool moveKeyPressed = false;
@@ -289,7 +276,7 @@ private:
     //const sf::Font * m_MainGameFont = nullptr;
     std::unique_ptr<sf::Text> m_backGround;
     sf::Time m_totalTime;
-    sf::View m_view;
+    //sf::View m_view;
     float m_xVelocity = 0;
     float m_lastAbsVelocity = 0;
     grg::TileMap m_tileMap;

@@ -13,8 +13,8 @@
  * modified    2020-04-06, Jedzia
  */
 /*---------------------------------------------------------*/
-#include "grgraphics/warning/SFML_Graphics.h"
 #include "grcore/warning/FMT_format_log.h"
+#include "grgraphics/warning/SFML_Graphics.h"
 //
 #include "grgraphics/Camera.h"
 
@@ -28,10 +28,30 @@ void grg::Camera::UpdateView(sf::Time elapsed) {
     auto view = m_window.getView();
     //m_view.move(m_xVelocity * elapsedSeconds, 0.0F);
 
-    // Here a camera should do its work
-    view.setCenter(m_player.GetPlayerPosition() + sf::Vector2f {0.0F, 0.0F});
+    bool viewChanged = false;
 
-    //if(viewChanged || m_window->getView().getTransform() != m_view.getTransform()) {
-    m_window.setView(view);
-    //}
-}
+    { // zoom
+        const float zoomFactor = 1.01F;
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+            view.zoom(zoomFactor);
+            spdlog::info("View zoom {}, {}.", view.getSize().x, view.getSize().y);
+            viewChanged = true;
+        } else {
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+                view.zoom(1.0F / zoomFactor);
+                spdlog::info("View zoom {}, {}.", view.getSize().x, view.getSize().y);
+                viewChanged = true;
+            }
+        }
+    }
+
+    { // Set camera from player position.
+        sf::Vector2f cameraTranslation{0.0F, 0.0F};
+        view.setCenter(m_player.GetPlayerPosition() + cameraTranslation);
+
+        if(viewChanged || m_window.getView().getTransform() != view.getTransform()) {
+            spdlog::info("m_window.setView Center x{}, y{}.", view.getCenter().x, view.getCenter().y);
+            m_window.setView(view);
+        }
+    }
+} // grg::Camera::UpdateView
