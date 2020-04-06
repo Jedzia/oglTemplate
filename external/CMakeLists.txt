@@ -22,3 +22,9 @@ endif ()
 add_subdirectory(SFML)
 
 add_subdirectory(sm)
+
+if(UNIX)
+    target_compile_options(fmt PUBLIC -fPIC)
+    target_compile_options(spdlog PUBLIC -fPIC)
+endif ()
+

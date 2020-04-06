@@ -80,7 +80,9 @@ if (WIN32)
         PRIVATE Mswsock
 )
 elseif(UNIX)
-#    set(GrCore_PlatformLinkLibs ${GrCore_PlatformLinkLibs} stdc++fs)
+    set(GrCore_PlatformLinkLibs ${GrCore_PlatformLinkLibs} 
+        PRIVATE pthread
+)
 endif ()
 
 if (MSVC)
