@@ -20,7 +20,7 @@
 
 //grcore::util::TcpClient G_CLIENT{true};
 
-bool grcore::writeData(const double &data) {
+bool grcore::writeTelemetryData(const double &data) {
     // Used as a blocker. Once an error occurred, we shutdown the whole story.
     static bool skipMe = false;
     if(skipMe) {
@@ -39,4 +39,4 @@ bool grcore::writeData(const double &data) {
         spdlog::error("Exception in '{}': {}", __PRETTY_FUNCTION__, ex.what());
     }
     return true;
-} // grcore::writeData
+} // grcore::writeTelemetryData

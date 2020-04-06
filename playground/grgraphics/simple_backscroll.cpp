@@ -180,7 +180,7 @@ public:
             m_lastAbsVelocity = absVelocity;
             m_xVelocity *= speedRamp;
             //m_csvFile.WriteData(m_xVelocity);
-            grcore::writeData(static_cast<double>(m_xVelocity));
+            grcore::writeTelemetryData(static_cast<double>(m_xVelocity));
 
             { // handle Graph
                 m_view.move(m_xVelocity * elapsedSeconds, 0.0F);

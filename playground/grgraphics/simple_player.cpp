@@ -85,6 +85,7 @@ public:
         if(!m_player.Load(playerFilename, sf::Vector2u(32, 32), level, 16, 8, 4.0F)) {
             spdlog::error("[{}] ERROR loading player resource (id={}).", __PRETTY_FUNCTION__, tileSetFilename);
         }
+        //m_player.setPosition(V2F{300.F, 300.F});
 
         //m_tileMap.Load()
     } // OnInit
@@ -145,14 +146,14 @@ public:
             constexpr float speedUp = 2.0F;
             constexpr float keyAcceleration = 500.0F * speedUp;
             bool moveKeyPressed = false;
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
                 // m_view.move(-1.0F * 1000 * elapsedSeconds, 0.0F);
                 m_xVelocity -= speedUp * keyAcceleration * elapsedSeconds;
                 //spdlog::info("m_xVelocity={}.", m_xVelocity);
                 viewChanged = true;
                 moveKeyPressed = true;
             } else {
-                if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+                if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
                     //m_view.move(1.0F * 1000 * elapsedSeconds, 0.0F);
                     m_xVelocity += speedUp * keyAcceleration * elapsedSeconds;
                     //spdlog::info("m_xVelocity={}.", m_xVelocity);
@@ -183,10 +184,13 @@ public:
                 }
             }
 
+            m_player.Update(elapsed);
+
             m_lastAbsVelocity = absVelocity;
             m_xVelocity *= speedRamp;
             //m_csvFile.WriteData(m_xVelocity);
-            grcore::writeData(static_cast<double>(m_xVelocity));
+            grcore::writeTelemetryData(static_cast<double>(m_xVelocity));
+
 
 
             { // handle Graph
@@ -209,6 +213,7 @@ public:
         m_drawShape = (
             CheckBounds(m_coord, 500, 500, static_cast<int>(-m_shape.getSize().x),
                     static_cast<int>(-m_shape.getSize().y)) == 0);
+
     } // OnUpdate
 
     static int CheckBounds(V2F &v, int xMax, int yMax, int xMin = 0, int yMin = 0) {

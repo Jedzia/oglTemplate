@@ -34,7 +34,7 @@ int main() { // the main code portion of a C++ program
         //using namespace std::chrono_literals;
         //std::this_thread::sleep_for(2s);
         //tcpClient.SendFile("graphics-vertex-array-tilemap-tileset.png");
-        grcore::writeData(42.0);
+        grcore::writeTelemetryData(42.0);
     }
     catch(std::exception &ex) {
         std::cout << ex.what() << "\n";

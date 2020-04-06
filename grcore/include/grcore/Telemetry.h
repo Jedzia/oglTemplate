@@ -25,7 +25,7 @@ namespace grcore {
  *  @param data Double precision floating point data to transmit.
  *  @return <b>true</b> on success/transmit without error; otherwise <b>false</b>.
  */
-bool writeData(const double &data);
+bool writeTelemetryData(const double &data);
 
 /** @class Telemetry:
  *  Placeholder for later functionality.
