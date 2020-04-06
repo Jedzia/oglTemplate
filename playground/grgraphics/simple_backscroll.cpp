@@ -283,7 +283,7 @@ int main() {
     //core::logging::setUpDefaultLogger(spdlog::default_logger(), spdlog::level::debug);
 
     // easy named logger setup
-    spdlog::set_default_logger(grcore::logging::setUpDefaultLogger("MyApplication", spdlog::level::debug)); // or
+    spdlog::set_default_logger(grcore::logging::setUpDefaultLogger("OpenGLTemplate", spdlog::level::debug)); // or
     //NAMED_DEFAULT_LOGGER("MyApplication");
 
     // shit, this affects the loglevel of the main logger
