@@ -44,7 +44,7 @@ public:
 
     void OnInit(const grg::Application &application) override {
         m_window = &application.GetWindow();
-        m_view = application.GetWindow().getView();
+        m_view = m_window->getView();
         //m_MainGameFont = application.GetMainGameFont();
         //const sf::Font& font = application.GetMainGameFont();
         //static_cast<void>(font);

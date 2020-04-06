@@ -44,7 +44,8 @@ public:
 
     void OnInit(const grg::Application &application) override {
         m_window = &application.GetWindow();
-        m_view = application.GetWindow().getView();
+        m_view = m_window->getView();
+        m_camera = std::make_unique<grg::Camera>(m_player, *m_window);
         //m_MainGameFont = application.GetMainGameFont();
         //const sf::Font& font = application.GetMainGameFont();
         //static_cast<void>(font);
@@ -85,6 +86,7 @@ public:
         if(!m_player.Load(playerFilename, sf::Vector2u(32, 32), level, 16, 8, 4.0F)) {
             spdlog::error("[{}] ERROR loading player resource (id={}).", __PRETTY_FUNCTION__, tileSetFilename);
         }
+
         //m_player.setPosition(V2F{300.F, 300.F});
 
         //m_tileMap.Load()
@@ -191,17 +193,17 @@ public:
             //m_csvFile.WriteData(m_xVelocity);
             grcore::writeTelemetryData(static_cast<double>(m_xVelocity));
 
-
-
             { // handle Graph
-                //m_view.move(m_xVelocity * elapsedSeconds, 0.0F);
+              //m_view.move(m_xVelocity * elapsedSeconds, 0.0F);
 
-                // Here a camera should do its work
-                m_view.setCenter(m_player.GetPlayerPosition() + V2F{0.0F, 0.0F});
+                /*// Here a camera should do its work
+                m_view.setCenter(m_player.GetPlayerPosition() + V2F {0.0F, 0.0F});
 
                 if(viewChanged || m_window->getView().getTransform() != m_view.getTransform()) {
                     m_window->setView(m_view);
-                }
+                }*/
+
+                m_camera->UpdateView(elapsed);
             }
 
             m_backGround->setString(
@@ -217,7 +219,6 @@ public:
         m_drawShape = (
             CheckBounds(m_coord, 500, 500, static_cast<int>(-m_shape.getSize().x),
                     static_cast<int>(-m_shape.getSize().y)) == 0);
-
     } // OnUpdate
 
     static int CheckBounds(V2F &v, int xMax, int yMax, int xMin = 0, int yMin = 0) {
@@ -294,6 +295,7 @@ private:
     grg::TileMap m_tileMap;
     bool m_keyNum1Released = true;
     grg::Player m_player;
+    std::unique_ptr<grg::Camera> m_camera;
 };
 
 /** Program Entry Function, main

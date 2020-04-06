@@ -19,6 +19,7 @@
 #include <SFML/System/Clock.hpp>
 //
 #include "Application.h"
+#include "Camera.h"
 #include "Drawables/CoordGraph.h"
 #include "Drawables/CoordSystem.h"
 #include "Drawables/Cursor.h"

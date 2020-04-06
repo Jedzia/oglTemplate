@@ -36,7 +36,7 @@ set(GrGraphics_SRC_FILES
         src/Utility/VectorUtil.cpp
         src/test.cpp
         src/Utility/Collision.cpp
-        src/Player.cpp include/grgraphics/Player.h)
+        src/Player.cpp include/grgraphics/Player.h src/Camera.cpp include/grgraphics/Camera.h)
 if (WIN32)
     #    set(GrGraphics_SRC_FILES ${GrGraphics_SRC_FILES}
     #            src/win/wgl_common.cpp)
