@@ -74,16 +74,23 @@ target_compile_definitions(GrCore PRIVATE GrCore_WIN_EXPORT)
 # cmake_policy(POP)
 
 #message(WARNING "MSVC '${MSVC}'")
+if (WIN32)
+    set(GrCore_PlatformLinkLibs ${GrCore_PlatformLinkLibs} 
+        PRIVATE ws2_32
+        PRIVATE Mswsock
+)
+elseif(UNIX)
+#    set(GrCore_PlatformLinkLibs ${GrCore_PlatformLinkLibs} stdc++fs)
+endif ()
+
 if (MSVC)
 else (MSVC)
-    set(GrCore_PlatformLinkLibs stdc++fs)
+    set(GrCore_PlatformLinkLibs ${GrCore_PlatformLinkLibs} stdc++fs)
 endif (MSVC)
 target_link_libraries(GrCore
         PUBLIC ${GrCore_PlatformLinkLibs}
         PRIVATE project_options project_warnings
         PRIVATE spdlog::spdlog
-        PRIVATE ws2_32
-        PRIVATE Mswsock
         #INTERFACE spdlog::spdlog
         #INTERFACE fmt::fmt
         #        CONAN_PKG::docopt.cpp

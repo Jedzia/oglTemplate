@@ -22,7 +22,7 @@
 #  pragma GCC diagnostic ignored "-Wsign-conversion"
 #  pragma GCC diagnostic ignored "-Wdouble-promotion"
 #endif
-#include "console.h"
+#include "../console.h"
 #include "grcore/warning/FMT_format_log.h"
 #include <grcore/Logging.h>
 #include <iostream>
@@ -32,7 +32,7 @@
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <vector>
 
-#ifdef _WIN32
+/*#ifdef _WIN32
 #  include <spdlog/sinks/wincolor_sink.h>
 #  include "spdlog/sinks/ansicolor_sink-inl.h"
 template class spdlog::sinks::ansicolor_sink<spdlog::details::console_mutex>;
@@ -41,7 +41,7 @@ template class spdlog::sinks::ansicolor_stdout_sink<spdlog::details::console_mut
 template class spdlog::sinks::ansicolor_stdout_sink<spdlog::details::console_nullmutex>;
 template class spdlog::sinks::ansicolor_stderr_sink<spdlog::details::console_mutex>;
 template class spdlog::sinks::ansicolor_stderr_sink<spdlog::details::console_nullmutex>;
-#endif
+#endif*/
 
 //using string_view_t = fmt::basic_string_view<char>;
 namespace grcore {
@@ -86,7 +86,7 @@ std::shared_ptr<spdlog::logger> setupLoggerInternal(const std::string &loggerNam
 }
 
 void colorizeLogger(std::shared_ptr<spdlog::logger> logger) {
-    auto sysType = checkConsole();
+    /*auto sysType = checkConsole();
 
     switch(sysType) {
     default:
@@ -112,7 +112,11 @@ void colorizeLogger(std::shared_ptr<spdlog::logger> logger) {
             logger->sinks().push_back(sink);
         }
         break;
-    }// switch
+    }// switch*/
+    auto sink = std::make_shared<spdlog::sinks::ansicolor_stdout_sink_mt>();
+    sink->set_color_mode(spdlog::color_mode::always);
+    logger->sinks().clear();
+    logger->sinks().push_back(sink);
 } // colorizeLogger
 
 std::shared_ptr<spdlog::logger> logging::setUpDefaultLogger(const std::string &loggerName, spdlog::level::level_enum level) {
@@ -170,10 +174,10 @@ void bla() {
     //file_logger->info("Fuck");
 
     //auto sink = new spdlog::sinks::wincolor_stderr_sink_st;
-    auto sink = std::make_shared<spdlog::sinks::wincolor_stdout_sink_mt>();
+    /*auto sink = std::make_shared<spdlog::sinks::wincolor_stdout_sink_mt>();
     sink->set_color_mode(spdlog::color_mode::always);
     auto console = std::make_shared<spdlog::logger>("console", sink);
-    console->warn("Testing spdlog::sinks::wincolor_stdout_sink_mt");
+    console->warn("Testing spdlog::sinks::wincolor_stdout_sink_mt");*/
 
     auto sink2 = std::make_shared<spdlog::sinks::ansicolor_stdout_sink_mt>();
     sink2->set_color_mode(spdlog::color_mode::always);

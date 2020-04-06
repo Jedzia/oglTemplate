@@ -22,7 +22,7 @@
 #  pragma GCC diagnostic ignored "-Wsign-conversion"
 #  pragma GCC diagnostic ignored "-Wdouble-promotion"
 #endif
-#include "console.h"
+#include "../console.h"
 #include "grcore/warning/FMT_format_log.h"
 #include <grcore/Logging.h>
 #include <iostream>
