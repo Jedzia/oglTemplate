@@ -33,6 +33,10 @@ public:
 
     void Update(sf::Time elapsed);
 
+    const sf::Vector2f &GetPlayerPosition() const;
+
+    void SetPlayerPosition(const sf::Vector2f &position);
+
 private:
 
     virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;

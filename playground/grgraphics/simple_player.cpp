@@ -194,7 +194,11 @@ public:
 
 
             { // handle Graph
-                m_view.move(m_xVelocity * elapsedSeconds, 0.0F);
+                //m_view.move(m_xVelocity * elapsedSeconds, 0.0F);
+
+                // Here a camera should do its work
+                m_view.setCenter(m_player.GetPlayerPosition() + V2F{0.0F, 0.0F});
+
                 if(viewChanged || m_window->getView().getTransform() != m_view.getTransform()) {
                     m_window->setView(m_view);
                 }

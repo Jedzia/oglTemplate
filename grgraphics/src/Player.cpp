@@ -19,9 +19,15 @@
 
 // The player should be positioned with x,y -1.0 to 0 to +1.0 like opengl system.
 
+// player has its world coords. WASD and affected by a speed ramp
+// a camera takes that and positions a view of the world according to the players coords.
+// camara can limit to edges or have a delayed follow, or a strict follow.
+// or move out of the window and swipe in a new screen.
+
 grg::Player::Player() {
     //m_position = {-1280.0F / 2, -120.0F };
-    m_position = {-280.0F, -120.0F };
+    //m_position = {-280.0F, -120.0F };
+    m_position = {10.0F, 10.0F };
 }
 
 bool grg::Player::Load(const std::string &filename, sf::Vector2u tileSize, const unsigned int* tiles, unsigned int width,
@@ -74,7 +80,7 @@ void grg::Player::draw(sf::RenderTarget &target, sf::RenderStates states) const 
     // apply the transform
     states.transform *= getTransform();
 
-    // apply the tileset texture
+    // apply the player texture
     states.texture = &m_playerSprite;
 
     // draw the vertex array
@@ -191,6 +197,15 @@ void grg::Player::Update(sf::Time elapsed) {
                         m_totalTime.asSeconds(),
                         m_coord.x, m_coord.y, m_xVelocity, speedRamp));*/
     }
-} // grg::Player::Update
+}
+
+const sf::Vector2f &grg::Player::GetPlayerPosition() const {
+    return m_position;
+}
+
+void grg::Player::SetPlayerPosition(const sf::Vector2f &position) {
+    m_position = position;
+}
+// grg::Player::Update
 
 // grg::Player::Update
