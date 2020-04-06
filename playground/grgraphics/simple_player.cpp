@@ -132,7 +132,7 @@ public:
         // former scrolling calculations, now in Player.
         // ToDo: cleanup. maybe use it as a camera delay
         {
-            bool viewChanged = false;
+            //bool viewChanged = false;
             constexpr float speedUp = 2.0F;
             constexpr float keyAcceleration = 500.0F * speedUp;
             bool moveKeyPressed = false;
@@ -140,14 +140,14 @@ public:
                 // m_view.move(-1.0F * 1000 * elapsedSeconds, 0.0F);
                 m_xVelocity -= speedUp * keyAcceleration * elapsedSeconds;
                 //spdlog::info("m_xVelocity={}.", m_xVelocity);
-                viewChanged = true;
+                //viewChanged = true;
                 moveKeyPressed = true;
             } else {
                 if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
                     //m_view.move(1.0F * 1000 * elapsedSeconds, 0.0F);
                     m_xVelocity += speedUp * keyAcceleration * elapsedSeconds;
                     //spdlog::info("m_xVelocity={}.", m_xVelocity);
-                    viewChanged = true;
+                    //viewChanged = true;
                     moveKeyPressed = true;
                 }
             }

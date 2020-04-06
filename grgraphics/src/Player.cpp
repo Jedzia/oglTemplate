@@ -35,11 +35,8 @@ grg::Player::Player() {
 bool
 grg::Player::Load(const std::string &filename, sf::Vector2u tileSize, const unsigned int *tiles, unsigned int width,
                   unsigned int height, float uniformScale) {
-    //static_cast<void>(tileSize);
-    //static_cast<void>(tiles);
-    //static_cast<void>(width);
+    // ToDo: unused
     static_cast<void>(height);
-    //static_cast<void>(uniformScale);
 
     // load the tileSet texture
     if(!m_playerSprite.loadFromFile(filename)) {
@@ -120,80 +117,31 @@ void grg::Player::Update(sf::Time elapsed) {
 
         bool moveKeyPressedVer = false;
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-            //m_view.zoom(zoomFactor);
-            //this->scale(zoomFactor, zoomFactor);
             m_position += {0.0F, 500.0F * elapsedSeconds};
-            //spdlog::info("Player zoom {}, {}.", getScale().x, getScale().y);
             moveKeyPressedVer = true;
         } else {
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-                // m_view.zoom(1.0F / zoomFactor);
-                //this->scale(1.0F / zoomFactor, 1.0F / zoomFactor);
                 m_position += {0.0F, -500.0F * elapsedSeconds};
-                //spdlog::info("Player zoom {}, {}.", getScale().x, getScale().y);
                 moveKeyPressedVer = true;
             }
         }
-        //static_cast<void>(moveKeyPressedVer);
+        static_cast<void>(moveKeyPressedVer);
         // here the m_yVelocity stuff
         // m_yVelocity *= Velocity::DoCalc(elapsed, m_yVelocity, moveKeyPressedVer);
 
         bool moveKeyPressedHor = false;
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-            // m_view.move(-1.0F * 1000 * elapsedSeconds, 0.0F);
             m_xVelocity -= speedUp * keyAcceleration * elapsedSeconds;
-            //spdlog::info("m_xVelocity={}.", m_xVelocity);
-            //viewChanged = true;
             moveKeyPressedHor = true;
         } else {
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-                //m_view.move(1.0F * 1000 * elapsedSeconds, 0.0F);
                 m_xVelocity += speedUp * keyAcceleration * elapsedSeconds;
-                //spdlog::info("m_xVelocity={}.", m_xVelocity);
-                //viewChanged = true;
                 moveKeyPressedHor = true;
             }
         }
 
-        /*const float absVelocity = std::abs(m_xVelocity);
-        float speedRamp = 1.0F - elapsedSeconds * speedUp;
-        //if(absVelocity + 1.0F < lastAbsVelocity) {
-        if(!moveKeyPressed) {
-            //} else {
-            constexpr float slowDown = 1.4F * speedUp;
-            speedRamp = 1.0F - elapsedSeconds * slowDown;
-            constexpr float hysteresisEdge = 50.0F * slowDown; // lower edge when friction
-            // starts to
-            // decrease velocity abrupt.
-            if(absVelocity < hysteresisEdge) {
-                speedRamp = 1.0F -
-                            ((elapsedSeconds * slowDown * 1.0F) +
-                             (0.01F * ((hysteresisEdge / 10.0F) - (absVelocity / (hysteresisEdge / 5.0F)))));
-                //if(absVelocity < (hysteresisEdge / 100.0F)) {
-                if(absVelocity < (0.5F)) {
-                    // stop all movement at 1% of the hysteresis low point.
-                    m_xVelocity = 0;
-                }
-            }
-        }*/
-
-        //m_lastAbsVelocity = absVelocity;
-        //m_xVelocity *= speedRamp;
         m_xVelocity *= Velocity::DoCalc(elapsed, m_xVelocity, moveKeyPressedHor);
-
-        //m_csvFile.WriteData(m_xVelocity);
-        //grcore::writeTelemetryData(static_cast<double>(m_xVelocity));
-
-        { // handle Graph
-            //m_view.move(m_xVelocity * elapsedSeconds, 0.0F);
-
-            m_position += {m_xVelocity * elapsedSeconds, 0.0F};
-
-            /*if(viewChanged || m_window->getView().getTransform() != m_view.getTransform()) {
-                m_window->setView(m_view);
-               }*/
-        }
-
+        m_position += {m_xVelocity * elapsedSeconds, 0.0F};
         //this->setOrigin(m_position);
         this->setPosition(m_position);
         /*spdlog::info(fmt::format("elapsed time: {:.2f}s, x: {:.1f}, y: {:.1f}, xVelocity: {:.1f},
@@ -220,6 +168,3 @@ void grg::Player::SetPlayerPosition(const sf::Vector2f &position) {
     m_position = position;
 }
 
-// grg::Player::Update
-
-// grg::Player::Update
