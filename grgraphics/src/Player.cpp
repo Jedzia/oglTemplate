@@ -61,16 +61,16 @@ bool grg::Player::Load(const std::string &filename, sf::Vector2u tileSize, const
     sf::Vertex* quad = &m_vertices[(i + j * width) * 4];
 
     // define its 4 corners
-    quad[0].position = sf::Vector2f(i * tileSize.x, j * tileSize.y);
-    quad[1].position = sf::Vector2f((i + 1) * tileSize.x, j * tileSize.y);
-    quad[2].position = sf::Vector2f((i + 1) * tileSize.x, (j + 1) * tileSize.y);
-    quad[3].position = sf::Vector2f(i * tileSize.x, (j + 1) * tileSize.y);
+    quad[0].position = sf::Vector2f(static_cast<float>(i * tileSize.x), static_cast<float>(j * tileSize.y));
+    quad[1].position = sf::Vector2f(static_cast<float>((i + 1) * tileSize.x), static_cast<float>(j * tileSize.y));
+    quad[2].position = sf::Vector2f(static_cast<float>((i + 1) * tileSize.x), static_cast<float>((j + 1) * tileSize.y));
+    quad[3].position = sf::Vector2f(static_cast<float>(i * tileSize.x), static_cast<float>((j + 1) * tileSize.y));
 
     // define its 4 texture coordinates
-    quad[0].texCoords = sf::Vector2f(tu * tileSize.x, tv * tileSize.y);
-    quad[1].texCoords = sf::Vector2f((tu + 1) * tileSize.x, tv * tileSize.y);
-    quad[2].texCoords = sf::Vector2f((tu + 1) * tileSize.x, (tv + 1) * tileSize.y);
-    quad[3].texCoords = sf::Vector2f(tu * tileSize.x, (tv + 1) * tileSize.y);
+    quad[0].texCoords = sf::Vector2f(static_cast<float>(tu * tileSize.x), static_cast<float>(tv * tileSize.y));
+    quad[1].texCoords = sf::Vector2f(static_cast<float>((tu + 1) * tileSize.x), static_cast<float>(tv * tileSize.y));
+    quad[2].texCoords = sf::Vector2f(static_cast<float>((tu + 1) * tileSize.x), static_cast<float>((tv + 1) * tileSize.y));
+    quad[3].texCoords = sf::Vector2f(static_cast<float>(tu * tileSize.x), static_cast<float>((tv + 1) * tileSize.y));
 
     this->scale(uniformScale, uniformScale);
     return true;
@@ -89,20 +89,21 @@ void grg::Player::draw(sf::RenderTarget &target, sf::RenderStates states) const 
 
 void grg::Player::Update(sf::Time elapsed) {
     const float elapsedSeconds = elapsed.asSeconds();
-    bool viewChanged = false;
+    //bool viewChanged = false;
+    //static_cast<void>(viewChanged);
 
     const float zoomFactor = 1.01F;
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
         //m_view.zoom(zoomFactor);
         this->scale(zoomFactor, zoomFactor);
         spdlog::info("Player zoom {}, {}.", getScale().x, getScale().y);
-        viewChanged = true;
+        //viewChanged = true;
     } else {
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::O)) {
             // m_view.zoom(1.0F / zoomFactor);
             this->scale(1.0F / zoomFactor, 1.0F / zoomFactor);
             spdlog::info("Player zoom {}, {}.", getScale().x, getScale().y);
-            viewChanged = true;
+            //viewChanged = true;
         }
     }
 
@@ -111,14 +112,14 @@ void grg::Player::Update(sf::Time elapsed) {
         //this->scale(zoomFactor, zoomFactor);
         m_position += {0.0F, 500.0F * elapsedSeconds};
         //spdlog::info("Player zoom {}, {}.", getScale().x, getScale().y);
-        viewChanged = true;
+        //viewChanged = true;
     } else {
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
             // m_view.zoom(1.0F / zoomFactor);
             //this->scale(1.0F / zoomFactor, 1.0F / zoomFactor);
             m_position += {0.0F, -500.0F * elapsedSeconds};
             //spdlog::info("Player zoom {}, {}.", getScale().x, getScale().y);
-            viewChanged = true;
+            //viewChanged = true;
         }
     }
 
@@ -131,14 +132,14 @@ void grg::Player::Update(sf::Time elapsed) {
             // m_view.move(-1.0F * 1000 * elapsedSeconds, 0.0F);
             m_xVelocity -= speedUp * keyAcceleration * elapsedSeconds;
             //spdlog::info("m_xVelocity={}.", m_xVelocity);
-            viewChanged = true;
+            //viewChanged = true;
             moveKeyPressed = true;
         } else {
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
                 //m_view.move(1.0F * 1000 * elapsedSeconds, 0.0F);
                 m_xVelocity += speedUp * keyAcceleration * elapsedSeconds;
                 //spdlog::info("m_xVelocity={}.", m_xVelocity);
-                viewChanged = true;
+                //viewChanged = true;
                 moveKeyPressed = true;
             }
         }
