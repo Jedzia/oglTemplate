@@ -28,6 +28,7 @@
 #include "Player.h"
 #include "Setup.h"
 #include "Utility/Collision.h"
+#include "Utility/Velocity.h"
 namespace grg {
 void bla();
 

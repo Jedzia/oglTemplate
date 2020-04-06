@@ -129,7 +129,8 @@ public:
             Reset();
         }
 
-        // scrolling calculations
+        // former scrolling calculations, now in Player.
+        // ToDo: cleanup. maybe use it as a camera delay
         {
             bool viewChanged = false;
             constexpr float speedUp = 2.0F;

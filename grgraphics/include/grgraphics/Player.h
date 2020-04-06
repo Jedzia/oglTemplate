@@ -46,7 +46,7 @@ private:
     sf::View m_view;
     sf::Vector2f m_position;
     float m_xVelocity = 0;
-    float m_lastAbsVelocity = 0;
+    //float m_lastAbsVelocity = 0;
 };
 }
 

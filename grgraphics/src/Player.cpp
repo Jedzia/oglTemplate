@@ -14,8 +14,10 @@
  */
 /*---------------------------------------------------------*/
 #include "grcore/warning/FMT_format_log.h"
-#include "grgraphics/Player.h"
 #include "grgraphics/warning/SFML_Graphics.h"
+//
+#include "grgraphics/Player.h"
+#include "grgraphics/Utility/Velocity.h"
 
 // The player should be positioned with x,y -1.0 to 0 to +1.0 like opengl system.
 
@@ -27,11 +29,12 @@
 grg::Player::Player() {
     //m_position = {-1280.0F / 2, -120.0F };
     //m_position = {-280.0F, -120.0F };
-    m_position = {10.0F, 10.0F };
+    m_position = {10.0F, 10.0F};
 }
 
-bool grg::Player::Load(const std::string &filename, sf::Vector2u tileSize, const unsigned int* tiles, unsigned int width,
-        unsigned int height, float uniformScale) {
+bool
+grg::Player::Load(const std::string &filename, sf::Vector2u tileSize, const unsigned int *tiles, unsigned int width,
+                  unsigned int height, float uniformScale) {
     //static_cast<void>(tileSize);
     //static_cast<void>(tiles);
     //static_cast<void>(width);
@@ -58,7 +61,7 @@ bool grg::Player::Load(const std::string &filename, sf::Vector2u tileSize, const
     unsigned int tv = tileNumber / (m_playerSprite.getSize().x / tileSize.x);
 
     // get a pointer to the current tile's quad
-    sf::Vertex* quad = &m_vertices[(i + j * width) * 4];
+    sf::Vertex *quad = &m_vertices[(i + j * width) * 4];
 
     // define its 4 corners
     quad[0].position = sf::Vector2f(static_cast<float>(i * tileSize.x), static_cast<float>(j * tileSize.y));
@@ -69,7 +72,8 @@ bool grg::Player::Load(const std::string &filename, sf::Vector2u tileSize, const
     // define its 4 texture coordinates
     quad[0].texCoords = sf::Vector2f(static_cast<float>(tu * tileSize.x), static_cast<float>(tv * tileSize.y));
     quad[1].texCoords = sf::Vector2f(static_cast<float>((tu + 1) * tileSize.x), static_cast<float>(tv * tileSize.y));
-    quad[2].texCoords = sf::Vector2f(static_cast<float>((tu + 1) * tileSize.x), static_cast<float>((tv + 1) * tileSize.y));
+    quad[2].texCoords = sf::Vector2f(static_cast<float>((tu + 1) * tileSize.x),
+            static_cast<float>((tv + 1) * tileSize.y));
     quad[3].texCoords = sf::Vector2f(static_cast<float>(tu * tileSize.x), static_cast<float>((tv + 1) * tileSize.y));
 
     this->scale(uniformScale, uniformScale);
@@ -107,44 +111,51 @@ void grg::Player::Update(sf::Time elapsed) {
         }
     }
 
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-        //m_view.zoom(zoomFactor);
-        //this->scale(zoomFactor, zoomFactor);
-        m_position += {0.0F, 500.0F * elapsedSeconds};
-        //spdlog::info("Player zoom {}, {}.", getScale().x, getScale().y);
-        //viewChanged = true;
-    } else {
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-            // m_view.zoom(1.0F / zoomFactor);
-            //this->scale(1.0F / zoomFactor, 1.0F / zoomFactor);
-            m_position += {0.0F, -500.0F * elapsedSeconds};
-            //spdlog::info("Player zoom {}, {}.", getScale().x, getScale().y);
-            //viewChanged = true;
-        }
-    }
 
-    // scrolling/movement calculations
+    // scrolling/movement calculations,
+    // Todo: this speed/velocity calculation can be generalized + used for W+S above
     {
         constexpr float speedUp = 2.0F;
         constexpr float keyAcceleration = 500.0F * speedUp;
-        bool moveKeyPressed = false;
+
+        bool moveKeyPressedVer = false;
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+            //m_view.zoom(zoomFactor);
+            //this->scale(zoomFactor, zoomFactor);
+            m_position += {0.0F, 500.0F * elapsedSeconds};
+            //spdlog::info("Player zoom {}, {}.", getScale().x, getScale().y);
+            moveKeyPressedVer = true;
+        } else {
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+                // m_view.zoom(1.0F / zoomFactor);
+                //this->scale(1.0F / zoomFactor, 1.0F / zoomFactor);
+                m_position += {0.0F, -500.0F * elapsedSeconds};
+                //spdlog::info("Player zoom {}, {}.", getScale().x, getScale().y);
+                moveKeyPressedVer = true;
+            }
+        }
+        //static_cast<void>(moveKeyPressedVer);
+        // here the m_yVelocity stuff
+        // m_yVelocity *= Velocity::DoCalc(elapsed, m_yVelocity, moveKeyPressedVer);
+
+        bool moveKeyPressedHor = false;
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
             // m_view.move(-1.0F * 1000 * elapsedSeconds, 0.0F);
             m_xVelocity -= speedUp * keyAcceleration * elapsedSeconds;
             //spdlog::info("m_xVelocity={}.", m_xVelocity);
             //viewChanged = true;
-            moveKeyPressed = true;
+            moveKeyPressedHor = true;
         } else {
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
                 //m_view.move(1.0F * 1000 * elapsedSeconds, 0.0F);
                 m_xVelocity += speedUp * keyAcceleration * elapsedSeconds;
                 //spdlog::info("m_xVelocity={}.", m_xVelocity);
                 //viewChanged = true;
-                moveKeyPressed = true;
+                moveKeyPressedHor = true;
             }
         }
 
-        const float absVelocity = std::abs(m_xVelocity);
+        /*const float absVelocity = std::abs(m_xVelocity);
         float speedRamp = 1.0F - elapsedSeconds * speedUp;
         //if(absVelocity + 1.0F < lastAbsVelocity) {
         if(!moveKeyPressed) {
@@ -164,19 +175,19 @@ void grg::Player::Update(sf::Time elapsed) {
                     m_xVelocity = 0;
                 }
             }
-        }
+        }*/
 
-        m_lastAbsVelocity = absVelocity;
-        m_xVelocity *= speedRamp;
+        //m_lastAbsVelocity = absVelocity;
+        //m_xVelocity *= speedRamp;
+        m_xVelocity *= Velocity::DoCalc(elapsed, m_xVelocity, moveKeyPressedHor);
+
         //m_csvFile.WriteData(m_xVelocity);
         //grcore::writeTelemetryData(static_cast<double>(m_xVelocity));
 
         { // handle Graph
-          //m_view.move(m_xVelocity * elapsedSeconds, 0.0F);
+            //m_view.move(m_xVelocity * elapsedSeconds, 0.0F);
 
-            m_position += {
-                m_xVelocity* elapsedSeconds, 0.0F
-            };
+            m_position += {m_xVelocity * elapsedSeconds, 0.0F};
 
             /*if(viewChanged || m_window->getView().getTransform() != m_view.getTransform()) {
                 m_window->setView(m_view);
@@ -189,7 +200,8 @@ void grg::Player::Update(sf::Time elapsed) {
            speedRamp: {:.3f}",
                 elapsed.asSeconds(), m_view.getCenter().x, m_view.getCenter().y, m_xVelocity,
                    speedRamp));*/
-        /*spdlog::info(fmt::format("elapsed time: {:.2f}s, x: {:.1f}, y: {:.1f}, xVelocity: {:.1f}, speedRamp: {:.3f}",
+        /*spdlog::info(fmt::format("elapsed time: {:.2f}s, x: {:.1f}, y: {:.1f}, xVelocity: {:.1f},
+           speedRamp: {:.3f}",
                         elapsed.asSeconds(), m_position.x, m_position.y, m_xVelocity, speedRamp));*/
 
         /*m_backGround->setString(
@@ -198,7 +210,7 @@ void grg::Player::Update(sf::Time elapsed) {
                         m_totalTime.asSeconds(),
                         m_coord.x, m_coord.y, m_xVelocity, speedRamp));*/
     }
-}
+} // grg::Player::Update
 
 const sf::Vector2f &grg::Player::GetPlayerPosition() const {
     return m_position;
@@ -207,6 +219,7 @@ const sf::Vector2f &grg::Player::GetPlayerPosition() const {
 void grg::Player::SetPlayerPosition(const sf::Vector2f &position) {
     m_position = position;
 }
+
 // grg::Player::Update
 
 // grg::Player::Update

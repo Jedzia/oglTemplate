@@ -12,31 +12,37 @@ configure_file(src/win/GrGraphics.rc.in "${RESOURCE_OUT_FILE}" @ONLY)
 set(GrGraphics_INC_FILES
         include/Constants.h
         include/grgraphics/Application.h
+        include/grgraphics/Camera.h
         include/grgraphics/Drawables/CoordGraph.h
         include/grgraphics/Drawables/CoordSystem.h
         include/grgraphics/Drawables/Cursor.h
         include/grgraphics/Drawables/TileMap.h
         include/grgraphics/Math.h
+        include/grgraphics/Player.h
         include/grgraphics/Setup.h
         include/grgraphics/SimpleApplication.h
+        include/grgraphics/Utility/Collision.h
         include/grgraphics/Utility/VectorUtil.h
+        include/grgraphics/Utility/Velocity.h
         include/grgraphics/warning/FMT_format.h
         include/grgraphics/warning/SFML_Graphics.h
-        include/grgraphics/Utility/Collision.h
         )
 set(GrGraphics_SRC_FILES
         src/Application.cpp
+        src/Camera.cpp
         src/Constants.cpp
         src/Drawables/CoordGraph.cpp
         src/Drawables/CoordSystem.cpp
         src/Drawables/Cursor.cpp
         src/Drawables/TileMap.cpp
+        src/Player.cpp
         src/Setup.cpp
         src/SimpleApplication.cpp
-        src/Utility/VectorUtil.cpp
-        src/test.cpp
         src/Utility/Collision.cpp
-        src/Player.cpp include/grgraphics/Player.h src/Camera.cpp include/grgraphics/Camera.h)
+        src/Utility/VectorUtil.cpp
+        src/Utility/Velocity.cpp
+        src/test.cpp
+        )
 if (WIN32)
     #    set(GrGraphics_SRC_FILES ${GrGraphics_SRC_FILES}
     #            src/win/wgl_common.cpp)
