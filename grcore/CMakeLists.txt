@@ -41,6 +41,7 @@ if (WIN32)
 elseif(UNIX)
     set(GrCore_SRC_FILES ${GrCore_SRC_FILES}
             src/linux/Logging.cpp
+            src/linux/Resource.cpp
             src/linux/TcpClient.cpp
             )
 endif ()
