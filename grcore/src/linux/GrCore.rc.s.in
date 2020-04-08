@@ -1,0 +1,12 @@
+    .section .rodata
+    .global IDR_MYFONT
+    .type   IDR_MYFONT, @object
+    .align  4
+IDR_MYFONT:
+    .incbin "@CURRENT_RESOURCE_DIR@/FiraCode-Regular.ttf"
+IDR_MYFONT_end:
+    .global IDR_MYFONT_size
+    .type   IDR_MYFONT_size, @object
+    .align  4
+IDR_MYFONT_size:
+    .int    IDR_MYFONT_end - IDR_MYFONT
