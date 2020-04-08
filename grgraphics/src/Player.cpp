@@ -46,46 +46,8 @@ grg::Player::Load(const std::string &filename, sf::Vector2u tileSize, const unsi
         //return false;
         throw std::runtime_error(fmt::format("[{}] Cannot load sprite '{}'.", __PRETTY_FUNCTION__, filename));
     }
-    m_SpriteOverlay.Initialize(tileSize.x, tileSize.y);
-    //m_playerTextureBorder.create(m_playerSprite.getSize().x, m_playerSprite.getSize().y);
-//    const unsigned int texWidth = tileSize.x;
-//    const unsigned int texHeight =  tileSize.y;
-    //const unsigned int texWidth = 128;
-    //const unsigned int texHeight = 128;
-//    m_playerTextureBorder.create(texWidth, texHeight);
-
-    //sf::Uint8 tex[m_playerSprite.getSize().x * m_playerSprite.getSize().y];
-    //std::vector<sf::Uint8> tex(m_playerSprite.getSize().x * m_playerSprite.getSize().y);
-    /*std::vector<sf::Uint8> *tex = new std::vector<sf::Uint8>(m_playerSprite.getSize().x * m_playerSprite.getSize().y);
-    for(unsigned int x = 0; x < m_playerSprite.getSize().x; ++x) {
-        for(unsigned int y = 0; y < m_playerSprite.getSize().y; ++y) {
-            (*tex)[x*m_playerSprite.getSize().x + y] = 123;
-        }
-    }
-
-    m_playerTextureBorder.update((*tex).data());*/
-    //sf::Uint8 tex[128 * 128];
-/*struct rgba {
-    sf::Uint8 r;
-    sf::Uint8 g;
-    sf::Uint8 b;
-    sf::Uint8 a;
-};
-    rgba *tex = new rgba[texWidth * texHeight];
-    for(unsigned int x = 0; x < texWidth; ++x) {
-        for(unsigned int y = 0; y < texHeight; ++y) {
-            tex[x*texHeight + y].r = 123;
-            tex[x*texHeight + y].g = 123;
-            tex[x*texHeight + y].b = 123;
-            tex[x*texHeight + y].a = 123;
-        }
-    }
-
-    m_playerTextureBorder.update(reinterpret_cast<sf::Uint8*>(tex));
-    m_playerSpriteBorder.setTexture(m_playerTextureBorder);*/
-    m_SpriteOverlay.setPosition(getPosition());
-
-
+    m_spriteOverlay.Initialize(tileSize.x, tileSize.y);
+    m_spriteOverlay.setPosition(getPosition());
 
     // resize the vertex array to fit the level size
     m_vertices.setPrimitiveType(sf::Quads);
@@ -132,10 +94,11 @@ void grg::Player::draw(sf::RenderTarget &target, sf::RenderStates states) const 
     target.draw(m_vertices, states);
 
     // draw debug sprite overlay
-    target.draw(m_SpriteOverlay, states);
+    target.draw(m_spriteOverlay, states);
 }
 
 void grg::Player::Update(sf::Time elapsed) {
+    m_spriteOverlay.Update(elapsed);
     const float elapsedSeconds = elapsed.asSeconds();
     //bool viewChanged = false;
     //static_cast<void>(viewChanged);

@@ -17,25 +17,36 @@
 #define OPENGLTEMPLATE_10669B502CC44940B381173DAC702560_SPRITEOVERLAY_H
 
 #include <SFML/Graphics/Drawable.hpp>
-#include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Transformable.hpp>
-#include <SFML/Graphics/VertexArray.hpp>
-#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/System/Time.hpp>
 
 namespace grg {
 class SpriteOverlay : public sf::Drawable,
                       public sf::Transformable {
 public:
-    //SpriteOverlay(const unsigned int width, const unsigned int height);
+    struct Rgba {
+        sf::Uint8 m_r;
+        sf::Uint8 m_g;
+        sf::Uint8 m_b;
+        sf::Uint8 m_a;
+    };
+
     void Initialize(const unsigned int width, const unsigned int height);
+
+    virtual void Update(sf::Time elapsed);
 
 private:
 
     virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+    void switchState(bool state);
 
+    Rgba* m_tex1;
+    Rgba* m_tex2;
+    bool m_isInitialized = false;
     sf::Texture m_playerTextureBorder;
     sf::Sprite m_playerSpriteBorder;
-
+    sf::Time m_totalTime;
+    bool m_state = false;
 };
 }
 
