@@ -16,6 +16,7 @@ set(GrGraphics_INC_FILES
         include/grgraphics/Drawables/CoordGraph.h
         include/grgraphics/Drawables/CoordSystem.h
         include/grgraphics/Drawables/Cursor.h
+        include/grgraphics/Drawables/SpriteOverlay.h
         include/grgraphics/Drawables/TileMap.h
         include/grgraphics/Math.h
         include/grgraphics/Player.h
@@ -34,6 +35,7 @@ set(GrGraphics_SRC_FILES
         src/Drawables/CoordGraph.cpp
         src/Drawables/CoordSystem.cpp
         src/Drawables/Cursor.cpp
+        src/Drawables/SpriteOverlay.cpp
         src/Drawables/TileMap.cpp
         src/Player.cpp
         src/Setup.cpp

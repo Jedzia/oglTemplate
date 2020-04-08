@@ -50,7 +50,7 @@ void grg::Camera::UpdateView(sf::Time elapsed) {
         view.setCenter(m_player.GetPlayerPosition() + cameraTranslation);
 
         if(viewChanged || m_window.getView().getTransform() != view.getTransform()) {
-            spdlog::info("m_window.setView Center x{}, y{}.", view.getCenter().x, view.getCenter().y);
+            //spdlog::info("m_window.setView Center x{}, y{}.", view.getCenter().x, view.getCenter().y);
             m_window.setView(view);
         }
     }

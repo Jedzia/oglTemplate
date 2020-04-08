@@ -15,12 +15,15 @@
 /*---------------------------------------------------------*/
 #ifndef OPENGLTEMPLATE_0ACA883A006045E5AB9D1D11863338CF_PLAYER_H
 #define OPENGLTEMPLATE_0ACA883A006045E5AB9D1D11863338CF_PLAYER_H
+
+#include "Drawables/SpriteOverlay.h"
 #include <SFML/System/Time.hpp>
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Transformable.hpp>
 #include <SFML/Graphics/VertexArray.hpp>
 #include <SFML/Graphics/View.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
 namespace grg {
 class Player : public sf::Drawable,
@@ -43,6 +46,7 @@ private:
 
     sf::VertexArray m_vertices;
     sf::Texture m_playerSprite;
+    grg::SpriteOverlay m_SpriteOverlay;
     sf::View m_view;
     sf::Vector2f m_position;
     float m_xVelocity = 0;

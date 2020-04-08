@@ -23,6 +23,7 @@
 #include "Drawables/CoordGraph.h"
 #include "Drawables/CoordSystem.h"
 #include "Drawables/Cursor.h"
+#include "Drawables/SpriteOverlay.h"
 #include "Drawables/TileMap.h"
 #include "Math.h"
 #include "Player.h"

@@ -18,6 +18,8 @@
 //
 #include "grgraphics/Player.h"
 #include "grgraphics/Utility/Velocity.h"
+#include <exception>
+#include <array>
 
 // The player should be positioned with x,y -1.0 to 0 to +1.0 like opengl system.
 
@@ -29,7 +31,8 @@
 grg::Player::Player() {
     //m_position = {-1280.0F / 2, -120.0F };
     //m_position = {-280.0F, -120.0F };
-    m_position = {10.0F, 10.0F};
+    //m_position = {10.0F, 10.0F};
+    m_position = {0.0F, 0.0F};
 }
 
 bool
@@ -40,8 +43,49 @@ grg::Player::Load(const std::string &filename, sf::Vector2u tileSize, const unsi
 
     // load the tileSet texture
     if(!m_playerSprite.loadFromFile(filename)) {
-        return false;
+        //return false;
+        throw std::runtime_error(fmt::format("[{}] Cannot load sprite '{}'.", __PRETTY_FUNCTION__, filename));
     }
+    m_SpriteOverlay.Initialize(tileSize.x, tileSize.y);
+    //m_playerTextureBorder.create(m_playerSprite.getSize().x, m_playerSprite.getSize().y);
+//    const unsigned int texWidth = tileSize.x;
+//    const unsigned int texHeight =  tileSize.y;
+    //const unsigned int texWidth = 128;
+    //const unsigned int texHeight = 128;
+//    m_playerTextureBorder.create(texWidth, texHeight);
+
+    //sf::Uint8 tex[m_playerSprite.getSize().x * m_playerSprite.getSize().y];
+    //std::vector<sf::Uint8> tex(m_playerSprite.getSize().x * m_playerSprite.getSize().y);
+    /*std::vector<sf::Uint8> *tex = new std::vector<sf::Uint8>(m_playerSprite.getSize().x * m_playerSprite.getSize().y);
+    for(unsigned int x = 0; x < m_playerSprite.getSize().x; ++x) {
+        for(unsigned int y = 0; y < m_playerSprite.getSize().y; ++y) {
+            (*tex)[x*m_playerSprite.getSize().x + y] = 123;
+        }
+    }
+
+    m_playerTextureBorder.update((*tex).data());*/
+    //sf::Uint8 tex[128 * 128];
+/*struct rgba {
+    sf::Uint8 r;
+    sf::Uint8 g;
+    sf::Uint8 b;
+    sf::Uint8 a;
+};
+    rgba *tex = new rgba[texWidth * texHeight];
+    for(unsigned int x = 0; x < texWidth; ++x) {
+        for(unsigned int y = 0; y < texHeight; ++y) {
+            tex[x*texHeight + y].r = 123;
+            tex[x*texHeight + y].g = 123;
+            tex[x*texHeight + y].b = 123;
+            tex[x*texHeight + y].a = 123;
+        }
+    }
+
+    m_playerTextureBorder.update(reinterpret_cast<sf::Uint8*>(tex));
+    m_playerSpriteBorder.setTexture(m_playerTextureBorder);*/
+    m_SpriteOverlay.setPosition(getPosition());
+
+
 
     // resize the vertex array to fit the level size
     m_vertices.setPrimitiveType(sf::Quads);
@@ -86,6 +130,9 @@ void grg::Player::draw(sf::RenderTarget &target, sf::RenderStates states) const 
 
     // draw the vertex array
     target.draw(m_vertices, states);
+
+    // draw debug sprite overlay
+    target.draw(m_SpriteOverlay, states);
 }
 
 void grg::Player::Update(sf::Time elapsed) {
@@ -144,6 +191,13 @@ void grg::Player::Update(sf::Time elapsed) {
         m_position += {m_xVelocity * elapsedSeconds, 0.0F};
         //this->setOrigin(m_position);
         this->setPosition(m_position);
+        //m_playerSpriteBorder.setPosition(m_position);
+
+        //static bool swRGB = false;
+        //m_playerSprite.setSrgb(swRGB);
+        //swRGB = !swRGB;
+        //m_playerSprite.update()
+
         /*spdlog::info(fmt::format("elapsed time: {:.2f}s, x: {:.1f}, y: {:.1f}, xVelocity: {:.1f},
            speedRamp: {:.3f}",
                 elapsed.asSeconds(), m_view.getCenter().x, m_view.getCenter().y, m_xVelocity,
