@@ -1,25 +1,25 @@
     .section .rodata
 
-    .global IDR_MYFONT
-    .type   IDR_MYFONT, @object
+    .global IDR_MYFONT_D
+    .type   IDR_MYFONT_D, @object
     .align  4
-IDR_MYFONT:
+IDR_MYFONT_D:
     .incbin "@CURRENT_RESOURCE_DIR@/FiraCode-Regular.ttf"
-IDR_MYFONT_end:
-    .global IDR_MYFONT_size
-    .type   IDR_MYFONT_size, @object
+IDR_MYFONT_D_end:
+    .global IDR_MYFONT_D_size
+    .type   IDR_MYFONT_D_size, @object
     .align  4
-IDR_MYFONT_size:
-    .int    IDR_MYFONT_end - IDR_MYFONT
+IDR_MYFONT_D_size:
+    .int    IDR_MYFONT_D_end - IDR_MYFONT_D
 
-    .global IDR_DATA1
-    .type   IDR_DATA1, @object
+    .global IDR_DATA1_D
+    .type   IDR_DATA1_D, @object
     .align  4
-IDR_DATA1:
+IDR_DATA1_D:
     .incbin "@CURRENT_RESOURCE_DIR@/FiraCode-Regular.ttf"
-IDR_DATA1_end:
-    .global IDR_DATA1_size
-    .type   IDR_DATA1_size, @object
+IDR_DATA1_D_end:
+    .global IDR_DATA1_D_size
+    .type   IDR_DATA1_D_size, @object
     .align  4
-IDR_DATA1_size:
-    .int    IDR_DATA1_end - IDR_DATA1
+IDR_DATA1_D_size:
+    .int    IDR_DATA1_D_end - IDR_DATA1_D
