@@ -65,6 +65,14 @@ public:
      */
     [[nodiscard]] std::tuple<const void *, size_t, int> Get();
 
+    /** @brief Get the Resource Identifier
+     *
+     * @return the underlying resource identifier.
+     */
+    int GetId() const {
+        return m_id;
+    }
+
 private:
 
     int m_id = 0;

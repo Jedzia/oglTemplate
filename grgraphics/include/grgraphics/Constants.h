@@ -18,5 +18,8 @@
 namespace grg {
     constexpr unsigned short G_SETUP_FRAME_RATE_LIMIT = 2 * 60;
     extern unsigned short G_FRAME_RATE_LIMIT;
+
+    static constexpr int Debug_Font_Character_Size = 14;
+
 }
 #endif //OPENGLTEMPLATE_3A587ABC2DB3455DB1B76695E39993DF_CONSTANTS_H

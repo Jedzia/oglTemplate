@@ -14,6 +14,6 @@
  */
 /*---------------------------------------------------------*/
 
-#include "Constants.h"
+#include "grgraphics/Constants.h"
 
 unsigned short grg::G_FRAME_RATE_LIMIT = grg::G_SETUP_FRAME_RATE_LIMIT;

@@ -57,4 +57,4 @@ std::tuple<const void *, size_t, int> grcore::Resource::Get() {
     return {
                data, size, error
     };
-} // core::Resource::Get
+} // grcore::Resource::Get

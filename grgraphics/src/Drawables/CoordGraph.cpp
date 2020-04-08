@@ -16,7 +16,7 @@
 
 #include "grcore/warning/FMT_format_log.h"
 #include "grgraphics/Drawables/CoordGraph.h"
-#include <Constants.h>
+#include <grgraphics/Constants.h>
 
 grg::CoordGraph::CoordGraph(const sf::FloatRect &dimensions, const sf::Font &font) : CoordSystem(dimensions, font) {
     float horizontalOffset = -50.0F;

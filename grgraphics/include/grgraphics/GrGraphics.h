@@ -20,6 +20,7 @@
 //
 #include "Application.h"
 #include "Camera.h"
+#include "Constants.h"
 #include "Drawables/CoordGraph.h"
 #include "Drawables/CoordSystem.h"
 #include "Drawables/Cursor.h"

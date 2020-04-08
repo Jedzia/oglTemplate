@@ -46,7 +46,7 @@ grg::Player::Load(const std::string &filename, sf::Vector2u tileSize, const unsi
         //return false;
         throw std::runtime_error(fmt::format("[{}] Cannot load sprite '{}'.", __PRETTY_FUNCTION__, filename));
     }
-    m_spriteOverlay.Initialize(tileSize.x, tileSize.y);
+    m_spriteOverlay.Initialize(tileSize.x, tileSize.y, uniformScale);
     m_spriteOverlay.setPosition(getPosition());
 
     // resize the vertex array to fit the level size

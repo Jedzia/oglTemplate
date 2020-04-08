@@ -18,11 +18,11 @@
 #include "grgraphics/warning/FMT_format.h"
 #include "grgraphics/warning/SFML_Graphics.h"
 #include <grcore/Utility/Property.h>
+#include <grgraphics/Constants.h>
 #include <grgraphics/Math.h>
 #include <iostream>
 
 struct grg::Cursor::Impl {
-    static constexpr int Character_Size = 14;
     Impl(sf::RenderWindow &window, const sf::Font &font) : m_window(window) { /*, m_font(font)*/
         std::cout << "+++ Constructor " << __PRETTY_FUNCTION__ << " called. +++" << std::endl;
 
@@ -38,8 +38,8 @@ struct grg::Cursor::Impl {
 
         UpdateCross(radius, sf::Vector2f());
 
-        m_coordDisplay1 = sf::Text("Coords: ", font, Character_Size);
-        m_coordDisplay2 = sf::Text("View  : ", font, Character_Size);
+        m_coordDisplay1 = sf::Text("Coords: ", font, Debug_Font_Character_Size);
+        m_coordDisplay2 = sf::Text("View  : ", font, Debug_Font_Character_Size);
 
         int a = 7;
         std::function<int(void)> f = [&a]() { return a; };
@@ -58,7 +58,8 @@ struct grg::Cursor::Impl {
         //auto l = core::util::PropertyList<int>();
         auto l = grcore::util::PropertyList();
         //l.Add(std::make_shared<core::util::Property<int>>(fn));
-        ///auto lll = std::make_shared<core::util::Property<std::function<int(void)>>>([&a]() { return a; });
+        ///auto lll = std::make_shared<core::util::Property<std::function<int(void)>>>([&a]() {
+        // return a; });
         ///l.Add(lll);
 
         //l.AddProp([&a]() { return a; });

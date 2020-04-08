@@ -10,7 +10,7 @@ configure_file(src/win/GrGraphics.rc.in "${RESOURCE_OUT_FILE}" @ONLY)
 
 ### list of source files of the GrGraphics library
 set(GrGraphics_INC_FILES
-        include/Constants.h
+        include/grgraphics/Constants.h
         include/grgraphics/Application.h
         include/grgraphics/Camera.h
         include/grgraphics/Drawables/CoordGraph.h
