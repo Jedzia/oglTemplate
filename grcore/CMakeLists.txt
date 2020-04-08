@@ -1,10 +1,15 @@
-project(GrCore VERSION "${OpenGLTemplate_VERSION}")
+project(GrCore VERSION "${OpenGLTemplate_VERSION}" LANGUAGES CXX ASM)
 
 # Prepare Resource File
 set(RESOURCE_OUT_FILE "${CMAKE_CURRENT_BINARY_DIR}/src/win/GrCore.rc")
 #set(CURRENT_RESOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/res" CACHE INTERNAL "")
 set(CURRENT_RESOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/res")
-configure_file(src/win/GrCore.rc.in "${RESOURCE_OUT_FILE}" @ONLY)
+if (WIN32)
+    configure_file(src/win/GrCore.rc.in "${RESOURCE_OUT_FILE}" @ONLY)
+elseif(UNIX)
+    set(RESOURCE_OUT_FILE "${CMAKE_CURRENT_BINARY_DIR}/src/linux/GrCore.rc.s")
+    configure_file(src/linux/GrCore.rc.s.in "${RESOURCE_OUT_FILE}" @ONLY)
+endif ()
 
 ### list of source files of the GrCore library
 set(GrCore_INC_FILES
@@ -41,8 +46,10 @@ if (WIN32)
 elseif(UNIX)
     set(GrCore_SRC_FILES ${GrCore_SRC_FILES}
             src/linux/Logging.cpp
+            src/linux/GrCore.rc.s.Resource.h
             src/linux/Resource.cpp
             src/linux/TcpClient.cpp
+            "${RESOURCE_OUT_FILE}"
             )
 endif ()
 set(INCLUDE_DIRECTORIES
