@@ -15,6 +15,7 @@ struct grg::SpriteOverlay::Impl {
     void Init(const unsigned int width, const unsigned int height, float uniformScale) {
         m_width = width;
         m_height = height;
+        spdlog::trace("grg::SpriteOverlay Init width={}, height={}.", m_width, m_height);
 
         auto [data, size, error] = m_resource.Get();
         if(error != 0) {
@@ -43,7 +44,7 @@ struct grg::SpriteOverlay::Impl {
         spdlog::warn("grg::SpriteOverlay scaleFactor={}, fontSize={}.", scaleFactor, fontSize);
         m_coordDisplay1 = sf::Text("Size: ", m_debugFont, fontSize);
         m_coordDisplay1.scale({scaleFactor, scaleFactor});
-        float offsetY = (height / 1.2F) + m_coordDisplay1.getGlobalBounds().getSize().y * 1.1F;
+        float offsetY = (static_cast<float>(m_height) / 1.2F) + m_coordDisplay1.getGlobalBounds().getSize().y * 1.1F;
         m_coordDisplay1.move(0, offsetY);
         m_coordDisplay2 = sf::Text("Pos : ", m_debugFont, fontSize);
         m_coordDisplay2.scale({scaleFactor, scaleFactor});
@@ -64,6 +65,9 @@ struct grg::SpriteOverlay::Impl {
     }
 
     void Draw(sf::RenderTarget &target, sf::RenderStates states) const {
+        if(!m_initialized)
+            return;
+
         target.draw(m_coordDisplay1, states);
         target.draw(m_coordDisplay2, states);
     }
