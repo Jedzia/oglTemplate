@@ -21,14 +21,17 @@
 //#include <windows.h>
 
 //extern void* G_HINST_DLL;
-void* G_HINST_DLL = 0;
+void *G_HINST_DLL = 0;
 
 extern char IDR_MYFONT[];
 extern unsigned IDR_MYFONT_size;
+extern char IDR_DATA1[];
+extern unsigned IDR_DATA1_size;
 
 grcore::Resource::Resource(int resourceName) : m_id(resourceName) {
     //std::cout << "+++ Constructor " << __PRETTY_FUNCTION__ << " called. +++" << "\n";
-    spdlog::debug(" {1}:{2} +++ Constructor [{0}] (resourceName={0}) called. +++", __PRETTY_FUNCTION__, __FILE__, __LINE__, resourceName);
+    spdlog::debug(" {1}:{2} +++ Constructor [{0}] (resourceName={0}) called. +++", __PRETTY_FUNCTION__, __FILE__,
+                  __LINE__, resourceName);
 }
 
 grcore::Resource::~Resource() {
@@ -53,13 +56,30 @@ std::tuple<const void *, size_t, int> grcore::Resource::Get() {
 
     auto size = 0;
     //auto data = static_cast<const void *>(::LockResource(rcData));
-    const void * data = nullptr;
+    const void *data = nullptr;
 
-    if(m_id == 129)
-    {
+    switch (m_id) {
+        case 129:
+            data = static_cast<const void *>(IDR_MYFONT);
+            size = static_cast<int>(IDR_MYFONT_size);
+            break;
+        case 255:
+            data = static_cast<const void *>(IDR_MYFONT);
+            size = static_cast<int>(IDR_MYFONT_size);
+            break;
+        default:
+            throw std::runtime_error(
+                    fmt::format("[{}]: unhandled default case with resource id={}", __PRETTY_FUNCTION__, m_id));
+    }
+
+    /*if (m_id == 129) {
         data = static_cast<const void *>(IDR_MYFONT);
         size = static_cast<int>(IDR_MYFONT_size);
-    }
+    } else if (m_id == 255) {
+        data = static_cast<const void *>(IDR_MYFONT);
+        size = static_cast<int>(IDR_MYFONT_size);
+    }*/
+
 
     //HMODULE handle = static_cast<HMODULE>(G_HINST_DLL);
     //HRSRC rc = ::FindResourceW(handle, MAKEINTRESOURCEW(m_id), L"BINARY");
@@ -71,6 +91,6 @@ std::tuple<const void *, size_t, int> grcore::Resource::Get() {
     //LockResource does not actually lock memory; it is just used to obtain a pointer to the memory
     // containing the resource data.
     return {
-               data, size, error
+            data, size, error
     };
 } // core::Resource::Get
