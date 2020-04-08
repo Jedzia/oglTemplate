@@ -58,7 +58,7 @@ public:
 
     void Initialize(const unsigned int width, const unsigned int height, float uniformScale);
 
-    virtual void Update(sf::Time elapsed);
+    virtual void Update(sf::Time elapsed, const sf::Transformable &t);
 
 private:
 

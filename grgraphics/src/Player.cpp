@@ -98,7 +98,6 @@ void grg::Player::draw(sf::RenderTarget &target, sf::RenderStates states) const 
 }
 
 void grg::Player::Update(sf::Time elapsed) {
-    m_spriteOverlay.Update(elapsed);
     const float elapsedSeconds = elapsed.asSeconds();
     //bool viewChanged = false;
     //static_cast<void>(viewChanged);
@@ -154,6 +153,7 @@ void grg::Player::Update(sf::Time elapsed) {
         m_position += {m_xVelocity * elapsedSeconds, 0.0F};
         //this->setOrigin(m_position);
         this->setPosition(m_position);
+        m_spriteOverlay.Update(elapsed, *this);
         //m_playerSpriteBorder.setPosition(m_position);
 
         //static bool swRGB = false;

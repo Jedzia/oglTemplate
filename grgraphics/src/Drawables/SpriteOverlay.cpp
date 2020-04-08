@@ -54,9 +54,11 @@ struct grg::SpriteOverlay::Impl {
         m_initialized = true;
     } // Init
 
-    void Update(sf::Time, const sf::Sprite &sprite) {
-        auto size = sprite.getGlobalBounds();
-        m_coordDisplay1.setString(fmt::format("Size: x({:.1f}), y({:.1f})", size.getSize().x, size.getSize().y));
+    void Update(sf::Time, const sf::Transformable &sprite) {
+        //auto size = sprite.getGlobalBounds();
+        //m_coordDisplay1.setString(fmt::format("Size: x({:.1f}), y({:.1f})", size.getSize().x, size.getSize().y));
+        auto scale = sprite.getScale();
+        m_coordDisplay1.setString(fmt::format("Scale: x({:.1f}), y({:.1f})", scale.x, scale.y));
 
         auto position = sprite.getPosition();
         m_coordDisplay2.setString(fmt::format("Pos : x({:.1f}), y({:.1f})", position.x, position.y));
@@ -138,9 +140,10 @@ void grg::SpriteOverlay::draw(sf::RenderTarget &target, sf::RenderStates states)
     m_pImpl->Draw(target, states);
 }
 
-void grg::SpriteOverlay::Update(sf::Time elapsed) {
+void grg::SpriteOverlay::Update(sf::Time elapsed, const sf::Transformable &t) {
     m_totalTime += elapsed;
-    m_pImpl->Update(elapsed, m_playerSpriteBorder);
+    //m_pImpl->Update(elapsed, *this);
+    m_pImpl->Update(elapsed, t);
     const uint8_t elapsedUint = static_cast<uint8_t>(m_totalTime.asSeconds());
     switchState(elapsedUint % 2 == 0);
 }
