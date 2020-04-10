@@ -20,7 +20,7 @@
 #include <stdexcept>
 #include <windows.h>
 
-extern void* G_HINST_DLL;
+extern void* G_DLL_INSTANCE_HANDLE;
 
 grcore::Resource::Resource(int resourceName) : m_id(resourceName) {
     //std::cout << "+++ Constructor " << __PRETTY_FUNCTION__ << " called. +++" << "\n";
@@ -38,16 +38,16 @@ std::tuple<const void *, size_t, int> grcore::Resource::Get() {
     static_cast<void>(m_id);
     //int type = 333; //static_cast<int>(RT_FONT);
     int error = 0;
-    if(!G_HINST_DLL) {
-        G_HINST_DLL = ::GetModuleHandleW(L"libGrCore.dll");
+    if(!G_DLL_INSTANCE_HANDLE) {
+        G_DLL_INSTANCE_HANDLE = ::GetModuleHandleW(L"libGrCore.dll");
         std::cout << __PRETTY_FUNCTION__ << ": Handle via GetModuleHandleW(L\"libGrCore.dll\")" << "\n";
     }
 
-    if(!G_HINST_DLL) {
+    if(!G_DLL_INSTANCE_HANDLE) {
         throw std::runtime_error("Missing DLL Handle");
     }
 
-    HMODULE handle = static_cast<HMODULE>(G_HINST_DLL);
+    HMODULE handle = static_cast<HMODULE>(G_DLL_INSTANCE_HANDLE);
     HRSRC rc = ::FindResourceW(handle, MAKEINTRESOURCEW(m_id), L"BINARY");
     HGLOBAL rcData = ::LoadResource(handle, rc);
     auto size = ::SizeofResource(handle, rc);
