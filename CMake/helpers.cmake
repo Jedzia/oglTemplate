@@ -27,7 +27,7 @@ produce my_application.list in OUTPUT_DIRECTORY.
 
 #SET(_HELPER_COPY_ENABLED (${WIN32} AND NOT ${MINGW}))
 set(_HELPER_COPY_ENABLED FALSE)
-if (WIN32)
+if (WIN32 OR UNIX)
     set(_HELPER_COPY_ENABLED TRUE)
 endif ()
 # Cache it, for when it is actually needed, at build time
