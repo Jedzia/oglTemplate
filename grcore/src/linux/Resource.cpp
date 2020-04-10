@@ -17,7 +17,6 @@
 #include "grcore/Resource.h"
 #include "grcore/warning/FMT_format_log.h"
 #include "GrCore.rc.s.Resource.h"
-#include <iostream>
 #include <stdexcept>
 
 
