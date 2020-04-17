@@ -20,10 +20,10 @@
 
 grg::Camera::Camera(const grg::Player &player, sf::RenderWindow &window) : m_player(player), m_window(window) {}
 
-void grg::Camera::UpdateView(sf::Time elapsed) {
-    static_cast<void>(elapsed);
-    static_cast<void>(m_window);
-    static_cast<void>(m_player);
+void grg::Camera::UpdateView(sf::Time /*elapsed*/) {
+    //static_cast<void>(elapsed);
+    //static_cast<void>(m_window);
+    //static_cast<void>(m_player);
 
     auto view = m_window.getView();
     //m_view.move(m_xVelocity * elapsedSeconds, 0.0F);
@@ -72,7 +72,7 @@ sf::Vector2f grg::Camera::GetRelativeWorldCoords(const sf::Vector2i &screenCoord
     const sf::Vector2f screensizeHalf = (sf::Vector2f(m_window.getSize().x, m_window.getSize().y) / 2.0F);
     const sf::Vector2f relF = worldCoordsF - screensizeHalf;
     const float resultX = relF.x / screensizeHalf.x;
-    const float resultY = relF.y / screensizeHalf.y;
+    const float resultY = -relF.y / screensizeHalf.y;
 
     return {
                resultX, resultY
