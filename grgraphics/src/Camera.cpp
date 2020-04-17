@@ -69,7 +69,8 @@ sf::Vector2f grg::Camera::GetRelativeWorldCoords(const sf::Vector2i &screenCoord
     const sf::Vector2f worldCoordsF = m_window.mapPixelToCoords(screenCoordinates);
     //const sf::Vector2f worldCoordsF(static_cast<float>(worldCoordsI.x),
     // static_cast<float>(worldCoordsI.y));
-    const sf::Vector2f screensizeHalf = (sf::Vector2f(m_window.getSize().x, m_window.getSize().y) / 2.0F);
+    const sf::Vector2f screensizeHalf =
+        (sf::Vector2f(static_cast<float>(m_window.getSize().x), static_cast<float>(m_window.getSize().y)) / 2.0F);
     const sf::Vector2f relF = worldCoordsF - screensizeHalf;
     const float resultX = relF.x / screensizeHalf.x;
     const float resultY = -relF.y / screensizeHalf.y;

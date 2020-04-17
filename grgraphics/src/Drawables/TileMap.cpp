@@ -78,8 +78,16 @@ void grg::TileMap::draw(sf::RenderTarget &target, sf::RenderStates states) const
 }
 
 sf::Vector2f grg::TileMap::GetSize() const {
-    float fullWidth = m_tileSize.x * m_tileWidth;
-    float fullHeight = m_tileSize.y * m_tileHeight;
+    float fullWidth = static_cast<float>(m_tileSize.x * m_tileWidth);
+    float fullHeight = static_cast<float>(m_tileSize.y * m_tileHeight);
+    sf::Vector2f result(fullWidth, fullHeight);
+    sf::Vector2f adapted(result.x * this->getScale().x, result.y * this->getScale().y);
+    return adapted;
+}
+
+sf::Vector2f grg::TileMap::GetTilePosition(unsigned int x, unsigned int y) const {
+    float fullWidth = static_cast<float>(m_tileSize.x * x);
+    float fullHeight = static_cast<float>(m_tileSize.y * y);
     sf::Vector2f result(fullWidth, fullHeight);
     sf::Vector2f adapted(result.x * this->getScale().x, result.y * this->getScale().y);
     return adapted;

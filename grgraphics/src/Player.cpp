@@ -102,7 +102,7 @@ void grg::Player::Update(sf::Time elapsed) {
     //bool viewChanged = false;
     //static_cast<void>(viewChanged);
 
-    const float zoomFactor = 1.01F;
+    /*const float zoomFactor = 1.01F;
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
         //m_view.zoom(zoomFactor);
         this->scale(zoomFactor, zoomFactor);
@@ -115,7 +115,7 @@ void grg::Player::Update(sf::Time elapsed) {
             spdlog::info("Player zoom {}, {}.", getScale().x, getScale().y);
             //viewChanged = true;
         }
-    }
+    }*/
 
 
     // scrolling/movement calculations,

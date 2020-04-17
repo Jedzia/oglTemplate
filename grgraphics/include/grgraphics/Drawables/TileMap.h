@@ -37,6 +37,8 @@ public:
      */
     sf::Vector2f GetSize() const;
 
+    sf::Vector2f GetTilePosition(unsigned int x, unsigned int y) const;
+
 
 private:
 
