@@ -56,7 +56,8 @@ struct grg::SpriteOverlay::Impl {
 
     void Update(sf::Time, const sf::Transformable &sprite) {
         //auto size = sprite.getGlobalBounds();
-        //m_coordDisplay1.setString(fmt::format("Size: x({:.1f}), y({:.1f})", size.getSize().x, size.getSize().y));
+        //m_coordDisplay1.setString(fmt::format("Size: x({:.1f}), y({:.1f})", size.getSize().x,
+        // size.getSize().y));
         auto scale = sprite.getScale();
         m_coordDisplay1.setString(fmt::format("Scale: x({:.1f}), y({:.1f})", scale.x, scale.y));
 
@@ -67,8 +68,9 @@ struct grg::SpriteOverlay::Impl {
     }
 
     void Draw(sf::RenderTarget &target, sf::RenderStates states) const {
-        if(!m_initialized)
+        if(!m_initialized) {
             return;
+        }
 
         target.draw(m_coordDisplay1, states);
         target.draw(m_coordDisplay2, states);
@@ -107,17 +109,20 @@ void grg::SpriteOverlay::Initialize(const unsigned int width, const unsigned int
     m_tex1 = new PixelRGBA[texWidth * texHeight];
     m_tex2 = new PixelRGBA[texWidth * texHeight];
 
+    const int opacityA = 123;
+    const int opacityB = 133;
+
     for(unsigned int x = 0; x < texWidth; ++x) {
         for(unsigned int y = 0; y < texHeight; ++y) {
-            m_tex1[x * texHeight + y].m_r = 123;
-            m_tex1[x * texHeight + y].m_g = 123;
-            m_tex1[x * texHeight + y].m_b = 123;
-            m_tex1[x * texHeight + y].m_a = 123;
+            m_tex1[x * texHeight + y].m_r = opacityA;
+            m_tex1[x * texHeight + y].m_g = opacityA;
+            m_tex1[x * texHeight + y].m_b = opacityA;
+            m_tex1[x * texHeight + y].m_a = opacityA;
 
-            m_tex2[x * texHeight + y].m_r = 233;
-            m_tex2[x * texHeight + y].m_g = 233;
-            m_tex2[x * texHeight + y].m_b = 233;
-            m_tex2[x * texHeight + y].m_a = 233;
+            m_tex2[x * texHeight + y].m_r = opacityB;
+            m_tex2[x * texHeight + y].m_g = opacityB;
+            m_tex2[x * texHeight + y].m_b = opacityB;
+            m_tex2[x * texHeight + y].m_a = opacityB;
         }
     }
     m_playerTextureBorder.update(reinterpret_cast<sf::Uint8 *>(m_tex1));

@@ -2,6 +2,7 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Artwork/Content" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/benchmark/gbenchmark" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/external/SFML" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/external/docopt.cpp" vcs="Git" />

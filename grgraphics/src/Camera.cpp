@@ -46,12 +46,35 @@ void grg::Camera::UpdateView(sf::Time elapsed) {
     }
 
     { // Set camera from player position.
-        sf::Vector2f cameraTranslation{0.0F, 0.0F};
+        sf::Vector2f cameraTranslation {
+            0.0F, 0.0F
+        };
         view.setCenter(m_player.GetPlayerPosition() + cameraTranslation);
 
         if(viewChanged || m_window.getView().getTransform() != view.getTransform()) {
-            //spdlog::info("m_window.setView Center x{}, y{}.", view.getCenter().x, view.getCenter().y);
+            //spdlog::info("m_window.setView Center x{}, y{}.", view.getCenter().x,
+            // view.getCenter().y);
             m_window.setView(view);
         }
     }
 } // grg::Camera::UpdateView
+
+sf::Vector2f grg::Camera::GetScreenCoords(const sf::Vector2f &worldCoordinates) {
+    const sf::Vector2i screenCoordsI = m_window.mapCoordsToPixel(worldCoordinates);
+    const sf::Vector2f screenCoordsF(static_cast<float>(screenCoordsI.x), static_cast<float>(screenCoordsI.y));
+    return screenCoordsF;
+}
+
+sf::Vector2f grg::Camera::GetRelativeWorldCoords(const sf::Vector2i &screenCoordinates) {
+    const sf::Vector2f worldCoordsF = m_window.mapPixelToCoords(screenCoordinates);
+    //const sf::Vector2f worldCoordsF(static_cast<float>(worldCoordsI.x),
+    // static_cast<float>(worldCoordsI.y));
+    const sf::Vector2f screensizeHalf = (sf::Vector2f(m_window.getSize().x, m_window.getSize().y) / 2.0F);
+    const sf::Vector2f relF = worldCoordsF - screensizeHalf;
+    const float resultX = relF.x / screensizeHalf.x;
+    const float resultY = relF.y / screensizeHalf.y;
+
+    return {
+               resultX, resultY
+    };
+}

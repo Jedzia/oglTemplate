@@ -18,8 +18,10 @@
 #include "grgraphics/warning/FMT_format.h"
 #include "grgraphics/warning/SFML_Graphics.h"
 #include <grcore/Utility/Property.h>
+#include <grgraphics/Camera.h>
 #include <grgraphics/Constants.h>
 #include <grgraphics/Math.h>
+#include <grgraphics/Player.h>
 #include <iostream>
 
 struct grg::Cursor::Impl {
@@ -40,6 +42,8 @@ struct grg::Cursor::Impl {
 
         m_coordDisplay1 = sf::Text("Coords: ", font, Debug_Font_Character_Size);
         m_coordDisplay2 = sf::Text("View  : ", font, Debug_Font_Character_Size);
+        m_coordDisplay3 = sf::Text("Player  : ", font, Debug_Font_Character_Size);
+        m_coordDisplay4 = sf::Text("Camera  : ", font, Debug_Font_Character_Size);
 
         int a = 7;
         std::function<int(void)> f = [&a]() { return a; };
@@ -102,11 +106,11 @@ struct grg::Cursor::Impl {
         static_cast<void>(elapsed);
 
         // get the local mouse position (relative to a window)
-        const auto localPosition = sf::Mouse::getPosition(m_window);
+        const auto screenPosition = sf::Mouse::getPosition(m_window);
 
-        const auto globalPositionF = m_window.mapPixelToCoords(localPosition);
-        const sf::Vector2f localPositionF { static_cast<float>(localPosition.x), static_cast<float>(localPosition.y) };
-        const auto drawPositionF = localPositionF;
+        const auto worldPositionF = m_window.mapPixelToCoords(screenPosition);
+        const sf::Vector2f screenPositionF {static_cast<float>(screenPosition.x), static_cast<float>(screenPosition.y) };
+        const auto drawPositionF = screenPositionF;
         //const sf::Vector2f drawPositionF = restrict (localPositionF, { 100.F, 100.F, 400.F, 400.F
         // });
         const auto bounds = m_coordDisplay1.getLocalBounds();
@@ -127,13 +131,13 @@ struct grg::Cursor::Impl {
                         static_cast<float>(m_window.getSize().y) - padHeight - bounds.getSize().y * lines }
                       );
 
-        if(m_lastPosition != localPosition) {
+        if(m_lastScreenPosition != screenPosition) {
             m_rect.setPosition(drawPositionF);
             //m_circle.center
             m_circle.setPosition(drawPositionF);
             UpdateCross(m_circle.getRadius(), drawPositionF);
-            m_coordDisplay1.setString(fmt::format("Coords: x({}), y({}) - x({:.1f}), y({:.1f})", localPosition.x, localPosition.y,
-                            globalPositionF.x, globalPositionF.y));
+            m_coordDisplay1.setString(fmt::format("screen: x({}), y({}), world x({:.1f}), y({:.1f})", screenPosition.x, screenPosition.y,
+                            worldPositionF.x, worldPositionF.y));
             m_coordDisplay1.setPosition(textPositionF);
 
             m_circle.setOutlineColor(sf::Color::Red);
@@ -146,9 +150,25 @@ struct grg::Cursor::Impl {
         //auto viewportSize = m_window.getView().getViewport().getSize();
         auto viewSize = m_window.getView().getSize();
         m_coordDisplay2.setString(fmt::format("View  : x({:.1f}), y({:.1f})", viewSize.x, viewSize.y));
-        m_coordDisplay2.setPosition(textPositionF + sf::Vector2f { 00.F, m_coordDisplay2.getLocalBounds().getSize().y });
+        auto textPosition2 = textPositionF + sf::Vector2f { 00.F, m_coordDisplay2.getLocalBounds().getSize().y };
+        m_coordDisplay2.setPosition(textPosition2);
 
-        m_lastPosition = localPosition;
+        if(m_player) {
+            m_coordDisplay3.setString(fmt::format("Player world: x({:.1f}), y({:.1f})", m_player->getPosition().x,
+                            m_player->getPosition().y));
+            textPosition2 = textPosition2 + sf::Vector2f { 00.F, m_coordDisplay3.getLocalBounds().getSize().y };
+            m_coordDisplay3.setPosition(textPosition2);
+        }
+
+        if(m_camera) {
+            auto camWorldPos = m_camera->GetRelativeWorldCoords(screenPosition);
+            m_coordDisplay4.setString(fmt::format("Camera world: x({:.1f}), y({:.1f})", camWorldPos.x,
+                            camWorldPos.y));
+            textPosition2 = textPosition2 + sf::Vector2f { 00.F, m_coordDisplay4.getLocalBounds().getSize().y };
+            m_coordDisplay4.setPosition(textPosition2);
+        }
+
+        m_lastScreenPosition = screenPosition;
     }// Update
 
     void Draw(sf::RenderTarget &target, sf::RenderStates states) const {
@@ -159,8 +179,19 @@ struct grg::Cursor::Impl {
         target.draw(m_cross, states);
         target.draw(m_coordDisplay1, states);
         target.draw(m_coordDisplay2, states);
+        if(m_player) {
+            target.draw(m_coordDisplay3, states);
+        }
+
+        if(m_camera) {
+            target.draw(m_coordDisplay4, states);
+        }
+
         target.setView(oldView);
-    }
+    } // Draw
+
+    grg::Player* m_player = nullptr;
+    grg::Camera* m_camera = nullptr;
 
 private:
 
@@ -172,7 +203,9 @@ private:
     sf::RenderWindow &m_window;
     sf::Text m_coordDisplay1;
     sf::Text m_coordDisplay2;
-    sf::Vector2i m_lastPosition;
+    sf::Text m_coordDisplay3;
+    sf::Text m_coordDisplay4;
+    sf::Vector2i m_lastScreenPosition;
     sf::VertexArray m_cross { sf::PrimitiveType::Lines, 4 };
 };
 void grg::Cursor::draw(sf::RenderTarget &target, sf::RenderStates states) const {
@@ -185,4 +218,12 @@ grg::Cursor::~Cursor() {}
 
 void grg::Cursor::Update(sf::Time elapsed) {
     m_pImpl->Update(elapsed);
+}
+
+void grg::Cursor::SetPlayer(grg::Player* player) {
+    m_pImpl->m_player = player;
+}
+
+void grg::Cursor::SetCamera(grg::Camera* camera) {
+    m_pImpl->m_camera = camera;
 }

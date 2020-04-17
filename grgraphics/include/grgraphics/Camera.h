@@ -27,6 +27,8 @@ public:
     Camera(const Player &player, sf::RenderWindow &window);
 
     void UpdateView(sf::Time elapsed);
+    sf::Vector2f GetScreenCoords(const sf::Vector2f& worldCoordinates);
+    sf::Vector2f GetRelativeWorldCoords(const sf::Vector2i& screenCoordinates);
 
 private:
 

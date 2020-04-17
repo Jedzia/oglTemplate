@@ -40,6 +40,10 @@ public:
     void Reset() {
         m_coord.x = 0;
         m_coord.y = 0;
+
+        //m_window->getView().getSize()
+        //m_player.SetPlayerPosition({100,100});
+        m_player.SetPlayerPosition(m_tileMap.GetSize() / 2.0F);
     }
 
     void OnInit(const grg::Application &application) override {
@@ -60,6 +64,8 @@ public:
                 sf::FloatRect({0.F, 0.F}, {static_cast<float>(size.x), static_cast<float>(size.y)}),
                 application.GetDebugFont());
         m_pCursor = std::make_unique<grg::Cursor>(application.GetWindow(), application.GetDebugFont());
+        m_pCursor->SetPlayer(&m_player);
+        m_pCursor->SetCamera(m_camera.get());
 
         // define the level with an array of tile indices
         const unsigned int level[] =
@@ -185,11 +191,11 @@ public:
               //m_view.move(m_xVelocity * elapsedSeconds, 0.0F);
 
                 /*// Here a camera should do its work
-                m_view.setCenter(m_player.GetPlayerPosition() + V2F {0.0F, 0.0F});
+                   m_view.setCenter(m_player.GetPlayerPosition() + V2F {0.0F, 0.0F});
 
-                if(viewChanged || m_window->getView().getTransform() != m_view.getTransform()) {
+                   if(viewChanged || m_window->getView().getTransform() != m_view.getTransform()) {
                     m_window->setView(m_view);
-                }*/
+                   }*/
 
                 m_camera->UpdateView(elapsed);
             }

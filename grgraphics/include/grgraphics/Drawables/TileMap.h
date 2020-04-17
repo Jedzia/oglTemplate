@@ -29,12 +29,24 @@ public:
     bool Load(const std::string &tileSet, sf::Vector2u tileSize, const unsigned int* tiles, unsigned int width,
             unsigned int height, float uniformScale = 1.0F);
 
+    /** @brief Get the size of the TileMap
+     *
+     * @return Size of the TileMap
+     *
+     * @see getCenter, setSize
+     */
+    sf::Vector2f GetSize() const;
+
+
 private:
 
     virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
     sf::VertexArray m_vertices;
     sf::Texture m_tileSet;
+    unsigned int m_tileWidth = 0;
+    unsigned int m_tileHeight = 0;
+    sf::Vector2u m_tileSize{};
 };
 }
 #endif//OPENGLTEMPLATE_54C63F12088447AE842BF69192838603_TILEMAP_H

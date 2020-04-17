@@ -21,6 +21,10 @@
 
 bool grg::TileMap::Load(const std::string &tileSet, sf::Vector2u tileSize, const unsigned int* tiles, unsigned int width,
         unsigned int height, float uniformScale) {
+    m_tileSize = tileSize;
+    m_tileWidth = width;
+    m_tileHeight = height;
+
     // load the tileSet texture
     if(!m_tileSet.loadFromFile(tileSet)) {
         return false;
@@ -71,4 +75,12 @@ void grg::TileMap::draw(sf::RenderTarget &target, sf::RenderStates states) const
 
     // draw the vertex array
     target.draw(m_vertices, states);
+}
+
+sf::Vector2f grg::TileMap::GetSize() const {
+    float fullWidth = m_tileSize.x * m_tileWidth;
+    float fullHeight = m_tileSize.y * m_tileHeight;
+    sf::Vector2f result(fullWidth, fullHeight);
+    sf::Vector2f adapted(result.x * this->getScale().x, result.y * this->getScale().y);
+    return adapted;
 }

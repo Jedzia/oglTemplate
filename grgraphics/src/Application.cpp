@@ -162,7 +162,3 @@ void grg::Application::loadDebugFont() {
         }
     }
 } // grg::Application::loadDebugFont
-
-// grg::Application::GetDebugFont
-
-// grg::Application::Run
