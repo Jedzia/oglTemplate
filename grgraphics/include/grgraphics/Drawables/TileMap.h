@@ -31,14 +31,38 @@ public:
 
     /** @brief Get the size of the TileMap
      *
+     * Scaling is reflected in the value.
      * @return Size of the TileMap
      *
      * @see getCenter, setSize
      */
     sf::Vector2f GetSize() const;
 
+    /** Get position of a tile.
+     *
+     * Gets the position of a specified tile in world(?) coordinates.
+     * Scaling is considered in the calculation.
+     * @param x Horizontal tile position.
+     * @param y Vertical tile position
+     * @return the position of the tile in world(?) space.
+     */
     sf::Vector2f GetTilePosition(unsigned int x, unsigned int y) const;
 
+    /** Get horizontal tile number
+     *
+     * @return the amount of horizontal tiles in this map.
+     */
+    unsigned int GetTileWidth() const {
+        return m_tileWidth;
+    }
+
+    /** Get vertical tile number
+     *
+     * @return the amount of vertical tiles in this map.
+     */
+    unsigned int GetTileHeight() const {
+        return m_tileHeight;
+    }
 
 private:
 
@@ -48,7 +72,7 @@ private:
     sf::Texture m_tileSet;
     unsigned int m_tileWidth = 0;
     unsigned int m_tileHeight = 0;
-    sf::Vector2u m_tileSize{};
+    sf::Vector2u m_tileSize {};
 };
 }
 #endif//OPENGLTEMPLATE_54C63F12088447AE842BF69192838603_TILEMAP_H
