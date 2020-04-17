@@ -43,7 +43,8 @@ public:
 
         //m_window->getView().getSize()
         //m_player.SetPlayerPosition({100,100});
-        m_player.SetPlayerPosition(m_tileMap.GetSize() / 2.0F);
+        //m_player.SetPlayerPosition(m_tileMap.GetSize() / 2.0F);
+        m_player.SetPlayerPosition(m_tileMap.GetTilePosition(1,1));
     }
 
     void OnInit(const grg::Application &application) override {

@@ -18,8 +18,10 @@
 //
 #include "grgraphics/Player.h"
 #include "grgraphics/Utility/Velocity.h"
-#include <exception>
 #include <array>
+#include <grgraphics/Math.h>
+
+//#include <exception>
 
 // The player should be positioned with x,y -1.0 to 0 to +1.0 like opengl system.
 
@@ -35,9 +37,8 @@ grg::Player::Player() {
     m_position = {0.0F, 0.0F};
 }
 
-bool
-grg::Player::Load(const std::string &filename, sf::Vector2u tileSize, const unsigned int *tiles, unsigned int width,
-                  unsigned int height, float uniformScale) {
+bool grg::Player::Load(const std::string &filename, sf::Vector2u tileSize, const unsigned int* tiles, unsigned int width,
+        unsigned int height, float uniformScale) {
     // ToDo: unused
     static_cast<void>(height);
 
@@ -46,6 +47,7 @@ grg::Player::Load(const std::string &filename, sf::Vector2u tileSize, const unsi
         //return false;
         throw std::runtime_error(fmt::format("[{}] Cannot load sprite '{}'.", __PRETTY_FUNCTION__, filename));
     }
+
     m_spriteOverlay.Initialize(tileSize.x, tileSize.y, uniformScale);
     m_spriteOverlay.setPosition(getPosition());
 
@@ -64,7 +66,7 @@ grg::Player::Load(const std::string &filename, sf::Vector2u tileSize, const unsi
     unsigned int tv = tileNumber / (m_playerSprite.getSize().x / tileSize.x);
 
     // get a pointer to the current tile's quad
-    sf::Vertex *quad = &m_vertices[(i + j * width) * 4];
+    sf::Vertex* quad = &m_vertices[(i + j * width) * 4];
 
     // define its 4 corners
     quad[0].position = sf::Vector2f(static_cast<float>(i * tileSize.x), static_cast<float>(j * tileSize.y));
@@ -103,20 +105,19 @@ void grg::Player::Update(sf::Time elapsed) {
     //static_cast<void>(viewChanged);
 
     /*const float zoomFactor = 1.01F;
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
+       if(sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
         //m_view.zoom(zoomFactor);
         this->scale(zoomFactor, zoomFactor);
         spdlog::info("Player zoom {}, {}.", getScale().x, getScale().y);
         //viewChanged = true;
-    } else {
+       } else {
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::O)) {
             // m_view.zoom(1.0F / zoomFactor);
             this->scale(1.0F / zoomFactor, 1.0F / zoomFactor);
             spdlog::info("Player zoom {}, {}.", getScale().x, getScale().y);
             //viewChanged = true;
         }
-    }*/
-
+       }*/
 
     // scrolling/movement calculations,
     // Todo: this speed/velocity calculation can be generalized + used for W+S above
@@ -126,25 +127,30 @@ void grg::Player::Update(sf::Time elapsed) {
 
         bool moveKeyPressedVer = false;
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-            m_position += {0.0F, 500.0F * elapsedSeconds};
+            //m_position += {0.0F, -500.0F * elapsedSeconds};
+            m_position += G_DIRECTIONS[Direction::Up] * keyAcceleration * elapsedSeconds;
             moveKeyPressedVer = true;
         } else {
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-                m_position += {0.0F, -500.0F * elapsedSeconds};
+                //m_position += {0.0F, 500.0F * elapsedSeconds};
+                m_position += G_DIRECTIONS[Direction::Down] * keyAcceleration * elapsedSeconds;
                 moveKeyPressedVer = true;
             }
         }
+
         static_cast<void>(moveKeyPressedVer);
         // here the m_yVelocity stuff
         // m_yVelocity *= Velocity::DoCalc(elapsed, m_yVelocity, moveKeyPressedVer);
 
         bool moveKeyPressedHor = false;
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-            m_xVelocity -= speedUp * keyAcceleration * elapsedSeconds;
+            //m_xVelocity -= speedUp * keyAcceleration * elapsedSeconds;
+            m_xVelocity += speedUp * G_DIRECTIONS[Direction::Left].x * keyAcceleration * elapsedSeconds;
             moveKeyPressedHor = true;
         } else {
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-                m_xVelocity += speedUp * keyAcceleration * elapsedSeconds;
+                //m_xVelocity += speedUp * keyAcceleration * elapsedSeconds;
+                m_xVelocity += speedUp * G_DIRECTIONS[Direction::Right].x * keyAcceleration * elapsedSeconds;
                 moveKeyPressedHor = true;
             }
         }
@@ -184,4 +190,3 @@ const sf::Vector2f &grg::Player::GetPlayerPosition() const {
 void grg::Player::SetPlayerPosition(const sf::Vector2f &position) {
     m_position = position;
 }
-

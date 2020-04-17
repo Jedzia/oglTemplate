@@ -17,5 +17,16 @@
 #ifndef OPENGLTEMPLATE_BA4DC712CBEB4B84B4502BCBC8613F84_MATH_H
 #define OPENGLTEMPLATE_BA4DC712CBEB4B84B4502BCBC8613F84_MATH_H
 #include "Utility/VectorUtil.h"
+#include <SFML/System/Vector2.hpp>
 
+namespace grg {
+enum Direction {
+    Up = 0,
+    Right,
+    Down,
+    Left
+};
+
+extern std::array<sf::Vector2f, 4> G_DIRECTIONS;
+}
 #endif//OPENGLTEMPLATE_BA4DC712CBEB4B84B4502BCBC8613F84_MATH_H

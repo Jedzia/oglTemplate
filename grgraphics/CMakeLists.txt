@@ -38,6 +38,7 @@ set(GrGraphics_SRC_FILES
         src/Drawables/SpriteOverlay.cpp
         src/Drawables/TileMap.cpp
         src/Player.cpp
+        src/Math.cpp
         src/Setup.cpp
         src/SimpleApplication.cpp
         src/Utility/Collision.cpp
