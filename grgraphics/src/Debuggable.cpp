@@ -21,3 +21,11 @@ sf::Font grg::Debuggable::m_debugFont;
 grg::Debuggable::Debuggable() {
     grg::loadDebugFont(m_debugFont);
 }
+void grg::Debuggable::draw(sf::RenderTarget &target, sf::RenderStates states) const {
+    if(m_isInDebugMode) {
+        for(const auto &item : m_vDebugText) {
+            //item->draw(target, states);
+            target.draw(*item, states.Default);
+        }
+    }
+}

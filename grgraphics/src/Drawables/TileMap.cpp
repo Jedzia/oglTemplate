@@ -68,19 +68,19 @@ bool grg::TileMap::Load(const std::string &tileSet, sf::Vector2u tileSize, const
                 auto horizontalPosition = tileSize.x * i;
                 auto verticalPosition = tileSize.y * j;
                 auto &txt =
-                    m_vCoords.emplace_back(std::make_unique<sf::Text>(fmt::format("[{}:]", indexPosition, tileNumber, horizontalPosition,
+                  m_vDebugText.emplace_back(make_uniqueX<sf::Text>(fmt::format("[{}:]", indexPosition, tileNumber, horizontalPosition,
                             verticalPosition), m_debugFont, 24));
                 sf::Vector2f textPosition =
                 { static_cast<float>(horizontalPosition) * uniformScale, static_cast<float>(verticalPosition) * uniformScale };
                 txt->setPosition(textPosition);
 
-                auto &txt2 = m_vCoords.emplace_back(std::make_unique<sf::Text>(fmt::format("[No.{}]", tileNumber), m_debugFont, 24));
+                auto &txt2 = m_vDebugText.emplace_back(std::make_unique<sf::Text>(fmt::format("[No.{}]", tileNumber), m_debugFont, 24));
                 float txt2Height = txt2->getGlobalBounds().height;
                 textPosition.y += txt2Height;
                 txt2->setPosition(textPosition);
 
                 auto &txt3 =
-                    m_vCoords.emplace_back(std::make_unique<sf::Text>(fmt::format("({}, {})", horizontalPosition, verticalPosition),
+                  m_vDebugText.emplace_back(std::make_unique<sf::Text>(fmt::format("({}, {})", horizontalPosition, verticalPosition),
                             m_debugFont, 12));
                 textPosition.y += txt2Height;
                 txt3->setPosition(textPosition);
@@ -102,12 +102,7 @@ void grg::TileMap::draw(sf::RenderTarget &target, sf::RenderStates states) const
     // draw the vertex array
     target.draw(m_vertices, states);
 
-    if(m_isInDebugMode) {
-        for(const auto &item : m_vCoords) {
-            //item->draw(target, states);
-            target.draw(*item, states.Default);
-        }
-    }
+    Debuggable::draw(target, states);
 } // grg::TileMap
 
 sf::Vector2f grg::TileMap::GetSize() const {
