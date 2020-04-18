@@ -84,7 +84,7 @@ SortUsingDeclarations: false
 SpaceAfterCStyleCast: false
 SpaceAfterTemplateKeyword: false
 SpaceBeforeAssignmentOperators: true
-SpaceBeforeParens: ControlStatements
+SpaceBeforeParens: Never
 SpaceInEmptyParentheses: false
 SpacesBeforeTrailingComments: 0
 SpacesInAngles: false
