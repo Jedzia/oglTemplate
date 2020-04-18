@@ -5,6 +5,7 @@
       <option name="INDENT_PREPROCESSOR_DIRECTIVE" value="2" />
       <option name="FUNCTION_CALL_ARGUMENTS_ALIGN_MULTILINE" value="false" />
       <option name="CLASS_CONSTRUCTOR_INIT_LIST_ALIGN_MULTILINE" value="false" />
+      <option name="ADD_BRIEF_TAG" value="true" />
       <option name="HEADER_GUARD_STYLE_PATTERN" value="${PROJECT_NAME}_${UUID}_${FILE_NAME}_${EXT}" />
     </Objective-C>
     <Objective-C-extensions>
