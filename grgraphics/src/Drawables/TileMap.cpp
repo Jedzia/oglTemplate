@@ -14,10 +14,13 @@
  */
 /*---------------------------------------------------------*/
 #include "grcore/warning/FMT_format_log.h"
-#include "grgraphics/Drawables/TileMap.h"
 #include "grgraphics/warning/SFML_Graphics.h"
+//
+#include "grgraphics/Drawables/TileMap.h"
+#include <SFML/Graphics/Text.hpp>
 
 //#pragma clang diagnostic warning "-Wconversion"
+
 
 bool grg::TileMap::Load(const std::string &tileSet, sf::Vector2u tileSize, const unsigned int* tiles, unsigned int width,
         unsigned int height, float uniformScale) {
@@ -39,14 +42,15 @@ bool grg::TileMap::Load(const std::string &tileSet, sf::Vector2u tileSize, const
         for(unsigned int j = 0; j < height; ++j)
         {
             // get the current tile number
-            unsigned int tileNumber = tiles[i + j * width];
+            const auto indexPosition = i + j * width;
+            unsigned int tileNumber = tiles[indexPosition];
 
             // find its position in the tileSet texture
             unsigned int tu = tileNumber % (m_tileSet.getSize().x / tileSize.x);
             unsigned int tv = tileNumber / (m_tileSet.getSize().x / tileSize.x);
 
             // get a pointer to the current tile's quad
-            sf::Vertex* quad = &m_vertices[(i + j * width) * 4];
+            sf::Vertex* quad = &m_vertices[indexPosition * 4];
 
             // define its 4 corners
             quad[0].position = sf::Vector2f(static_cast<float>(i * tileSize.x), static_cast<float>(j * tileSize.y));
@@ -59,6 +63,28 @@ bool grg::TileMap::Load(const std::string &tileSet, sf::Vector2u tileSize, const
             quad[1].texCoords = sf::Vector2f(static_cast<float>((tu + 1) * tileSize.x), static_cast<float>(tv * tileSize.y));
             quad[2].texCoords = sf::Vector2f(static_cast<float>((tu + 1) * tileSize.x), static_cast<float>((tv + 1) * tileSize.y));
             quad[3].texCoords = sf::Vector2f(static_cast<float>(tu * tileSize.x), static_cast<float>((tv + 1) * tileSize.y));
+
+            if(m_isInDebugMode) {
+                auto horizontalPosition = tileSize.x * i;
+                auto verticalPosition = tileSize.y * j;
+                auto &txt =
+                    m_vCoords.emplace_back(std::make_unique<sf::Text>(fmt::format("[{}:]", indexPosition, tileNumber, horizontalPosition,
+                            verticalPosition), m_debugFont, 24));
+                sf::Vector2f textPosition =
+                { static_cast<float>(horizontalPosition) * uniformScale, static_cast<float>(verticalPosition) * uniformScale };
+                txt->setPosition(textPosition);
+
+                auto &txt2 = m_vCoords.emplace_back(std::make_unique<sf::Text>(fmt::format("[No.{}]", tileNumber), m_debugFont, 24));
+                float txt2Height = txt2->getGlobalBounds().height;
+                textPosition.y += txt2Height;
+                txt2->setPosition(textPosition);
+
+                auto &txt3 =
+                    m_vCoords.emplace_back(std::make_unique<sf::Text>(fmt::format("({}, {})", horizontalPosition, verticalPosition),
+                            m_debugFont, 12));
+                textPosition.y += txt2Height;
+                txt3->setPosition(textPosition);
+            }
         }
     }
     this->scale(uniformScale, uniformScale);
@@ -75,7 +101,14 @@ void grg::TileMap::draw(sf::RenderTarget &target, sf::RenderStates states) const
 
     // draw the vertex array
     target.draw(m_vertices, states);
-}
+
+    if(m_isInDebugMode) {
+        for(const auto &item : m_vCoords) {
+            //item->draw(target, states);
+            target.draw(*item, states.Default);
+        }
+    }
+} // grg::TileMap
 
 sf::Vector2f grg::TileMap::GetSize() const {
     float fullWidth = static_cast<float>(m_tileSize.x * m_tileWidth);
@@ -92,3 +125,5 @@ sf::Vector2f grg::TileMap::GetTilePosition(unsigned int x, unsigned int y) const
     sf::Vector2f adapted(result.x * this->getScale().x, result.y * this->getScale().y);
     return adapted;
 }
+
+grg::TileMap::~TileMap() {}
