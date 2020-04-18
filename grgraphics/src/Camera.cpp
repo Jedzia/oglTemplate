@@ -33,15 +33,17 @@ void grg::Camera::UpdateView(sf::Time /*elapsed*/) {
 
     {// zoom
         const float zoomFactor = 1.01F;
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-            view.zoom(zoomFactor);
-            spdlog::info("View zoom {}, {}.", view.getSize().x, view.getSize().y);
-            viewChanged = true;
-        } else {
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-                view.zoom(1.0F / zoomFactor);
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+                view.zoom(zoomFactor);
                 spdlog::info("View zoom {}, {}.", view.getSize().x, view.getSize().y);
                 viewChanged = true;
+            } else {
+                if(sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+                    view.zoom(1.0F / zoomFactor);
+                    spdlog::info("View zoom {}, {}.", view.getSize().x, view.getSize().y);
+                    viewChanged = true;
+                }
             }
         }
     }
