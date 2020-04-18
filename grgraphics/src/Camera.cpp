@@ -30,7 +30,7 @@ void grg::Camera::UpdateView(sf::Time /*elapsed*/) {
 
     bool viewChanged = false;
 
-    { // zoom
+    {// zoom
         const float zoomFactor = 1.01F;
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
             view.zoom(zoomFactor);
@@ -45,10 +45,8 @@ void grg::Camera::UpdateView(sf::Time /*elapsed*/) {
         }
     }
 
-    { // Set camera from player position.
-        sf::Vector2f cameraTranslation {
-            0.0F, 0.0F
-        };
+    {// Set camera from player position.
+        sf::Vector2f cameraTranslation{ 0.0F, 0.0F };
         view.setCenter(m_player.GetPlayerPosition() + cameraTranslation);
 
         if(viewChanged || m_window.getView().getTransform() != view.getTransform()) {
@@ -57,7 +55,7 @@ void grg::Camera::UpdateView(sf::Time /*elapsed*/) {
             m_window.setView(view);
         }
     }
-} // grg::Camera::UpdateView
+}// grg::Camera::UpdateView
 
 sf::Vector2f grg::Camera::GetScreenCoords(const sf::Vector2f &worldCoordinates) {
     const sf::Vector2i screenCoordsI = m_window.mapCoordsToPixel(worldCoordinates);
@@ -75,7 +73,5 @@ sf::Vector2f grg::Camera::GetRelativeWorldCoords(const sf::Vector2i &screenCoord
     const float resultX = relF.x / screensizeHalf.x;
     const float resultY = -relF.y / screensizeHalf.y;
 
-    return {
-               resultX, resultY
-    };
+    return { resultX, resultY };
 }
