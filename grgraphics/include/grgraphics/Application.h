@@ -65,9 +65,6 @@ public:
     void SetVSync(bool enabled);
 
 private:
-
-    void loadDebugFont();
-
     sf::RenderWindow &m_window;
     sf::Text m_fpsDisplay;
     sf::Font m_mainGameFont;

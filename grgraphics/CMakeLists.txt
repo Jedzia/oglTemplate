@@ -45,7 +45,7 @@ set(GrGraphics_SRC_FILES
         src/Utility/VectorUtil.cpp
         src/Utility/Velocity.cpp
         src/test.cpp
-        )
+        src/Utility/Common.cpp include/grgraphics/Utility/Common.h src/Debuggable.cpp include/grgraphics/Debuggable.h)
 if (WIN32)
     #    set(GrGraphics_SRC_FILES ${GrGraphics_SRC_FILES}
     #            src/win/wgl_common.cpp)

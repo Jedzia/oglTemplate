@@ -19,6 +19,7 @@
 #include <grcore/Resource.h>
 #include <iostream>
 #include <spdlog/spdlog.h>
+#include "grgraphics/Utility/Common.h"
 
 //constexpr bool USE_VSYNC = false;
 
@@ -27,7 +28,7 @@ grg::Application::Application(sf::RenderWindow &window, bool vSyncEnabled, unsig
     SetVSync(vSyncEnabled);
     m_mainGameFont.loadFromFile("Futura Bk BT Book.ttf");
     m_fpsDisplay = sf::Text("Test, Test", m_mainGameFont);
-    loadDebugFont();
+    grg::loadDebugFont(m_debugFont);
 }
 
 /** Brief description of Application, Run
@@ -140,25 +141,3 @@ void grg::Application::SetVSync(bool enabled) {
 sf::Vector2<unsigned int> grg::Application::GetSize() const {
     return m_window.getSize();
 }
-
-void grg::Application::loadDebugFont() {
-    const int fontId = 129;
-    auto fi = m_debugFont.getInfo();
-    if(!(fi.family == "")) {return; }
-
-    spdlog::warn("[{}] Loading Font from resource (id={}).", __PRETTY_FUNCTION__, fontId);
-    grcore::Resource res(fontId);
-    auto [data, size, error] = res.Get();
-    //std::cout << "data:" << data << std::endl;
-    //std::cout << "size:" << size << std::endl;
-    //std::cout << "error:" << error << std::endl;
-    if(!error) {
-        bool success = m_debugFont.loadFromMemory(data, size);
-        if(success) {
-            fi = m_debugFont.getInfo();
-            spdlog::warn("[{}] Loaded Font from resource (id={}): '{}'.", __PRETTY_FUNCTION__, fontId, fi.family);
-        } else {
-            spdlog::error("[{}] ERROR loading Font from resource (id={}).", __PRETTY_FUNCTION__, fontId);
-        }
-    }
-} // grg::Application::loadDebugFont

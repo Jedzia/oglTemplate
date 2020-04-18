@@ -62,13 +62,16 @@ void grg::Camera::UpdateView(sf::Time /*elapsed*/) {
                       { padLeft, padTop, static_cast<float>(m_window.getSize().x) - padWidth - boundsX,
           static_cast<float>(m_window.getSize().y) - padHeight - boundsY * lines });
 
-        view.setCenter(restrictedPosition);
+        static_cast<void>(restrictedPosition);
+//        view.setCenter(restrictedPosition);
 
-        if(viewChanged || m_window.getView().getTransform() != view.getTransform()) {
+        //if(viewChanged || m_window.getView().getTransform() != view.getTransform()) {
             //spdlog::info("m_window.setView Center x{}, y{}.", view.getCenter().x,
             // view.getCenter().y);
-            m_window.setView(view);
-        }
+
+        m_window.setView(view);
+
+        //}
     }
 }// grg::Camera::UpdateView
 
