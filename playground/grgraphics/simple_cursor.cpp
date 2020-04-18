@@ -47,8 +47,8 @@ public:
         //static_cast<void>(font);
         //static_cast<void>(m_MainGameFont);
         //m_MainGameFont = &application.GetMainGameFont();
-        m_backGround = std::make_unique<sf::Text>(__PRETTY_FUNCTION__, application.GetMainGameFont(), 24);
-        m_backGround->setPosition({ 100, 100 });
+        m_infoText = std::make_unique<sf::Text>(__PRETTY_FUNCTION__, application.GetMainGameFont(), 24);
+        m_infoText->setPosition({ 100, 100 });
         //std::make_unique<grg::CoordSystem>(sf::FloatRect({0.F, 0.F}, {600.F, 600.F}));
         //m_pCoords = std::make_unique<grg::CoordSystem>(sf::FloatRect({0.F, 0.F}, {600.F, 600.F}));
         const auto size = application.GetSize();
@@ -88,7 +88,7 @@ public:
 
         m_pCursor->Update(elapsed);
 
-        m_backGround->setString(fmt::format("elapsed time: {:.2f}s, x: {:.1f}, y: {:.1f}", m_totalTime.asSeconds(), m_coord.x, m_coord.y));
+        m_infoText->setString(fmt::format("elapsed time: {:.2f}s, x: {:.1f}, y: {:.1f}", m_totalTime.asSeconds(), m_coord.x, m_coord.y));
 
         m_shape.setPosition(m_coord);
         V2F translation {Speed, Speed * 0.5F };
@@ -129,7 +129,7 @@ public:
             window.draw(m_shape);
         }
 
-        window.draw(*m_backGround);
+        window.draw(*m_infoText);
 
         {
             //InstrumentationTimer timer("draw grg::CoordSystem");
@@ -151,7 +151,7 @@ private:
     std::unique_ptr<grg::Cursor> m_pCursor;
     bool m_drawShape = false;
     //const sf::Font * m_MainGameFont = nullptr;
-    std::unique_ptr<sf::Text> m_backGround;
+    std::unique_ptr<sf::Text> m_infoText;
     sf::Time m_totalTime;
 };
 

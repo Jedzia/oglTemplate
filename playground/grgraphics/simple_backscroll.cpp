@@ -50,8 +50,8 @@ public:
         //static_cast<void>(font);
         //static_cast<void>(m_MainGameFont);
         //m_MainGameFont = &application.GetMainGameFont();
-        m_backGround = std::make_unique<sf::Text>(__PRETTY_FUNCTION__, application.GetMainGameFont(), 24);
-        m_backGround->setPosition({100, 100});
+        m_infoText = std::make_unique<sf::Text>(__PRETTY_FUNCTION__, application.GetMainGameFont(), 24);
+        m_infoText->setPosition({100, 100});
         //std::make_unique<grg::CoordSystem>(sf::FloatRect({0.F, 0.F}, {600.F, 600.F}));
         //m_pCoords = std::make_unique<grg::CoordSystem>(sf::FloatRect({0.F, 0.F}, {600.F, 600.F}));
         const auto size = application.GetSize();
@@ -189,7 +189,7 @@ public:
                 }
             }
 
-            m_backGround->setString(
+            m_infoText->setString(
                     fmt::format("elapsed time: {:.2f}s, x: {:.1f}, y: {:.1f}, xVelocity: {:.1f}, speedRamp: {:.3f}",
                             m_totalTime.asSeconds(),
                             m_coord.x, m_coord.y, m_xVelocity, speedRamp));
@@ -248,7 +248,7 @@ public:
 
         auto oldView = window.getView();
         window.setView(window.getDefaultView());
-        window.draw(*m_backGround);
+        window.draw(*m_infoText);
         window.setView(oldView);
         //sf::sleep(sf::milliseconds(1));
     } // OnDraw
@@ -265,7 +265,7 @@ private:
     bool m_drawShape = false;
     bool m_drawTiles = true;
     //const sf::Font * m_MainGameFont = nullptr;
-    std::unique_ptr<sf::Text> m_backGround;
+    std::unique_ptr<sf::Text> m_infoText;
     sf::Time m_totalTime;
     sf::View m_view;
     float m_xVelocity = 0;

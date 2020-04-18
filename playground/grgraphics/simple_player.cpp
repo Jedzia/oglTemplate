@@ -43,8 +43,15 @@ public:
 
         //m_window->getView().getSize()
         //m_player.SetPlayerPosition({100,100});
+
+        // player at: tiles mid position
         //m_player.SetPlayerPosition(m_tileMap.GetSize() / 2.0F);
-        m_player.SetPlayerPosition(m_tileMap.GetTilePosition(1,1));
+
+        // player at: screen mid position
+        m_player.SetPlayerPosition(m_window->getView().getSize() / 2.0F);
+
+        // player at: specific tile position
+        //m_player.SetPlayerPosition(m_tileMap.GetTilePosition(1,1));
     }
 
     void OnInit(const grg::Application &application) override {
@@ -56,8 +63,8 @@ public:
         //static_cast<void>(font);
         //static_cast<void>(m_MainGameFont);
         //m_MainGameFont = &application.GetMainGameFont();
-        m_backGround = std::make_unique<sf::Text>(__PRETTY_FUNCTION__, application.GetMainGameFont(), 24);
-        m_backGround->setPosition({100, 100});
+        m_infoText = std::make_unique<sf::Text>(__PRETTY_FUNCTION__, application.GetMainGameFont(), 24);
+        m_infoText->setPosition({100, 100});
         //std::make_unique<grg::CoordSystem>(sf::FloatRect({0.F, 0.F}, {600.F, 600.F}));
         //m_pCoords = std::make_unique<grg::CoordSystem>(sf::FloatRect({0.F, 0.F}, {600.F, 600.F}));
         const auto size = application.GetSize();
@@ -97,6 +104,7 @@ public:
         //m_player.setPosition(V2F{300.F, 300.F});
 
         //m_tileMap.Load()
+        Reset();
     } // OnInit
 
     void OnEvent(sf::Event event) override {
@@ -201,7 +209,7 @@ public:
                 m_camera->UpdateView(elapsed);
             }
 
-            m_backGround->setString(
+            m_infoText->setString(
                     fmt::format("elapsed time: {:.2f}s, x: {:.1f}, y: {:.1f}, xVelocity: {:.1f}, speedRamp: {:.3f}",
                             m_totalTime.asSeconds(),
                             m_coord.x, m_coord.y, m_xVelocity, speedRamp));
@@ -264,33 +272,33 @@ public:
 
         auto oldView = window.getView();
         window.setView(window.getDefaultView());
-        window.draw(*m_backGround);
+        window.draw(*m_infoText);
         window.setView(oldView);
         //sf::sleep(sf::milliseconds(1));
     } // OnDraw
 
 private:
 
-    grcore::CsvFile<';'> m_csvFile {"data.csv"};
-    const float Speed = 250.F;
-    sf::RenderWindow* m_window;
-    V2F m_coord {0, 0};
+    //const sf::Font * m_MainGameFont = nullptr;
+    //sf::View m_view;
     MyShape m_shape;
-    std::unique_ptr<grg::CoordSystem> m_pCoords;
-    std::unique_ptr<grg::Cursor> m_pCursor;
+    V2F m_coord {0, 0};
+    bool m_drawPlayer = true;
     bool m_drawShape = false;
     bool m_drawTiles = true;
-    bool m_drawPlayer = true;
-    //const sf::Font * m_MainGameFont = nullptr;
-    std::unique_ptr<sf::Text> m_backGround;
-    sf::Time m_totalTime;
-    //sf::View m_view;
-    float m_xVelocity = 0;
-    float m_lastAbsVelocity = 0;
-    grg::TileMap m_tileMap;
     bool m_keyNum1Released = true;
+    const float Speed = 250.F;
+    float m_lastAbsVelocity = 0;
+    float m_xVelocity = 0;
+    grcore::CsvFile<';'> m_csvFile {"data.csv"};
     grg::Player m_player;
+    grg::TileMap m_tileMap;
+    sf::RenderWindow* m_window;
+    sf::Time m_totalTime;
     std::unique_ptr<grg::Camera> m_camera;
+    std::unique_ptr<grg::CoordSystem> m_pCoords;
+    std::unique_ptr<grg::Cursor> m_pCursor;
+    std::unique_ptr<sf::Text> m_infoText;
 };
 
 /** Program Entry Function, main
