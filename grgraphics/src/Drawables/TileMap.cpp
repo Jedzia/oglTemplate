@@ -63,7 +63,7 @@ bool grg::TileMap::Load(const std::string &tileSet, sf::Vector2u tileSize, const
             quad[2].texCoords = sf::Vector2f(static_cast<float>((tu + 1) * tileSize.x), static_cast<float>((tv + 1) * tileSize.y));
             quad[3].texCoords = sf::Vector2f(static_cast<float>(tu * tileSize.x), static_cast<float>((tv + 1) * tileSize.y));
 
-            if(m_isInDebugMode) {
+            if(Is_In_Debug_Mode) {
                 float horizontalPosition = static_cast<float>(tileSize.x * i);
                 float verticalPosition = static_cast<float>(tileSize.y * j);
                 sf::Vector2f textPosition = { horizontalPosition* uniformScale, verticalPosition* uniformScale };

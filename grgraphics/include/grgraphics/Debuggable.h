@@ -33,6 +33,7 @@ class Debuggable {
 protected:
 
     typedef typename std::vector<std::unique_ptr<sf::Text>> StorageType;
+
     static sf::Font m_debugFont;
 
     Debuggable();
@@ -52,7 +53,7 @@ protected:
 
     void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
-    bool m_isInDebugMode = true;
+    static constexpr bool Is_In_Debug_Mode = true;
     StorageType m_vDebugText;
 };
 }
