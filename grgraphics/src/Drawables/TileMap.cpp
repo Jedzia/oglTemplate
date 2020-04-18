@@ -21,7 +21,6 @@
 
 //#pragma clang diagnostic warning "-Wconversion"
 
-
 bool grg::TileMap::Load(const std::string &tileSet, sf::Vector2u tileSize, const unsigned int* tiles, unsigned int width,
         unsigned int height, float uniformScale) {
     m_tileSize = tileSize;
@@ -65,24 +64,19 @@ bool grg::TileMap::Load(const std::string &tileSet, sf::Vector2u tileSize, const
             quad[3].texCoords = sf::Vector2f(static_cast<float>(tu * tileSize.x), static_cast<float>((tv + 1) * tileSize.y));
 
             if(m_isInDebugMode) {
-                auto horizontalPosition = tileSize.x * i;
-                auto verticalPosition = tileSize.y * j;
-                auto &txt =
-                  m_vDebugText.emplace_back(make_uniqueX<sf::Text>(fmt::format("[{}:]", indexPosition, tileNumber, horizontalPosition,
-                            verticalPosition), m_debugFont, 24));
-                sf::Vector2f textPosition =
-                { static_cast<float>(horizontalPosition) * uniformScale, static_cast<float>(verticalPosition) * uniformScale };
-                txt->setPosition(textPosition);
+                float horizontalPosition = static_cast<float>(tileSize.x * i);
+                float verticalPosition = static_cast<float>(tileSize.y * j);
+                sf::Vector2f textPosition = { horizontalPosition* uniformScale, verticalPosition* uniformScale };
+                make_debug_text<sf::Text>(fmt::format("[{}:]", indexPosition, tileNumber, horizontalPosition,
+                        verticalPosition), m_debugFont, 24)->setPosition(textPosition);
 
-                auto &txt2 = m_vDebugText.emplace_back(std::make_unique<sf::Text>(fmt::format("[No.{}]", tileNumber), m_debugFont, 24));
+                auto &txt2 = make_debug_text<sf::Text>(fmt::format("[No.{}]", tileNumber), m_debugFont, 24);
                 float txt2Height = txt2->getGlobalBounds().height;
                 textPosition.y += txt2Height;
                 txt2->setPosition(textPosition);
 
-                auto &txt3 =
-                  m_vDebugText.emplace_back(std::make_unique<sf::Text>(fmt::format("({}, {})", horizontalPosition, verticalPosition),
-                            m_debugFont, 12));
-                textPosition.y += txt2Height;
+                auto &txt3 = make_debug_text<sf::Text>(fmt::format("({}, {})", horizontalPosition, verticalPosition), m_debugFont, 12);
+                textPosition.y += txt2Height + 6;
                 txt3->setPosition(textPosition);
             }
         }

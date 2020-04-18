@@ -16,7 +16,7 @@
 #include "grgraphics/Math.h"
 
 
-std::array grg::G_DIRECTIONS =
+std::array<sf::Vector2f, 4> grg::G_DIRECTIONS =
         {
                 /** Up */
                 sf::Vector2f{0.0F, -1.0F},
