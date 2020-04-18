@@ -15,6 +15,7 @@
 /*---------------------------------------------------------*/
 #include "grcore/warning/FMT_format_log.h"
 #include "grgraphics/warning/SFML_Graphics.h"
+#include <grgraphics/Utility/VectorUtil.h>
 //
 #include "grgraphics/Camera.h"
 
@@ -47,7 +48,21 @@ void grg::Camera::UpdateView(sf::Time /*elapsed*/) {
 
     {// Set camera from player position.
         sf::Vector2f cameraTranslation{ 0.0F, 0.0F };
-        view.setCenter(m_player.GetPlayerPosition() + cameraTranslation);
+        const auto position = m_player.GetPlayerPosition() + cameraTranslation;
+
+        const auto lines = 1;
+        const auto padLeft = 120.0F;
+        const auto padTop = 120.0F;
+        const auto padWidth = 120.0F;
+        const auto padHeight = 120.0F;
+        const auto boundsX = 0.0F;
+        const auto boundsY = 0.0F;
+        const auto restrictedPosition =
+            restrict (position,
+                      { padLeft, padTop, static_cast<float>(m_window.getSize().x) - padWidth - boundsX,
+          static_cast<float>(m_window.getSize().y) - padHeight - boundsY * lines });
+
+        view.setCenter(restrictedPosition);
 
         if(viewChanged || m_window.getView().getTransform() != view.getTransform()) {
             //spdlog::info("m_window.setView Center x{}, y{}.", view.getCenter().x,
