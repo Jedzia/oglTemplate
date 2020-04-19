@@ -13,15 +13,16 @@
  * modified    2020-03-23, Jedzia
  */
 /*---------------------------------------------------------*/
+#include <grcore/warning/FMT_format_log.h>
+#include <grgraphics/warning/SFML_Graphics.h>
 //#include <grcore/instrumentation.h>
-#include <SFML/Graphics/Color.hpp>
 #include <grcore/DataAcquisition.h>
 #include <grcore/Logging.h>
 #include <grcore/Telemetry.h>
 #include <grgraphics/GrGraphics.h>
-#include <grgraphics/warning/SFML_Graphics.h>
 #include <memory>
 #include <spdlog/sinks/ansicolor_sink.h>
+#include <SFML/Graphics/Color.hpp>
 
 /** @class MyApplication:
  *  Represents the handler for all window actions.
@@ -32,7 +33,7 @@ public:
     using MyShape = sf::RectangleShape;
     using V2F = sf::Vector2f;
 
-    MyApplication() : grg::SimpleApplication(), m_shape(MyShape({100.F, 50.F})) {
+    MyApplication() : grg::SimpleApplication(), m_shape(MyShape({ 100.F, 50.F })) {
         m_shape.setFillColor(sf::Color::Magenta);
         //Instrumentor::Instance().BeginSession(__PRETTY_FUNCTION__);
     }
@@ -64,12 +65,12 @@ public:
         //static_cast<void>(m_MainGameFont);
         //m_MainGameFont = &application.GetMainGameFont();
         m_infoText = std::make_unique<sf::Text>(__PRETTY_FUNCTION__, application.GetMainGameFont(), 24);
-        m_infoText->setPosition({100, 100});
+        m_infoText->setPosition({ 100, 100 });
         //std::make_unique<grg::CoordSystem>(sf::FloatRect({0.F, 0.F}, {600.F, 600.F}));
         //m_pCoords = std::make_unique<grg::CoordSystem>(sf::FloatRect({0.F, 0.F}, {600.F, 600.F}));
         const auto size = application.GetSize();
         m_pCoords = std::make_unique<grg::CoordSystem>(
-                sf::FloatRect({0.F, 0.F}, {static_cast<float>(size.x), static_cast<float>(size.y)}),
+                sf::FloatRect({ 0.F, 0.F }, { static_cast<float>(size.x), static_cast<float>(size.y) }),
                 application.GetDebugFont());
         m_pCursor = std::make_unique<grg::Cursor>(application.GetWindow(), application.GetDebugFont());
         m_pCursor->SetPlayer(&m_player);
@@ -105,7 +106,7 @@ public:
 
         //m_tileMap.Load()
         Reset();
-    } // OnInit
+    }// OnInit
 
     void OnEvent(sf::Event event) override {
         // Only switch when pressed down. A key release is necessary to fire again.
@@ -167,14 +168,14 @@ public:
                 }
             }
 
-            const float absVelocity = std::abs(m_xVelocity);
+            /*const float absVelocity = std::abs(m_xVelocity);
             float speedRamp = 1.0F - elapsedSeconds * speedUp;
             //if(absVelocity + 1.0F < lastAbsVelocity) {
             if(!moveKeyPressed) {
                 //} else {
                 constexpr float slowDown = 1.4F * speedUp;
                 speedRamp = 1.0F - elapsedSeconds * slowDown;
-                constexpr float hysteresisEdge = 50.0F * slowDown; // lower edge when friction
+                constexpr float hysteresisEdge = 50.0F * slowDown;// lower edge when friction
                 // starts to
                 // decrease velocity abrupt.
                 if(absVelocity < hysteresisEdge) {
@@ -187,17 +188,21 @@ public:
                         m_xVelocity = 0;
                     }
                 }
-            }
+            }*/
 
-            m_player.Update(elapsed);
+            m_xVelocity *= grg::Velocity::DoCalc(elapsed, m_xVelocity, moveKeyPressed);
+            m_position += { m_xVelocity* elapsedSeconds, 0.0F };
+            m_tileMap.setPosition(m_position);
 
-            m_lastAbsVelocity = absVelocity;
-            m_xVelocity *= speedRamp;
+            //m_lastAbsVelocity = absVelocity;
+            //            m_xVelocity *= speedRamp;
             //m_csvFile.WriteData(m_xVelocity);
             grcore::writeTelemetryData(static_cast<double>(m_xVelocity));
 
-            { // handle Graph
-              //m_view.move(m_xVelocity * elapsedSeconds, 0.0F);
+            m_player.Update(elapsed);
+
+            {// handle Graph
+             //m_view.move(m_xVelocity * elapsedSeconds, 0.0F);
 
                 /*// Here a camera should do its work
                    m_view.setCenter(m_player.GetPlayerPosition() + V2F {0.0F, 0.0F});
@@ -210,19 +215,17 @@ public:
             }
 
             m_infoText->setString(
-                    fmt::format("elapsed time: {:.2f}s, x: {:.1f}, y: {:.1f}, xVelocity: {:.1f}, speedRamp: {:.3f}",
+                    fmt::format("elapsed time: {:.2f}s, x: {:.1f}, y: {:.1f}, xVelocity: {:.1f}, m_position: {:.3f},{:.3f}",
                             m_totalTime.asSeconds(),
-                            m_coord.x, m_coord.y, m_xVelocity, speedRamp));
+                            m_coord.x, m_coord.y, m_xVelocity, m_position.x, m_position.y));
         }
 
         m_pCursor->Update(elapsed);
         m_shape.setPosition(m_coord);
-        V2F translation {Speed, Speed * 0.5F};
+        V2F translation{ Speed, Speed * 0.5F };
         m_coord += translation * elapsedSeconds;
-        m_drawShape = (
-            CheckBounds(m_coord, 500, 500, static_cast<int>(-m_shape.getSize().x),
-                    static_cast<int>(-m_shape.getSize().y)) == 0);
-    } // OnUpdate
+        m_drawShape = (CheckBounds(m_coord, 500, 500, static_cast<int>(-m_shape.getSize().x), static_cast<int>(-m_shape.getSize().y)) == 0);
+    }// OnUpdate
 
     static int CheckBounds(V2F &v, int xMax, int yMax, int xMin = 0, int yMin = 0) {
         int result = 0;
@@ -275,22 +278,23 @@ public:
         window.draw(*m_infoText);
         window.setView(oldView);
         //sf::sleep(sf::milliseconds(1));
-    } // OnDraw
+    }// OnDraw
 
 private:
 
     //const sf::Font * m_MainGameFont = nullptr;
     //sf::View m_view;
     MyShape m_shape;
-    V2F m_coord {0, 0};
+    V2F m_coord{ 0, 0 };
     bool m_drawPlayer = true;
     bool m_drawShape = false;
     bool m_drawTiles = true;
     bool m_keyNum1Released = true;
     const float Speed = 250.F;
-    float m_lastAbsVelocity = 0;
+    //float m_lastAbsVelocity = 0;
+    sf::Vector2f m_position{ 0, 0 };
     float m_xVelocity = 0;
-    grcore::CsvFile<';'> m_csvFile {"data.csv"};
+    grcore::CsvFile<';'> m_csvFile{ "data.csv" };
     grg::Player m_player;
     grg::TileMap m_tileMap;
     sf::RenderWindow* m_window;
@@ -310,7 +314,7 @@ int main() {
     //core::logging::setUpDefaultLogger(spdlog::default_logger(), spdlog::level::debug);
 
     // easy named logger setup
-    spdlog::set_default_logger(grcore::logging::setUpDefaultLogger("OpenGLTemplate", spdlog::level::debug)); // or
+    spdlog::set_default_logger(grcore::logging::setUpDefaultLogger("OpenGLTemplate", spdlog::level::debug));// or
     //NAMED_DEFAULT_LOGGER("MyApplication");
 
     // shit, this affects the loglevel of the main logger
