@@ -27,8 +27,7 @@ grg::Debuggable::Debuggable() {
 void grg::Debuggable::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     if(Is_In_Debug_Mode) {
         for(const auto &item : m_vDebugText) {
-            //item->draw(target, states);
-            target.draw(*item, states.Default);
+            target.draw(*item, states);
         }
     }
 }
