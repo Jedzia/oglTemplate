@@ -199,31 +199,8 @@ public:
         m_shape.setPosition(m_coord);
         V2F translation {Speed, Speed * 0.5F};
         m_coord += translation * elapsedSeconds;
-        m_drawShape = (
-            CheckBounds(m_coord, 500, 500, static_cast<int>(-m_shape.getSize().x),
-                    static_cast<int>(-m_shape.getSize().y)) == 0);
+        m_drawShape = (grg::checkBounds(m_coord, 500, 500, static_cast<int>(-m_shape.getSize().x), static_cast<int>(-m_shape.getSize().y)) == 0);
     } // OnUpdate
-
-    static int CheckBounds(V2F &v, int xMax, int yMax, int xMin = 0, int yMin = 0) {
-        int result = 0;
-        if(static_cast<int>(v.x) < xMin) {
-            v.x = static_cast<float>(xMax);
-            result = -1;
-        } else if(static_cast<int>(v.x) > xMax) {
-            v.x = static_cast<float>(xMin);
-            result = 1;
-        }
-
-        if(static_cast<int>(v.y) < yMin) {
-            v.y = static_cast<float>(yMax);
-            result = -2;
-        } else if(static_cast<int>(v.y) > yMax) {
-            v.y = static_cast<float>(yMin);
-            result = 2;
-        }
-
-        return result;
-    }// CheckBounds
 
     /** Draw content.
      *  Draw your content to the window every frame.

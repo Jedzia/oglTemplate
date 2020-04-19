@@ -28,5 +28,27 @@ enum Direction {
 };
 
 extern std::array<sf::Vector2f, 4> G_DIRECTIONS;
+
+template<typename VectorClass>
+static int checkBounds(VectorClass &v, int xMax, int yMax, int xMin = 0, int yMin = 0) {
+    int result = 0;
+    if(static_cast<int>(v.x) < xMin) {
+        v.x = static_cast<float>(xMax);
+        result = -1;
+    } else if(static_cast<int>(v.x) > xMax) {
+        v.x = static_cast<float>(xMin);
+        result = 1;
+    }
+
+    if(static_cast<int>(v.y) < yMin) {
+        v.y = static_cast<float>(yMax);
+        result = -2;
+    } else if(static_cast<int>(v.y) > yMax) {
+        v.y = static_cast<float>(yMin);
+        result = 2;
+    }
+
+    return result;
+}// checkBounds
 }
 #endif//OPENGLTEMPLATE_BA4DC712CBEB4B84B4502BCBC8613F84_MATH_H

@@ -26,6 +26,8 @@
       <w>sfml</w>
       <w>spdlog</w>
       <w>spio</w>
+      <w>tilemap</w>
+      <w>tileset</w>
       <w>timepoint</w>
       <w>uncrustified</w>
       <w>versioning</w>

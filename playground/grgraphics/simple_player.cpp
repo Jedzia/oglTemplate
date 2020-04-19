@@ -22,7 +22,6 @@
 #include <grgraphics/GrGraphics.h>
 #include <memory>
 #include <spdlog/sinks/ansicolor_sink.h>
-#include <SFML/Graphics/Color.hpp>
 
 /** @class MyApplication:
  *  Represents the handler for all window actions.
@@ -57,21 +56,16 @@ public:
 
     void OnInit(const grg::Application &application) override {
         m_window = &application.GetWindow();
-        //m_view = m_window->getView();
         m_camera = std::make_unique<grg::Camera>(m_player, *m_window);
-        //m_MainGameFont = application.GetMainGameFont();
-        //const sf::Font& font = application.GetMainGameFont();
-        //static_cast<void>(font);
-        //static_cast<void>(m_MainGameFont);
-        //m_MainGameFont = &application.GetMainGameFont();
+
         m_infoText = std::make_unique<sf::Text>(__PRETTY_FUNCTION__, application.GetMainGameFont(), 24);
         m_infoText->setPosition({ 100, 100 });
-        //std::make_unique<grg::CoordSystem>(sf::FloatRect({0.F, 0.F}, {600.F, 600.F}));
-        //m_pCoords = std::make_unique<grg::CoordSystem>(sf::FloatRect({0.F, 0.F}, {600.F, 600.F}));
+
         const auto size = application.GetSize();
         m_pCoords = std::make_unique<grg::CoordSystem>(
                 sf::FloatRect({ 0.F, 0.F }, { static_cast<float>(size.x), static_cast<float>(size.y) }),
                 application.GetDebugFont());
+
         m_pCursor = std::make_unique<grg::Cursor>(application.GetWindow(), application.GetDebugFont());
         m_pCursor->SetPlayer(&m_player);
         m_pCursor->SetCamera(m_camera.get());
@@ -89,22 +83,18 @@ public:
             0, 0, 1, 0, 3, 2, 2, 2, 0, 0, 0, 0, 1, 1, 1, 1,
         };
 
-        const char* tileSetFilename = "graphics-vertex-array-tilemap-tileset.png";
-        const char* playerFilename = "Esquire.png";
-
         // create the tilemap from the level definition
+        const char* tileSetFilename = "graphics-vertex-array-tilemap-tileset.png";
         if(!m_tileMap.Load(tileSetFilename, sf::Vector2u(32, 32), level, 16, 8, 4.0F)) {
             spdlog::error("[{}] ERROR loading tile-map resource (id={}).", __PRETTY_FUNCTION__, tileSetFilename);
             //throw std::runtime_error("FUCK YOU");
         }
 
+        const char* playerFilename = "Esquire.png";
         if(!m_player.Load(playerFilename, sf::Vector2u(32, 32), level, 16, 8, 4.0F)) {
             spdlog::error("[{}] ERROR loading player resource (id={}).", __PRETTY_FUNCTION__, tileSetFilename);
         }
 
-        //m_player.setPosition(V2F{300.F, 300.F});
-
-        //m_tileMap.Load()
         Reset();
     }// OnInit
 
@@ -180,30 +170,9 @@ public:
             V2F translation{ Speed, Speed * 0.5F };
             m_coord += translation * elapsedSeconds;
             m_drawShape =
-                (CheckBounds(m_coord, 500, 500, static_cast<int>(-m_shape.getSize().x), static_cast<int>(-m_shape.getSize().y)) == 0);
+                (grg::checkBounds(m_coord, 500, 500, static_cast<int>(-m_shape.getSize().x), static_cast<int>(-m_shape.getSize().y)) == 0);
         }
     }// OnUpdate
-
-    static int CheckBounds(V2F &v, int xMax, int yMax, int xMin = 0, int yMin = 0) {
-        int result = 0;
-        if(static_cast<int>(v.x) < xMin) {
-            v.x = static_cast<float>(xMax);
-            result = -1;
-        } else if(static_cast<int>(v.x) > xMax) {
-            v.x = static_cast<float>(xMin);
-            result = 1;
-        }
-
-        if(static_cast<int>(v.y) < yMin) {
-            v.y = static_cast<float>(yMax);
-            result = -2;
-        } else if(static_cast<int>(v.y) > yMax) {
-            v.y = static_cast<float>(yMin);
-            result = 2;
-        }
-
-        return result;
-    }// CheckBounds
 
     /** Draw content.
      *  Draw your content to the window every frame.
