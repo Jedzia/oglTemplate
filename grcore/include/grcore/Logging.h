@@ -24,10 +24,12 @@
 
 namespace grcore {
 namespace logging {
-//#define NAMED_DEFAULT_LOGGER(name) spdlog::set_default_logger(core::logging::setUpLogger("\""
+//#define NAMED_DEFAULT_LOGGER(name) spdlog::set_default_logger(grcore::logging::setUpLogger("\""
 // #name "\""))
-//#define NAMED_DEFAULT_LOGGER(name) spdlog::set_default_logger(core::logging::setUpLogger(#name))
-#define NAMED_DEFAULT_LOGGER(name) spdlog::set_default_logger(core::logging::setUpLogger(name))
+//#define NAMED_DEFAULT_LOGGER(name) spdlog::set_default_logger(grcore::logging::setUpLogger(#name))
+#define NAMED_DEFAULT_LOGGER(name) spdlog::set_default_logger(grcore::logging::setUpLogger(name))
+#define NAMED_DEFAULT_LOGGER_DEBUG(name) spdlog::set_default_logger(grcore::logging::setUpLogger(name, spdlog::level::debug))
+#define NAMED_DEFAULT_LOGGER_LEVEL(name, level) spdlog::set_default_logger(grcore::logging::setUpLogger(name, level))
 
 /** @brief Create and configure default logger
  *
