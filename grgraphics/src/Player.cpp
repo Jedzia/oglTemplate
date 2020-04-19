@@ -126,7 +126,7 @@ void grg::Player::Update(sf::Time elapsed) {
         constexpr float keyAcceleration = 500.0F * speedUp;
 
         bool moveKeyPressedVer = false;
-        if(Ktd::WASD() == Direction::Up) {
+        if(Ktd::Wasd() == Direction::Up) {
             //m_position += {0.0F, -500.0F * elapsedSeconds};
             m_position += G_DIRECTIONS[Direction::Up] * keyAcceleration * elapsedSeconds;
             moveKeyPressedVer = true;
@@ -143,12 +143,12 @@ void grg::Player::Update(sf::Time elapsed) {
         // m_yVelocity *= Velocity::DoCalc(elapsed, m_yVelocity, moveKeyPressedVer);
 
         bool moveKeyPressedHor = false;
-        if(Ktd::WASD().IsKeyPressed(Left)) {
+        if(Ktd::Wasd().IsKeyPressed(Left)) {
             //m_xVelocity -= speedUp * keyAcceleration * elapsedSeconds;
             m_xVelocity += speedUp * G_DIRECTIONS[Direction::Left].x * keyAcceleration * elapsedSeconds;
             moveKeyPressedHor = true;
         } else {
-            if(Ktd::WASD().IsKeyPressed(Right)) {
+            if(Ktd::Wasd().IsKeyPressed(Right)) {
                 //m_xVelocity += speedUp * keyAcceleration * elapsedSeconds;
                 m_xVelocity += speedUp * G_DIRECTIONS[Direction::Right].x * keyAcceleration * elapsedSeconds;
                 moveKeyPressedHor = true;

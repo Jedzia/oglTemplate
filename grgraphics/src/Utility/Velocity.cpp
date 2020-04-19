@@ -10,7 +10,7 @@
  * \date       2020-04-06
  * \author     Jedzia.
  *
- * modified    2020-04-06, Jedzia
+ * modified    2020-04-19, Jedzia
  */
 /*---------------------------------------------------------*/
 #include "grgraphics/Utility/Velocity.h"
@@ -123,7 +123,7 @@ const grg::KeyToDirectionMapping &grg::KeyToDirectionMapping::Default() {
     return defaultMapping;
 }
 
-const grg::KeyToDirectionMapping &grg::KeyToDirectionMapping::WASD() {
+const grg::KeyToDirectionMapping &grg::KeyToDirectionMapping::Wasd() {
     static KeyToDirectionMapping defaultMapping(
     {
         sf::Keyboard::W,

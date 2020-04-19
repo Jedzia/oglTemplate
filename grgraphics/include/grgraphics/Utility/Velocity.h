@@ -5,12 +5,12 @@
  * Copyright (c) 2020, EvePanix. All rights reserved.
  *
  * \brief      This file contains the definition of
- *             the Velocity.h class.
+ *             velocity related calculations.
  * \file       Velocity.h
  * \date       2020-04-06
  * \author     Jedzia.
  *
- * modified    2020-04-06, Jedzia
+ * modified    2020-04-19, Jedzia
  */
 /*---------------------------------------------------------*/
 #ifndef OPENGLTEMPLATE_5B7B328397E344C48AC977D5E169E5C5_VELOCITY_H
@@ -31,7 +31,7 @@ public:
 
     static const KeyToDirectionMapping &Default();
 
-    static const KeyToDirectionMapping &WASD();
+    static const KeyToDirectionMapping &Wasd();
 
     bool operator==(const Direction &dir) const;
 
@@ -71,7 +71,6 @@ private:
     sf::Vector2f m_velocity{ 0, 0 };
     sf::Vector2f m_position{ 0, 0 };
     KeyToDirectionMapping m_keyMapping;
-    //float m_lastAbsVelocity = 0;
 };
 }
 
