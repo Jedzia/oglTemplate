@@ -104,20 +104,20 @@ void grg::Player::Update(sf::Time elapsed) {
     //bool viewChanged = false;
     //static_cast<void>(viewChanged);
 
-    /*const float zoomFactor = 1.01F;
-       if(sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
+    const float zoomFactor = 1.01F;
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
         //m_view.zoom(zoomFactor);
         this->scale(zoomFactor, zoomFactor);
         spdlog::info("Player zoom {}, {}.", getScale().x, getScale().y);
         //viewChanged = true;
-       } else {
+    } else {
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::O)) {
             // m_view.zoom(1.0F / zoomFactor);
             this->scale(1.0F / zoomFactor, 1.0F / zoomFactor);
             spdlog::info("Player zoom {}, {}.", getScale().x, getScale().y);
             //viewChanged = true;
         }
-       }*/
+    }
 
     // scrolling/movement calculations,
     // Todo: this speed/velocity calculation can be generalized + used for W+S above
@@ -156,7 +156,7 @@ void grg::Player::Update(sf::Time elapsed) {
         }
 
         m_xVelocity *= Velocity::DoCalc(elapsed, m_xVelocity, moveKeyPressedHor);
-        m_position += {m_xVelocity * elapsedSeconds, 0.0F};
+        m_position += {m_xVelocity* elapsedSeconds, 0.0F};
         //this->setOrigin(m_position);
         this->setPosition(m_position);
         m_spriteOverlay.Update(elapsed, *this);
