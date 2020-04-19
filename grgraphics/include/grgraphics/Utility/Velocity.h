@@ -17,12 +17,14 @@
 #define OPENGLTEMPLATE_5B7B328397E344C48AC977D5E169E5C5_VELOCITY_H
 
 #include <SFML/System/Time.hpp>
+#include <SFML/System/Vector2.hpp>
 
 namespace grg {
 class Velocity {
 public:
 
     static float DoCalc(const sf::Time& elapsed, float& velocity, bool moveKeyPressed);
+    static sf::Vector2f DoCalc(const sf::Time& elapsed, sf::Vector2f& velocity, bool xMoveKeyPressed, bool yMoveKeyPressed);
 
 private:
     //float m_xVelocity = 0;

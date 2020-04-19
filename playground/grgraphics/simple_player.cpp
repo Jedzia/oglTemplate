@@ -154,8 +154,9 @@ public:
                 }
             }
 
-            m_velocity.x *= grg::Velocity::DoCalc(elapsed, m_velocity.x, movexKeyPressed);
-            m_velocity.y *= grg::Velocity::DoCalc(elapsed, m_velocity.y, moveyKeyPressed);
+            //m_velocity.x *= grg::Velocity::DoCalc(elapsed, m_velocity.x, movexKeyPressed);
+            //m_velocity.y *= grg::Velocity::DoCalc(elapsed, m_velocity.y, moveyKeyPressed);
+            m_velocity = grg::Velocity::DoCalc(elapsed, m_velocity, movexKeyPressed, moveyKeyPressed);
             m_position += m_velocity * elapsedSeconds;
             m_tileMap.setPosition(m_position);
             grcore::writeTelemetryData(static_cast<double>(m_velocity.x));

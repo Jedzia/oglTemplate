@@ -16,7 +16,7 @@
 #include "grgraphics/Utility/Velocity.h"
 #include <algorithm>
 
-float grg::Velocity::DoCalc(const sf::Time& elapsed, float& velocity, bool moveKeyPressed) {
+float grg::Velocity::DoCalc(const sf::Time &elapsed, float &velocity, bool moveKeyPressed) {
     const float elapsedSeconds = elapsed.asSeconds();
     // former scrolling calculations, now in Player.
     // ToDo: cleanup. maybe use it as a camera delay
@@ -70,4 +70,13 @@ float grg::Velocity::DoCalc(const sf::Time& elapsed, float& velocity, bool moveK
 
     //m_csvFile.WriteData(m_xVelocity);
     // -> grcore::writeTelemetryData(static_cast<double>(m_xVelocity));
-} // grg::Velocity::DoCalc
+} // grg::Velocity
+
+sf::Vector2f grg::Velocity::DoCalc(const sf::Time &elapsed, sf::Vector2f &velocity, bool xMoveKeyPressed, bool yMoveKeyPressed) {
+    return sf::Vector2f(
+            velocity.x * grg::Velocity::DoCalc(elapsed, velocity.x, xMoveKeyPressed),
+            velocity.y * grg::Velocity::DoCalc(elapsed, velocity.y, yMoveKeyPressed)
+            );
+}
+
+// grg::Velocity::DoCalc
