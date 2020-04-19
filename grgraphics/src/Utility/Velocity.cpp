@@ -111,7 +111,7 @@ grg::KeyToDirectionMapping::KeyToDirectionMapping() : m_aMapping(
 }) {}
 
 bool grg::KeyToDirectionMapping::operator==(const grg::Direction &dir) const {
-    return sf::Keyboard::isKeyPressed(m_aMapping[dir]);
+    return IsKeyPressed(dir);
 }
 
 bool grg::KeyToDirectionMapping::IsKeyPressed(const grg::Direction &dir) const {

@@ -23,6 +23,7 @@
 #include <SFML/Graphics/VertexArray.hpp>
 #include <SFML/Graphics/View.hpp>
 #include <SFML/System/Time.hpp>
+#include <grgraphics/Utility/Velocity.h>
 
 namespace grg {
 class Player : public sf::Drawable,
@@ -49,7 +50,9 @@ private:
     grg::SpriteOverlay m_spriteOverlay;
     sf::View m_view;
     sf::Vector2f m_position;
-    float m_xVelocity = 0;
+    //float m_xVelocity = 0;
+    grg::Velocity m_velocity{ grg::KeyToDirectionMapping::Wasd() };
+
     //float m_lastAbsVelocity = 0;
 };
 }

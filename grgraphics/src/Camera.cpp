@@ -33,19 +33,19 @@ void grg::Camera::UpdateView(sf::Time /*elapsed*/) {
 
     {// zoom
         const float zoomFactor = 1.01F;
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-                view.zoom(zoomFactor);
+        //if(sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::I)) {
                 spdlog::info("View zoom {}, {}.", view.getSize().x, view.getSize().y);
+                view.zoom(1.0F / zoomFactor);
                 viewChanged = true;
             } else {
-                if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-                    view.zoom(1.0F / zoomFactor);
+                if(sf::Keyboard::isKeyPressed(sf::Keyboard::K)) {
                     spdlog::info("View zoom {}, {}.", view.getSize().x, view.getSize().y);
+                    view.zoom(zoomFactor);
                     viewChanged = true;
                 }
             }
-        }
+        //}
     }
 
     {// Set camera from player position.
