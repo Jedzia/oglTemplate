@@ -15,6 +15,7 @@
 /*---------------------------------------------------------*/
 #include "grgraphics/Utility/Velocity.h"
 #include <algorithm>
+#include <SFML/Window/Keyboard.hpp>
 
 float grg::Velocity::DoCalc(const sf::Time &elapsed, float &velocity, bool moveKeyPressed) {
     const float elapsedSeconds = elapsed.asSeconds();
@@ -79,4 +80,48 @@ sf::Vector2f grg::Velocity::DoCalc(const sf::Time &elapsed, sf::Vector2f &veloci
             );
 }
 
-// grg::Velocity::DoCalc
+void grg::Velocity::DoUpdate(sf::Time elapsed) {
+    const float elapsedSeconds = elapsed.asSeconds();
+    constexpr float speedUp = 2.0F;
+    constexpr float keyAcceleration = 500.0F * speedUp;
+    bool movexKeyPressed = false;
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+        m_velocity.x -= speedUp * keyAcceleration * elapsedSeconds;
+        movexKeyPressed = true;
+    } else {
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+            m_velocity.x += speedUp * keyAcceleration * elapsedSeconds;
+            movexKeyPressed = true;
+        }
+    }
+
+    bool moveyKeyPressed = false;
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+        m_velocity.y -= speedUp * keyAcceleration * elapsedSeconds;
+        moveyKeyPressed = true;
+    } else {
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+            m_velocity.y += speedUp * keyAcceleration * elapsedSeconds;
+            moveyKeyPressed = true;
+        }
+    }
+
+    //m_velocity.x *= grg::Velocity::DoCalc(elapsed, m_velocity.x, movexKeyPressed);
+    //m_velocity.y *= grg::Velocity::DoCalc(elapsed, m_velocity.y, moveyKeyPressed);
+    m_velocity = grg::Velocity::DoCalc(elapsed, m_velocity, movexKeyPressed, moveyKeyPressed);
+    m_position += m_velocity * elapsedSeconds;
+    //grcore::writeTelemetryData(static_cast<double>(m_velocity.x));
+}
+const sf::Vector2f &grg::Velocity::GetVelocity() const {
+    return m_velocity;
+}
+void grg::Velocity::SetVelocity(const sf::Vector2f &velocity) {
+    m_velocity = velocity;
+}
+const sf::Vector2f &grg::Velocity::GetPosition() const {
+    return m_position;
+}
+void grg::Velocity::SetPosition(const sf::Vector2f &position) {
+    m_position = position;
+}
+// grg::Velocity

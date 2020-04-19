@@ -26,8 +26,16 @@ public:
     static float DoCalc(const sf::Time& elapsed, float& velocity, bool moveKeyPressed);
     static sf::Vector2f DoCalc(const sf::Time& elapsed, sf::Vector2f& velocity, bool xMoveKeyPressed, bool yMoveKeyPressed);
 
-private:
-    //float m_xVelocity = 0;
+    void DoUpdate(sf::Time elapsed);
+
+    const sf::Vector2f &GetVelocity() const;
+    void SetVelocity(const sf::Vector2f &velocity);
+    const sf::Vector2f &GetPosition() const;
+    void SetPosition(const sf::Vector2f &position);
+
+  private:
+    sf::Vector2f m_velocity{ 0, 0 };
+    sf::Vector2f m_position{ 0, 0 };
     //float m_lastAbsVelocity = 0;
 };
 }

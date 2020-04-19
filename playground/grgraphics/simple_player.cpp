@@ -126,40 +126,11 @@ public:
             Reset();
         }
 
-        // former scrolling calculations, now in Player.
-        // Now: manual relative TileMap movement.
-        // ToDo: cleanup. maybe use it as a camera delay
-        {
-            //bool viewChanged = false;
-            constexpr float speedUp = 2.0F;
-            constexpr float keyAcceleration = 500.0F * speedUp;
-            bool movexKeyPressed = false;
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-                m_velocity.x -= speedUp * keyAcceleration * elapsedSeconds;
-                movexKeyPressed = true;
-            } else {
-                if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-                    m_velocity.x += speedUp * keyAcceleration * elapsedSeconds;
-                    movexKeyPressed = true;
-                }
-            }
-            bool moveyKeyPressed = false;
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-                m_velocity.y -= speedUp * keyAcceleration * elapsedSeconds;
-                moveyKeyPressed = true;
-            } else {
-                if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-                    m_velocity.y += speedUp * keyAcceleration * elapsedSeconds;
-                    moveyKeyPressed = true;
-                }
-            }
+        { // debug TileMap movement
 
-            //m_velocity.x *= grg::Velocity::DoCalc(elapsed, m_velocity.x, movexKeyPressed);
-            //m_velocity.y *= grg::Velocity::DoCalc(elapsed, m_velocity.y, moveyKeyPressed);
-            m_velocity = grg::Velocity::DoCalc(elapsed, m_velocity, movexKeyPressed, moveyKeyPressed);
-            m_position += m_velocity * elapsedSeconds;
-            m_tileMap.setPosition(m_position);
-            grcore::writeTelemetryData(static_cast<double>(m_velocity.x));
+            m_velocity.DoUpdate(elapsed);
+            m_tileMap.setPosition(m_velocity.GetPosition());
+            //grcore::writeTelemetryData(static_cast<double>(m_velocity.GetVelocity().x));
         }
 
         m_player.Update(elapsed);
@@ -168,7 +139,7 @@ public:
         m_infoText->setString(
                 fmt::format("elapsed time: {:.2f}s, x: {:.1f}, y: {:.1f}, xVelocity: ({:.1f},{:.1f}) m_position: ({:.3f},{:.3f})",
                         m_totalTime.asSeconds(),
-                        m_coord.x, m_coord.y, m_velocity.x, m_velocity.y, m_position.x, m_position.y));
+                        m_coord.x, m_coord.y, m_velocity.GetVelocity().x, m_velocity.GetVelocity().y, m_velocity.GetPosition().x, m_velocity.GetPosition().y));
 
         { // Debug Stuff
             m_pCursor->Update(elapsed);
@@ -219,8 +190,9 @@ private:
     bool m_drawTiles = true;
     bool m_keyNum1Released = true;
     const float Speed = 250.F;
-    sf::Vector2f m_position{ 0, 0 };
-    sf::Vector2f m_velocity{ 0, 0 };
+    //sf::Vector2f m_position{ 0, 0 };
+    //sf::Vector2f m_velocity{ 0, 0 };
+    grg::Velocity m_velocity;
     grcore::CsvFile<';'> m_csvFile{ "data.csv" };
     grg::Player m_player;
     grg::TileMap m_tileMap;
