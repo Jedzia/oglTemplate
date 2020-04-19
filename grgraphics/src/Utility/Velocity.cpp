@@ -86,7 +86,7 @@ const sf::Vector2f &grg::Velocity::GetVelocity() const {
     return m_velocity;
 }
 
-void grg::Velocity::SetVelocity(const sf::Vector2f &velocity) {
+[[maybe_unused]] void grg::Velocity::SetVelocity(const sf::Vector2f &velocity) {
     m_velocity = velocity;
 }
 
@@ -94,7 +94,7 @@ const sf::Vector2f &grg::Velocity::GetPosition() const {
     return m_position;
 }
 
-void grg::Velocity::SetPosition(const sf::Vector2f &position) {
+[[maybe_unused]] void grg::Velocity::SetPosition(const sf::Vector2f &position) {
     m_position = position;
 }
 

@@ -60,11 +60,11 @@ public:
 
     [[nodiscard]] const sf::Vector2f &GetVelocity() const;
 
-    void SetVelocity(const sf::Vector2f &velocity);
+    [[maybe_unused]] void SetVelocity(const sf::Vector2f &velocity);
 
     [[nodiscard]] const sf::Vector2f &GetPosition() const;
 
-    void SetPosition(const sf::Vector2f &position);
+    [[maybe_unused]] void SetPosition(const sf::Vector2f &position);
 
 private:
 
