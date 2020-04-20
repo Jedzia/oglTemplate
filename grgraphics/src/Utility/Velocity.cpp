@@ -51,7 +51,7 @@ sf::Vector2f grg::Velocity::DoCalc(const sf::Time &elapsed, sf::Vector2f &veloci
             );
 }
 
-void grg::Velocity::DoUpdate(sf::Time elapsed) {
+const sf::Vector2<float> &grg::Velocity::DoUpdate(sf::Time elapsed) {
     const float elapsedSeconds = elapsed.asSeconds();
     constexpr float speedUp = 2.0F;
     constexpr float keyAcceleration = 500.0F * speedUp;
@@ -80,6 +80,7 @@ void grg::Velocity::DoUpdate(sf::Time elapsed) {
 
     m_velocity = grg::Velocity::DoCalc(elapsed, m_velocity, horizontalMoveKeyPressed, verticalMoveKeyPressed);
     m_position += m_velocity * elapsedSeconds;
+    return m_position;
 } // grg::Velocity
 
 const sf::Vector2f &grg::Velocity::GetVelocity() const {

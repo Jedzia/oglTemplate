@@ -56,7 +56,7 @@ public:
 
     explicit Velocity(const KeyToDirectionMapping &keyMapping = KeyToDirectionMapping::Default());
 
-    void DoUpdate(sf::Time elapsed);
+    const sf::Vector2<float> &DoUpdate(sf::Time elapsed);
 
     [[nodiscard]] const sf::Vector2f &GetVelocity() const;
 

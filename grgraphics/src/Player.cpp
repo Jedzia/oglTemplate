@@ -106,8 +106,7 @@ void grg::Player::Update(sf::Time elapsed) {
         }
     }
 
-    m_velocity.DoUpdate(elapsed);
-    this->setPosition(m_velocity.GetPosition());
+    this->setPosition(m_velocity.DoUpdate(elapsed));
     m_spriteOverlay.Update(elapsed, *this);
 } // grg::Player::Update
 
