@@ -19,6 +19,8 @@ _Todo: describe the options_
 #set(CMAKE_VERBOSE_MAKEFILE ON) #-DCMAKE_VERBOSE_MAKEFILE:BOOL=ON
 ```
 
+TAKE A LOOK AT E:\Projects\Elektronik\ARM\stlink\cmake\*. Nice implementation of compiler config.
+
 ## Building under Windows/MSYS2
 Use the provided `start-clion-msys2.bat`, `shell-msys2.bat` and `shell-msys2win.bat` scripts to start a shell with
 the appropriate toolchain or tweak the existing ones. Where
