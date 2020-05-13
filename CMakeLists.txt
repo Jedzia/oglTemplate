@@ -3,6 +3,11 @@ cmake_minimum_required(VERSION 3.15)
 # Set the project name
 project(OpenGLTemplate VERSION "0.0.1.1")
 
+# ------------------------------------------------------------------------- #
+# CMake/Makefile Debugging
+#set(CMAKE_VERBOSE_MAKEFILE ON) #-DCMAKE_VERBOSE_MAKEFILE:BOOL=ON
+
+# ------------------------------------------------------------------------- #
 # included CMake scripts
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake")
 include(versioning)
@@ -86,11 +91,6 @@ enable_doxygen()
 # include(cmake/Conan.cmake)
 # run_conan()
 
-
-# ------------------------------------------------------------------------- #
-# CMake/Makefile Debugging
-#set(CMAKE_VERBOSE_MAKEFILE ON) #-DCMAKE_VERBOSE_MAKEFILE:BOOL=ON
-
 # ------------------------------------------------------------------------- #
 # Test setup and global tests
 if (PACKAGE_TESTS)
@@ -110,7 +110,7 @@ if (ENABLE_FUZZING)
 endif ()
 
 # ************************************************************************* #
-# Include other projects
+# Include documentation generator
 add_subdirectory(doc)
 # external libraries
 add_subdirectory(external)
