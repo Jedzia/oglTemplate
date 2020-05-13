@@ -201,6 +201,16 @@ macro(enable_precompiled_headers _target _enable)
     else ()
         #MESSAGE("NOOOO precompiled headers enabled for '${_target}'")
     endif ()
+    #   ToDo: # For a later CMake Version without cotire:
+    #    # Very basic PCH example
+    #    option(ENABLE_PCH "Enable Precompiled Headers" OFF)
+    #    if (ENABLE_PCH)
+    #        # This sets a global PCH parameter, each project will build its own PCH, which
+    #        # is a good idea if any #define's change
+    #        #
+    #        # consider breaking this out per project as necessary
+    #        target_precompile_headers(project_options INTERFACE <vector> <string> <map> <utility>)
+    #    endif()
 endmacro(enable_precompiled_headers _target _enable)
 
 macro(add_library_with_resource _target _shared_or_static _src_files _resource_files)
