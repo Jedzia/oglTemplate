@@ -16,9 +16,12 @@ include(setup)
 
 # Build options
 option(PACKAGE_TESTS "Build all unit tests" ON)
-option(GrCore_BuildBenchmarks "Build GrCore benchmarking" ON) #-DGrCore_BuildBenchmarks:BOOL=ON
-option(BUILD_SHARED_LIBS "Build Shared Libraries" OFF) #-DBUILD_SHARED_LIBS_PCH:BOOL=OFF
-option(ENABLE_PCH "Enable Precompiled Headers" ON) #-DENABLE_PCH:BOOL=ON
+option(GrCore_BuildBenchmarks "Build GrCore benchmarking" ON) # -DGrCore_BuildBenchmarks:BOOL=ON
+option(BUILD_SHARED_LIBS "Build Shared Libraries" OFF) # -DBUILD_SHARED_LIBS_PCH:BOOL=OFF
+option(ENABLE_PCH "Enable Precompiled Headers" ON) # -DENABLE_PCH:BOOL=ON
+# Unity is currently enabled as separate target via cotire. But this works, too.
+option(ENABLE_UNITY "Enable Unity builds of projects" OFF) # -DENABLE_UNITY:BOOL=ON
+
 #add_definitions(-DUSE_SPDLOG)
 
 # Keep compiled binaries central
@@ -35,11 +38,17 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Link this 'library' to set the c++ standard / compile-time options requested
 add_library(project_options INTERFACE)
 target_compile_features(project_options INTERFACE cxx_std_20)
+if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
+  option(ENABLE_BUILD_WITH_TIME_TRACE "Enable -ftime-trace to generate time tracing .json files on clang" OFF)
+  if (ENABLE_BUILD_WITH_TIME_TRACE)
+    add_compile_definitions(project_options INTERFACE -ftime-trace)
+  endif()
+endif()
 
 # Link this 'library' to use the warnings specified in CompilerWarnings.cmake
 add_library(project_warnings INTERFACE)
 # standard compiler warnings
-include(config/CompilerWarnings.cmake)
+include(cmake/CompilerWarnings.cmake)
 set_project_warnings(project_warnings)
 
 # sanitizer options if supported by compiler

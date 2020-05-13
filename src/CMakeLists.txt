@@ -44,6 +44,11 @@ enable_precompiled_headers(Application ENABLE_PCH)
 #        "$<$<COMPILE_LANGUAGE:CXX>:<cstddef$<ANGLE-R>>"
 #        )
 
+if (ENABLE_UNITY)
+    # Add for any project you want to apply unity builds for
+    set_target_properties(Application PROPERTIES UNITY_BUILD ON)
+endif()
+
 # Copy fonts to the binary folder
 copy_file(Application "${CMAKE_CURRENT_SOURCE_DIR}/Futura Bk BT Book.ttf" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Futura Bk BT Book.ttf")
 #copy_file(Application "${CMAKE_CURRENT_SOURCE_DIR}/Futura Bk BT Book.ttf" ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
