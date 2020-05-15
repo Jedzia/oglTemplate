@@ -14,7 +14,7 @@
  */
 /*---------------------------------------------------------*/
 
-#include "grcore/warning/FMT_format_log.h"
+#include <spdlog/spdlog.h>
 #include "grgraphics/Drawables/CoordGraph.h"
 #include <grgraphics/Constants.h>
 

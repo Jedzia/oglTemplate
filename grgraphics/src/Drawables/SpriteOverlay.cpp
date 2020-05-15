@@ -2,7 +2,7 @@
 // Created by Jedzia on 08.04.2020.
 //
 
-#include "grcore/warning/FMT_format_log.h"
+#include <spdlog/spdlog.h>
 #include "grgraphics/warning/SFML_Graphics.h"
 //
 #include "grgraphics/Drawables/SpriteOverlay.h"

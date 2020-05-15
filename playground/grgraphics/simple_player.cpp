@@ -13,7 +13,7 @@
  * modified    2020-03-23, Jedzia
  */
 /*---------------------------------------------------------*/
-#include <grcore/warning/FMT_format_log.h>
+#include <spdlog/spdlog.h>
 #include <grgraphics/warning/SFML_Graphics.h>
 //#include <grcore/instrumentation.h>
 #include <grcore/DataAcquisition.h>

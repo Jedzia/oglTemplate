@@ -16,7 +16,6 @@
 //#include <grcore/grcore.h>
 //
 //#define SPDLOG_HEADER_ONLY
-#include "grcore/warning/FMT_format_log.h"
 #include <iostream>
 #include <memory>
 

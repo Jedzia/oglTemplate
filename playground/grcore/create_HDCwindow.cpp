@@ -25,7 +25,7 @@ using namespace std;
 static int
 test_function(HDC hdc)
 {
-    fmt::printf("HDC: '%p'\r\n", hdc); // printf format string syntax
+    fmt::printf("HDC: '%p'\r\n", static_cast<void *>(hdc)); // printf format string syntax
     //MessageBoxA(0,(char*)glGetString(GL_VERSION), "OPENGL VERSION",0);
     MessageBoxA(0,"Dreck !", "OPENGL VERSION",0);
     return true;

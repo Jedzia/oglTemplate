@@ -15,7 +15,7 @@
 /*---------------------------------------------------------*/
 #include "grcore/Telemetry.h"
 #include "grcore/Utility/TcpClient.h"
-#include "grcore/warning/FMT_format_log.h"
+#include <spdlog/spdlog.h>
 #include <iostream>
 
 //grcore::util::TcpClient G_CLIENT{true};

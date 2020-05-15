@@ -13,7 +13,7 @@
  * modified    2020-03-29, Jedzia
  */
 /*---------------------------------------------------------*/
-#include "grcore/warning/FMT_format_log.h"
+#include <spdlog/spdlog.h>
 #include "grgraphics/warning/SFML_Graphics.h"
 //
 #include "grgraphics/Drawables/TileMap.h"

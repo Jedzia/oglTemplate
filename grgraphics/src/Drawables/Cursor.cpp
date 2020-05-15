@@ -15,7 +15,7 @@
 /*---------------------------------------------------------*/
 
 #include "grgraphics/Drawables/Cursor.h"
-#include "grgraphics/warning/FMT_format.h"
+#include <spdlog/spdlog.h>
 #include "grgraphics/warning/SFML_Graphics.h"
 #include <grcore/Utility/Property.h>
 #include <grgraphics/Camera.h>

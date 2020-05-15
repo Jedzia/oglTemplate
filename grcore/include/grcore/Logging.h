@@ -17,7 +17,7 @@
 #ifndef OPENGLTEMPLATE_D9DE905FD50845E5B4199AA409BE0950_LOGGING_H
 #define OPENGLTEMPLATE_D9DE905FD50845E5B4199AA409BE0950_LOGGING_H
 
-#include "warning/FMT_format_log.h"
+#include <spdlog/spdlog.h>
 #include <iostream>
 #include <memory>
 #include <string>

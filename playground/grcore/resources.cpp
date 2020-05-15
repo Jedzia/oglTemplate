@@ -15,7 +15,7 @@
 /*---------------------------------------------------------*/
 
 //#include <fmt/format.h>
-#include <grcore/warning/FMT_format.h>
+#include <fmt/format.h>
 #include <grcore/Resource.h>
 #include <iostream>
 //

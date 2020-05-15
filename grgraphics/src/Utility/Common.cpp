@@ -15,7 +15,7 @@
 /*---------------------------------------------------------*/
 #include "grgraphics/Utility/Common.h"
 #include <grcore/Resource.h>
-#include <grcore/warning/FMT_format_log.h>
+#include <spdlog/spdlog.h>
 
 void grg::loadDebugFont(sf::Font &debugFont) {
     const int fontId = 129;

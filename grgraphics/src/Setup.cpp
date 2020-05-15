@@ -14,7 +14,7 @@
  */
 /*---------------------------------------------------------*/
 #include "grgraphics/Setup.h"
-#include "grgraphics/warning/FMT_format.h"
+#include <fmt/format.h>
 #include <grcore/Math.h>
 #include <iostream>
 #include <utility>

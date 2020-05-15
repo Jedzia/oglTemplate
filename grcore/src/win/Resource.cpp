@@ -15,7 +15,7 @@
 /*---------------------------------------------------------*/
 
 #include "grcore/Resource.h"
-#include "grcore/warning/FMT_format_log.h"
+#include <spdlog/spdlog.h>
 #include <iostream>
 #include <stdexcept>
 #include <windows.h>

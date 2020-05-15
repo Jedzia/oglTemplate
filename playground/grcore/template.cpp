@@ -27,7 +27,7 @@ using namespace std;
  *  @return forwarded to program exit code
  */
 static int test_function(HDC hdc) {
-    fmt::printf("HDC: '%p'\r\n", hdc); // printf format string syntax
+    fmt::printf("HDC: '%p'\r\n", static_cast<void *>(hdc)); // printf format string syntax
     //MessageBoxA(0,(char*)glGetString(GL_VERSION), "OPENGL VERSION",0);
     MessageBoxA(0, "Dreck !", "OPENGL VERSION", 0);
     return true;
@@ -37,7 +37,7 @@ static int test_function(HDC hdc) {
  *  The designated start of the program.
  *  @return program exit code.
  */
-int main(){ // the main code portion of a C++ program
+int main() { // the main code portion of a C++ program
     cout << "Hello cheesy World" << endl;  //print Hello World on the screen
     makeWindowAndTest(test_function);
     /* UNREACHED */
