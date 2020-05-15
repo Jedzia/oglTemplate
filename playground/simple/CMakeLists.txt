@@ -42,6 +42,10 @@ else ()
     set_target_properties(Playground_Simple_coroutine1 PROPERTIES EXCLUDE_FROM_ALL 1 EXCLUDE_FROM_DEFAULT_BUILD 1)
 endif ()
 
+target_link_libraries(Playground_Simple_spdlog
+        PRIVATE project_options project_warnings
+        PRIVATE spdlog::spdlog
+        )
 
 #target_link_libraries(Playground_Simple_coroutine1 /mingw64/lib/libc++ ) # c++experimental
 #set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -stdlib=libc++ -lc++abi")
